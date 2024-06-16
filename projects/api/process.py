@@ -6,5 +6,8 @@ class Process:
         self.comand = command.split(" ");
 
     def run(self):
+        #print(self.comand);
         p = subprocess.Popen(self.comand, stdout=subprocess.PIPE, universal_newlines=True);
+        #for linha in p.stdout:
+        #    print(linha);
         return p.stdout;

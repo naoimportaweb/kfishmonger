@@ -1,6 +1,7 @@
 import os;
 import subprocess;
-#from subprocess import STDOUT, check_call;
+
+from .process import Process;
 
 class Systemctl:
     def __init__(self, service):
@@ -18,6 +19,9 @@ class Systemctl:
     def stop(self):
         return self.__generico__("stop")
     
+    def exists(self):
+        return os.path.exists("/etc/systemd/system/" + self.service);
+
     def __generico__(self, action):
         subprocess.check_call(['systemctl', action, self.service], stdout=open(os.devnull,'wb'), stderr=subprocess.STDOUT);
         return True;
@@ -26,6 +30,13 @@ class Systemctl:
         p = subprocess.Popen(['systemctl' , "--no-pager", "status", self.service], stdout=subprocess.PIPE, universal_newlines=True);
         output = p.stdout;
         for linha in output:
-            if linha.find("Active: active (running)") >= 0:
+            if linha.find("Active: active") >= 0:
                 return True;
         return False;
+
+def main():
+    sysctl = Systemctl("json.service");
+    print( sysctl.exists() );
+
+if __name__ == "__main__":
+    main();
