@@ -46,11 +46,16 @@ def persist():
             traceback.print_exc();
         finally:
             time.sleep(5);
+def monitor():
+    print("");
 
 def main():
     global js;
     tpersist = Thread(target=persist);
     tpersist.start();
+
+    tmonitor = Thread(target=monitor);
+    tmonitor.start();
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print("Service fishmonger.json started, port: 20000");
         s.bind(("127.0.0.1", 20000));

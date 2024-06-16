@@ -1,0 +1,8 @@
+[Unit]
+Description=VPN Service
+
+[Service]
+ExecStart=python3 /opt/kfishmonger/projects/vpn/execstart.py
+
+[Install]
+WantedBy=graphical.target
