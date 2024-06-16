@@ -1,0 +1,8 @@
+[Unit]
+Description=Json Service
+
+[Service]
+ExecStart=python3 /opt/kfishmonger/projects/json/execstart.py
+
+[Install]
+WantedBy=graphical.target
