@@ -9,14 +9,14 @@ from api.process import Process;
 def main():
     while True:
         try:
-            files = os.path.listdir( CURRENTDIR + "/sub");
+            files = os.listdir( CURRENTDIR + "/sub");
             for file in files:
                 p = Process( "python3 " + CURRENTDIR + "/sub/" + file );
                 p.run();
         except:
             traceback.print_exc();
         finally:
-            time.sleep(60);
+            time.sleep(10);
 
 if __name__ == "__main__":
     main();

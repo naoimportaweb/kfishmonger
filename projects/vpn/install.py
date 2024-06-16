@@ -16,6 +16,12 @@ apt.install("openvpn");
 
 # =========== COPIA DE RESOURCES ==========================
 shutil.copy( CURRENTDIR + "/resources/vpn.service", "/etc/systemd/system/");
+
+config = Config("/etc/systemd/system/vpn.service");
+config.open();
+config.replace("{LOGNAME}", os.getlogin() );
+config.save();
+
 if not os.path.exists( directory_username + "/.vpn" ):
     os.makedirs(directory_username + "/.vpn");
 

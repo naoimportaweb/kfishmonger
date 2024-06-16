@@ -27,3 +27,6 @@ class Config():
     def addattribute(self, attribute):
         self.lines.append( attribute );
 
+    def replace(self, key, value):
+        for i in range(len(self.lines)):
+            self.lines[i] = self.lines[i].replace(key, value);

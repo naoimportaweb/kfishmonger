@@ -15,8 +15,9 @@ sys.path.append(ROOT);
 
 from api.process import Process;
 
-#directory_username = "/home/"+  os.getlogin()  +"/";
-directory_username = "/home/babac/";
+
+directory_username = "/home/"+  os.environ["LOGNAME"]  +"/";
+print("Path: ", directory_username);
 
 path_password = directory_username +".vpn/pass.txt"
 if os.path.exists(path_password):

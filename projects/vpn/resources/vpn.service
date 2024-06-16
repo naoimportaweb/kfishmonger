@@ -2,6 +2,7 @@
 Description=VPN Service
 
 [Service]
+Environment=LOGNAME={LOGNAME}
 ExecStart=python3 /opt/kfishmonger/projects/vpn/execstart.py
 
 [Install]
