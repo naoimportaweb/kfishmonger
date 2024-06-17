@@ -7,6 +7,7 @@ sys.path.append(ROOT);
 from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.distro import Distro;
+from api.config import Config;
 
 distro = Distro();
 

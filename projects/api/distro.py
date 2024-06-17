@@ -1,4 +1,4 @@
-import os, sys, subprocess, platform;
+import os, sys, subprocess, platform, netifaces;
 
 class Distro():
     def name(self):
@@ -9,8 +9,10 @@ class Distro():
             return "ubuntu";
         else:
             print("Nao foi possivel detectar.");
+    
     def graphical(self):
         return self.__detect_desktop_environment__();
+    
     def __detect_desktop_environment__(self):
         desktop_environment = 'gnome'
         if os.environ.get('KDE_FULL_SESSION') == 'true':
@@ -25,7 +27,9 @@ class Distro():
             except (OSError, RuntimeError):
                 pass
         return desktop_environment
-
+    def interfaces(self):
+        return netifaces.interfaces()
+        
 def main():
     d = Distro();
     print(d.name());
