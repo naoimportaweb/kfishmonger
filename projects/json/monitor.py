@@ -12,11 +12,12 @@ def main():
             files = os.listdir( CURRENTDIR + "/sub");
             for file in files:
                 p = Process( "python3 " + CURRENTDIR + "/sub/" + file );
-                p.run();
+                if not p.exists():
+                    p.run();
         except:
             traceback.print_exc();
         finally:
-            time.sleep(10);
+            time.sleep(60);
 
 if __name__ == "__main__":
     main();

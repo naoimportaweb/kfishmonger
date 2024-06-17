@@ -6,9 +6,11 @@ sys.path.append(ROOT);
 
 from api.apt import Apt;
 from api.systemctl import Systemctl;
-
+from api.pip import Pip;
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-
+pip = Pip();
+pip.install("PySocks");
+pip.install("requests");
 # =========== COPIA DE RESOURCES ==========================
 
 shutil.copy( CURRENTDIR + "/resources/json.service", "/etc/systemd/system/");
