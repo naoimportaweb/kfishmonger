@@ -1,7 +1,6 @@
 import sys, os, shutil;
 sys.path.insert(0,"/opt/kfishmonger/projects/") 
 
-print(sys.path);
 from api.process import Process;
 from api.config import Config;
 from api.distro import Distro;

@@ -1,5 +1,6 @@
 [Unit]
 Description=Json Service
+After=network.target
 
 [Service]
 ExecStart=python3 /opt/kfishmonger/projects/json/execstart.py

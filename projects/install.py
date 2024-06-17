@@ -4,6 +4,8 @@ ROOT = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 sys.path.append(ROOT);
 
 from api.process import Process;
+from api.apt import Apt;
+from api.pip import Pip;
 
 def main():
     files = os.listdir( ROOT );
@@ -20,4 +22,9 @@ def main():
     print("Fim");
 
 if __name__ == "__main__":
+    apt = Apt();
+    pip = Pip();
+    apt.install("python3-pip");
+    apt.install("python3-netifaces");
+    #pip.install("netifaces");
     main();
