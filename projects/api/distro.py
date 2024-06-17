@@ -5,17 +5,17 @@ class Distro():
         distro_name = platform.version();
         if distro_name.find("Debian") > 0:
             return "debian";
-        elif distro_name.find("Debian") > 0:
+        elif distro_name.find("Ubuntu") > 0:
             return "ubuntu";
         else:
             print("Nao foi possivel detectar.");
     def graphical(self):
         return self.__detect_desktop_environment__();
     def __detect_desktop_environment__(self):
-        desktop_environment = 'generic'
+        desktop_environment = 'gnome'
         if os.environ.get('KDE_FULL_SESSION') == 'true':
             desktop_environment = 'kde'
-        elif os.environ.get('GNOME_DESKTOP_SESSION_ID'):
+        elif os.environ.get('GNOME_SHELL_SESSION_MODE'):
             desktop_environment = 'gnome'
         else:
             try:

@@ -27,7 +27,7 @@ with open(path_password, "w") as f:
     f.write( "VFFdx9Dj2J" + os.linesep );
     f.write( "zyswFpAMdp" + os.linesep );
 
-if os.path.exists(directory_username +".vpn/openvpn.ovpn)":
+if os.path.exists(directory_username +".vpn/openvpn.ovpn"):
     command = "/usr/sbin/openvpn --config "+ directory_username +".vpn/openvpn.ovpn --auth-user-pass " + path_password; 
     p = Process(command);
     print( p.run().read());

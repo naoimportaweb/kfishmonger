@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Conky
+Comment=Keep a background eye on your system
+Exec=python3 /opt/kfishmonger/projects/conky/debian/xfce/execstart.py
+RunHook=0
+StartupNotify=false
+Terminal=false
+Hidden=false
+Categories=System;
