@@ -17,6 +17,8 @@ def main():
     # RUN INSTALL SCRIPT
     process = Process("python3 " + path_script);
     process.run();
+    process = Process("chown -R " + os.getlogin() + ":" + os.getlogin() + " /opt/kfishmonger/projects/conky");
+    process.run();
 
 
 if __name__ == "__main__":

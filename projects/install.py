@@ -18,7 +18,7 @@ def main():
                 print("Instalando: ", file);
                 path_install = directory_path + "/install.py";
                 process = Process( "python3 " + path_install );
-                print(process.run().read());
+                print(process.run().strip());
     print("Fim");
 
 if __name__ == "__main__":
@@ -26,5 +26,4 @@ if __name__ == "__main__":
     pip = Pip();
     apt.install("python3-pip");
     apt.install("python3-netifaces");
-    #pip.install("netifaces");
     main();
