@@ -20,12 +20,10 @@ directory_username = "/home/"+  os.environ["LOGNAME"]  +"/";
 print("Path: ", directory_username);
 
 path_password = directory_username +".vpn/pass.txt"
-if os.path.exists(path_password):
-    os.unlink( path_password );
-
-with open(path_password, "w") as f:
-    f.write( "VFFdx9Dj2J" + os.linesep );
-    f.write( "zyswFpAMdp" + os.linesep );
+if not os.path.exists(path_password):
+    with open(path_password, "w") as f:
+        f.write( "username_vpn" + os.linesep );
+        f.write( "password_vpn" + os.linesep );
 
 if os.path.exists(directory_username +".vpn/openvpn.ovpn"):
     command = "/usr/sbin/openvpn --config "+ directory_username +".vpn/openvpn.ovpn --auth-user-pass " + path_password; 
