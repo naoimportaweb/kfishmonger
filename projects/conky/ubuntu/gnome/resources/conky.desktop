@@ -2,7 +2,7 @@
 Type=Application
 Name=Conky
 Comment=Keep a background eye on your system
-Exec=python3 /opt/kfishmonger/projects/conky/ubuntu/gnome/execstart.py
+Exec=python3 /opt/kfishmonger/projects/conky/execstart.py
 RunHook=0
 StartupNotify=false
 Terminal=false

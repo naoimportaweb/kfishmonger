@@ -4,6 +4,7 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
 
+from api.pip import Pip;
 from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.distro import Distro;
@@ -14,7 +15,9 @@ distro = Distro();
 apt = Apt()
 apt.install("conky");
 apt.install("jp");
-
+pip = Pip();
+pip.install("psutil");
+pip.install("netifaces");
 # =========== COPIA DE RESOURCES ==========================
 directory_username_autostart = "/home/"+  os.getlogin()  +"/.config/autostart/";
 if not os.path.exists( directory_username_autostart ):

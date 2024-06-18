@@ -5,6 +5,7 @@ ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
 
 from api.apt import Apt;
+from api.pip import Pip;
 from api.systemctl import Systemctl;
 from api.distro import Distro;
 from api.config import Config;
@@ -12,9 +13,12 @@ from api.config import Config;
 distro = Distro();
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-apt = Apt()
+apt = Apt();
+pip = Pip();
 apt.install("conky");
 apt.install("jp");
+pip.install("psutil");
+pip.install("netifaces");
 
 # =========== COPIA DE RESOURCES ==========================
 directory_username_autostart = "/home/"+  os.getlogin()  +"/.config/autostart/";
