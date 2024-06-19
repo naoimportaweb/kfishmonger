@@ -1,4 +1,4 @@
-import sys, os, shutil
+import sys, os, shutil, time
 import netifaces, json
 
 sys.path.insert(0,"/opt/kfishmonger/projects/") 
@@ -6,6 +6,9 @@ sys.path.insert(0,"/opt/kfishmonger/projects/")
 from api.process import Process;
 from api.config import Config;
 from api.distro import Distro;
+
+# uma pausa de 30 segundos para carregar vpn e tor.
+time.sleep(30);
 
 shutil.copy( "/opt/kfishmonger/projects/conky/resources/conky.config", "/tmp/conky.config");
 

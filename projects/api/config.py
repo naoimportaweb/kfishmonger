@@ -30,3 +30,18 @@ class Config():
     def replace(self, key, value):
         for i in range(len(self.lines)):
             self.lines[i] = self.lines[i].replace(key, value);
+    
+    def commentattr(self, key):
+        for i in range(len(self.lines)):
+            if self.lines[i][:1].strip() == "#":
+                continue;
+            partes = self.lines[i].strip().split(" ");
+            if partes[0] == key:
+                self.lines[i] = "#" + self.lines[i].strip(); 
+    def uncomment(self, key):
+        for i in range(len(self.lines)):
+            if self.lines[i][:1].strip() != "#":
+                continue;
+            partes = self.lines[i].strip()[1:].split(" ");
+            if partes[0] == key:
+                self.lines[i] = self.lines[i].strip()[1:]; 
