@@ -26,11 +26,3 @@ if not os.path.exists( directory_username_autostart ):
 shutil.copy( CURRENTDIR + "/" + distro.graphical() + "/resources/conky.desktop", directory_username_autostart);
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-#ctl = Systemctl("conky.service");
-#ctl.reload();
-#ctl.start();
-#ctl.enable();
-#if ctl.status():
-#    print("Rodando");
-#else:
-#    print("Nao está rodando.");
