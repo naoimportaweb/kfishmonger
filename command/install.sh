@@ -7,12 +7,16 @@ install(){
             rm /tmp/kfishmonger.zip
         fi
         wget -O /tmp/kfishmonger.zip 'https://sourceforge.net/projects/kfishmonger/files/latest/download'
+        if [ -d /tmp/kfishmonger-main/ ] ; then
+            rm -r /tmp/kfishmonger-main
+        fi
         unzip /tmp/kfishmonger.zip -d /tmp/
         cp -r /tmp/kfishmonger-main/* ${DIR}
         if [ -L /bin/kfm ] ; then
             rm /bin/kfm
         fi
-        ln -s ${DIR}/command/kfm /bin/kfm
+        chmod +x ${DIR}/command/kfm.sh
+        ln -s ${DIR}/command/kfm.sh /bin/kfm
         /bin/kfm -c install
 }
 

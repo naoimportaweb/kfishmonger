@@ -1,36 +1,55 @@
 import sys, os, shutil, time
-import netifaces, json
+import netifaces, json, traceback
 
 sys.path.insert(0,"/opt/kfishmonger/projects/") 
 
+from threading import Thread
 from api.process import Process;
 from api.config import Config;
 from api.distro import Distro;
 
-# uma pausa de 30 segundos para carregar vpn e tor.
-time.sleep(30);
+def documento():
+    while True:
+        try:
+            shutil.copy( "/opt/kfishmonger/projects/conky/resources/conky.config", "/tmp/conky.buffer.config");
+            p = Process("chmod 666 /tmp/conky.config");
+            p.run();
 
-shutil.copy( "/opt/kfishmonger/projects/conky/resources/conky.config", "/tmp/conky.config");
+            texto = "";
+            interfaces = netifaces.interfaces();
+            maior_tamanho_carateres = 0;
+            for i in range(len( interfaces )):
+                if maior_tamanho_carateres < len(interfaces[i]):
+                    maior_tamanho_carateres  = len(interfaces[i]);
+            for i in range(len( interfaces )):
+                texto = texto + "\t${goto 400}${voffset 30}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0} ${downspeedgraph "+ interfaces[i] +"}\\\r\n";
 
-texto = "";
-#dados_interfaces = psutil.net_io_counters(pernic=True)
-interfaces = netifaces.interfaces();
-maior_tamanho_carateres = 0;
-for i in range(len( interfaces )):
-    if maior_tamanho_carateres < len(interfaces[i]):
-        maior_tamanho_carateres  = len(interfaces[i]);
-for i in range(len( interfaces )):
-    texto = texto + "\t${goto 400}${voffset 30}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0} ${downspeedgraph "+ interfaces[i] +"}\\\r\n";
+            distro = Distro();
+            config = Config("/tmp/conky.buffer.config");
+            config.open();
+            config.replace("{INTERFACE}", distro.interfaces()[1]);
+            config.replace("{BARRA_INTERFACES}", texto);
+            if not config.equal("/tmp/conky.config"):
+                config.save();
+                config.saveas("/tmp/conky.config");
+        except KeyboardInterrupt:
+            sys.exit(0);
+        except:
+            traceback.print_exc();
+        finally:
+            time.sleep(10);
 
-distro = Distro();
-config = Config("/tmp/conky.config");
-config.open();
-config.replace("{INTERFACE}", distro.interfaces()[1]);
-config.replace("{BARRA_INTERFACES}", texto);
-config.save();
+def rodar():
+    p = Process("conky -d -c /tmp/conky.config");
+    output = p.run();
 
-p = Process("conky -d -c /tmp/conky.config");
-output = p.run();
-#for linha in output:
-#    print(linha);
+time.sleep(1);
+t1 = Thread(target=documento)
+t1.start();
 
+
+time.sleep(1);
+t2 = Thread(target=rodar)
+t2.start()
+t2.join();
+t1.join();
