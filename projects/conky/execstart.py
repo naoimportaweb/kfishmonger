@@ -25,7 +25,11 @@ def documento():
                 if maior_tamanho_carateres < len(interfaces[i]):
                     maior_tamanho_carateres  = len(interfaces[i]);
             for i in range(len( interfaces )):
-                texto = texto + "\t${goto 400}${voffset 30}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0} ${downspeedgraph "+ interfaces[i] +"}\\\r\n";
+                tamanho = 35;
+                if i == 0:
+                    tamanho = 15;
+                texto = texto + "\t${goto 400}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
+                texto = texto + "\t${goto 395}${voffset 20}${downspeedgraph "+ interfaces[i] +"}\\\r\n";
 
             distro = Distro();
             config = Config("/tmp/conky.buffer.config");
