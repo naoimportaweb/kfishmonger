@@ -3,7 +3,7 @@ Description=VPN Service
 
 [Service]
 Environment=LOGNAME={LOGNAME}
-ExecStart=python3 /opt/kfishmonger/projects/vpn/execstart.py
+ExecStart=python3 /opt/kfishmonger/projects/vpn/start.py
 
 [Install]
 WantedBy=graphical.target

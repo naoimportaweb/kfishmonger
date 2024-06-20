@@ -20,7 +20,7 @@ def restart( project ):
     print(p.run());    
 
 def start( project ):
-    p = Process( "python3 " + ROOT + "/projects/"+ project +"/execstart.py", wait=False );
+    p = Process( "python3 " + ROOT + "/projects/"+ project +"/start.py", wait=False );
     print(p.run());    
 
 def main():
