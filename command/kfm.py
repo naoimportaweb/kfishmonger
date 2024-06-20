@@ -15,6 +15,14 @@ def install_project(project):
     p = Process( "python3 " + ROOT + "/projects/"+ project +"/install.py" );
     print(p.run());
 
+def restart( project ):
+    p = Process( "python3 " + ROOT + "/projects/"+ project +"/restart.py", wait=False );
+    print(p.run());    
+
+def start( project ):
+    p = Process( "python3 " + ROOT + "/projects/"+ project +"/execstart.py", wait=False );
+    print(p.run());    
+
 def main():
     parser = argparse.ArgumentParser(description="");
     parser.add_argument("-c","--command", required=True);
@@ -25,8 +33,10 @@ def main():
             install_all();
         else:
             install_project( args.project );
-    elif args.command == "updagte":
-        update();
+    elif args.command == "restart":
+        restart(args.project);
+    elif args.command == "start":
+        start(args.project);
 
 if __name__ == "__main__":
     main();
