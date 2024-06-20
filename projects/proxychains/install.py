@@ -16,7 +16,8 @@ def main():
     config.uncomment("dynamic_chain");
     config.commentattr("strict_chain");
     config.commentattr("socks4");
-    config.addattribute( "socks5 127.0.0.1 9050" );
+    if config.findattribute("socks5") == None:
+        config.addattribute( "socks5 127.0.0.1 9050" );
     config.save();
 
 if __name__ == "__main__":
