@@ -6,7 +6,10 @@ if [ "$EUID" -ne 0 ]
 fi
 
 DIR=/opt/kfishmonger
-URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
+# Url do projeto em desenvolvimento
+URL='https://codeload.github.com/naoimportaweb/kfishmonger/zip/refs/heads/main'
+# Url da ultima versao estavel e testada no Debian e Ubuntu.
+#URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
 install(){
         if [ -f /tmp/kfishmonger.zip ] ; then
             rm /tmp/kfishmonger.zip
