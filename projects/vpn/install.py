@@ -7,6 +7,7 @@ sys.path.append(ROOT);
 from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.config import Config;
+from api.process import Process;
 
 directory_username = "/home/"+  os.getlogin()  +"/";
 
@@ -25,14 +26,16 @@ config.save();
 if not os.path.exists( directory_username + "/.vpn" ):
     os.makedirs(directory_username + "/.vpn");
 
-config = Config(directory_username + "/.vpn/user.txt");
-if not config.findattribute("user"):
-    config.addattribute("user");
-    config.save();
-if not config.findattribute("password"):
-    config.addattribute("password");
-    config.save();
+process = Process("chown " + os.getlogin() + " " + directory_username + "/.vpn");
+process.run();
 
+#config = Config(directory_username + "/.vpn/user.txt");
+#if not config.findattribute("user"):
+#    config.addattribute("user");
+#    config.save();
+#if not config.findattribute("password"):
+#    config.addattribute("password");
+#    config.save();
 
 # =========== SERVICE ==========================
 ctl = Systemctl("vpn.service");

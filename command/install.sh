@@ -1,12 +1,17 @@
 #!/bin/bash
 
-DIR=/opt/kfishmonger
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root/Por favor, execute como root"
+  exit
+fi
 
+DIR=/opt/kfishmonger
+URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
 install(){
         if [ -f /tmp/kfishmonger.zip ] ; then
             rm /tmp/kfishmonger.zip
         fi
-        wget -O /tmp/kfishmonger.zip 'https://sourceforge.net/projects/kfishmonger/files/latest/download'
+        wget -O /tmp/kfishmonger.zip ${URL}
         if [ -d /tmp/kfishmonger-main/ ] ; then
             rm -r /tmp/kfishmonger-main
         fi
@@ -19,6 +24,28 @@ install(){
         ln -s ${DIR}/command/kfm.sh /bin/kfm
         /bin/kfm -c install
 }
+
+apt install update -y
+apt install python3-pip -y
+apt install unzip -y
+apt install python3-netifaces -y
+apt install conky -y
+apt install jp -y
+apt install dnscrypt-proxy -y
+apt install proxychains -y
+apt install tor -y
+apt install openvpn -y
+
+touch /etc/pip.conf
+echo '[global]' > /etc/pip.conf
+echo 'break-system-packages = true' >> /etc/pip.conf
+
+pip3 install netifaces
+pip3 install netifaces
+pip3 install psutil
+pip3 install pycryptodome
+pip3 install Pysocks
+pip3 install socks
 
 if [ -L ${DIR} ] ; then
     echo "O diretório ${DIR} nao pode ser usado pois é um link simbólico."
