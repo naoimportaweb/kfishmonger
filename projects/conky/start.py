@@ -18,7 +18,8 @@ def documento():
             shutil.copy( "/opt/kfishmonger/projects/conky/resources/conky.config", "/tmp/conky.buffer.config");
             p = Process("chmod 666 /tmp/conky.buffer.config");
             p.run();
-            texto = "";
+            textodownload = "";
+            textoupload = "";
             interfaces = netifaces.interfaces();
             maior_tamanho_carateres = 0;
             for i in range(len( interfaces )):
@@ -28,14 +29,17 @@ def documento():
                 tamanho = 35;
                 if i == 0:
                     tamanho = 15;
-                texto = texto + "\t${goto 400}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
-                texto = texto + "\t${goto 395}${voffset 20}${downspeedgraph "+ interfaces[i] +"}\\\r\n";
+                textodownload = textodownload + "\t${goto 400}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
+                textodownload = textodownload + "\t${goto 395}${voffset 20}${downspeedgraph "+ interfaces[i] +"}\\\r\n";
+                textoupload = textoupload + "\t${goto 400}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
+                textoupload = textoupload + "\t${goto 395}${voffset 20}${upspeedgraph "+ interfaces[i] +"}\\\r\n";
 
             distro = Distro();
             config = Config("/tmp/conky.buffer.config");
             config.open();
             config.replace("{INTERFACE}", distro.interfaces()[1]);
-            config.replace("{BARRA_INTERFACES}", texto);
+            config.replace("{BARRA_INTERFACES_DOWNLOAD}", textodownload);
+            config.replace("{BARRA_INTERFACES_UPLOAD}",   textoupload);
             config.saveas("/tmp/conky.buffer.config");
             if not os.path.exists("/tmp/conky.config") or md5("/tmp/conky.config") != md5("/tmp/conky.buffer.config"):
                 config.saveas("/tmp/conky.config");
@@ -51,6 +55,7 @@ def documento():
 def rodar():
     p = Process("conky -q -d -c /tmp/conky.config");
     output = p.run();
+    sys.exit(0);
 
 if os.path.exists("/tmp/conky.config"):
     os.unlink("/tmp/conky.config");

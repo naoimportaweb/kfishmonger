@@ -1,5 +1,6 @@
 import os;
 import subprocess;
+import psutil
 
 class Process:
     def __init__(self, command, wait=True):
@@ -24,3 +25,19 @@ class Process:
     
     def stopProcess(self):
         self.p.kill();
+
+    def kill(self):
+        for proc in psutil.process_iter():
+            if proc.name().find(self.textual) >= 0:
+                try:
+                    proc.kill();
+                except:
+                    print(".");
+            for command in proc.cmdline():
+                if command.find(self.textual) >= 0:
+                    try:
+                        proc.kill();
+                        break;
+                    except:
+                        print(".");
+                    

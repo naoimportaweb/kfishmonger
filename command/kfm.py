@@ -23,6 +23,10 @@ def start( project ):
     p = Process( "python3 " + ROOT + "/projects/"+ project +"/start.py", wait=False );
     print(p.run());    
 
+def stop( project ):
+    p = Process( "python3 " + ROOT + "/projects/"+ project +"/stop.py", wait=False );
+    print(p.run());  
+
 def main():
     parser = argparse.ArgumentParser(description="");
     parser.add_argument("-c","--command", required=True);
