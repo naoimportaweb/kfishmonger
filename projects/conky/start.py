@@ -29,10 +29,10 @@ def documento():
                 tamanho = 35;
                 if i == 0:
                     tamanho = 15;
-                textodownload = textodownload + "\t${goto 400}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
-                textodownload = textodownload + "\t${goto 395}${voffset 20}${downspeedgraph "+ interfaces[i] +"}\\\r\n";
-                textoupload = textoupload + "\t${goto 400}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
-                textoupload = textoupload + "\t${goto 395}${voffset 20}${upspeedgraph "+ interfaces[i] +"}\\\r\n";
+                textodownload = textodownload + "\t${goto 600}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
+                textodownload = textodownload + "\t${goto 595}${voffset 20}${downspeedgraph "+ interfaces[i] +"}\\\r\n";
+                textoupload = textoupload + "\t${goto 600}${voffset "+ str(tamanho) +"}${color3}${font pixelsize=18}"+ interfaces[i].ljust(maior_tamanho_carateres) +"${font}${color0}\\\r\n";
+                textoupload = textoupload + "\t${goto 595}${voffset 20}${upspeedgraph "+ interfaces[i] +"}\\\r\n";
 
             distro = Distro();
             config = Config("/tmp/conky.buffer.config");

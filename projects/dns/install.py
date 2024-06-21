@@ -13,10 +13,13 @@ apt.install("dnscrypt-proxy");
 
 # =========== COPIA DE RESOURCES ==========================
 
+
+
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 ctl = Systemctl("dnscrypt-proxy");
+ctl.reload();
+ctl.enable();
 ctl.start();
-
 
 if ctl.status():
     print("Rodando");

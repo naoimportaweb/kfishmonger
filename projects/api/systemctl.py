@@ -18,6 +18,9 @@ class Systemctl:
     
     def stop(self):
         return self.__generico__("stop")
+
+    def restart(self):
+        return self.__generico__("restart")
     
     def exists(self):
         return os.path.exists("/etc/systemd/system/" + self.service);

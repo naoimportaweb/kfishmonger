@@ -15,21 +15,18 @@ def install_project(project):
     p = Process( "python3 " + ROOT + "/projects/"+ project +"/install.py" );
     print(p.run());
 
-def restart( project ):
-    p = Process( "python3 " + ROOT + "/projects/"+ project +"/restart.py", wait=False );
+def command(project, command):
+    file = ROOT + "/projects/"+ project +"/"+ command +".py";
+    if not os.path.exists( file ):
+        print("O comando não existe: ", command);
+        return;
+    p = Process( "python3 " + file , wait=False );
     print(p.run());    
-
-def start( project ):
-    p = Process( "python3 " + ROOT + "/projects/"+ project +"/start.py", wait=False );
-    print(p.run());    
-
-def stop( project ):
-    p = Process( "python3 " + ROOT + "/projects/"+ project +"/stop.py", wait=False );
-    print(p.run());  
 
 def main():
     parser = argparse.ArgumentParser(description="");
     parser.add_argument("-c","--command", required=True);
+    parser.add_argument("-b","--background", nargs="?", const="", default="");
     parser.add_argument("-p","--project", nargs="?", const="", default="");
     args = parser.parse_args();
     if args.command == "install":
@@ -37,10 +34,8 @@ def main():
             install_all();
         else:
             install_project( args.project );
-    elif args.command == "restart":
-        restart(args.project);
-    elif args.command == "start":
-        start(args.project);
+    else:
+        command(args.project, args.command);
 
 if __name__ == "__main__":
     main();

@@ -6,10 +6,19 @@ if [ "$EUID" -ne 0 ]
 fi
 
 DIR=/opt/kfishmonger
-# Url do projeto em desenvolvimento
-URL='https://codeload.github.com/naoimportaweb/kfishmonger/zip/refs/heads/main'
-# Url da ultima versao estavel e testada no Debian e Ubuntu.
-#URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
+if [ -L ${DIR} ] ; then
+    echo "O diretório ${DIR} nao pode ser usado pois é um link simbólico."
+    exit 0
+fi
+
+echo "Se deseja instalar a versão estável digite (e), caso queira instalar a versão teste digite (t):"
+read OPCAO
+if [ $OPCAO = "e" ] ; then
+    URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
+else
+    URL='https://codeload.github.com/naoimportaweb/kfishmonger/zip/refs/heads/main'
+fi
+
 install(){
         if [ -f /tmp/kfishmonger.zip ] ; then
             rm /tmp/kfishmonger.zip
@@ -25,7 +34,7 @@ install(){
         fi
         chmod +x ${DIR}/command/kfm.sh
         ln -s ${DIR}/command/kfm.sh /bin/kfm
-        /bin/kfm -c install
+        /bin/kfm -c install -b
 }
 
 apt install update -y
@@ -50,10 +59,7 @@ pip3 install pycryptodome
 pip3 install Pysocks
 pip3 install socks
 
-if [ -L ${DIR} ] ; then
-    echo "O diretório ${DIR} nao pode ser usado pois é um link simbólico."
-    exit 0
-fi
+
 
 apt install unzip
 
