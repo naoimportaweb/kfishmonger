@@ -8,20 +8,23 @@ from api.apt import Apt;
 from api.systemctl import Systemctl;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
+# Para o debian 11 e posterior: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-Debian-and-Ubuntu#debian-testing-bullseye-debian-unstable-sid
+
+# se existe vai direto
 apt = Apt()
-apt.install("dnscrypt-proxy");
+if not apt.instaled("dnscrypt-proxy"):
+    if apt.exists("dnscrypt-proxy"):
+        apt.addrepo("unstable"); # no Debian 12 foi colocado cono unstabe package
+    apt.install("dnscrypt-proxy");
 
 # =========== COPIA DE RESOURCES ==========================
-
-
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 ctl = Systemctl("dnscrypt-proxy");
 ctl.reload();
 ctl.enable();
 ctl.start();
-
 if ctl.status():
-    print("Rodando");
+    print("Está rodando o serviço DNS Crypt");
 else:
-    print("Nao está rodando.");
+    print("NÃO está rodando o serviço DNS Crypt");
