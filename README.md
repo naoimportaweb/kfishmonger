@@ -8,7 +8,7 @@ KFishMonger é uma solução para um cenário perverso, permite.
 
 - Automação em montagem de ambientes anônimos
 - Um projeto para se discutir e evoluir o anonimato
-- ✨MNONIMATO✨
+- ✨ANONIMATO✨
 
 ## Recursos
 
@@ -28,7 +28,7 @@ Para instalar é simples.
 cd /tmp
 wget -O /tmp/install.sh https://raw.githubusercontent.com/naoimportaweb/kfishmonger/main/command/install.sh
 chmod +x /tmp/install.sh
-sudo ./install.sh
+sudo /tmp/install.sh
 ```
 
 Utilize o comando kfm para interagir com o ambiente
