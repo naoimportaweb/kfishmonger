@@ -8,8 +8,5 @@ from api.process import Process;
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 
-#p = Process("dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml");
-#p.run();
-
-process = Process("/etc/dnscrypt-proxy/dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml");
+process = Process("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy -config /etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy.toml");
 process.run();
