@@ -6,30 +6,36 @@ sys.path.append(ROOT);
 
 from api.apt import Apt;
 from api.systemctl import Systemctl;
+from api.distro import Distro;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 # Para o debian 11 e posterior: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-Debian-and-Ubuntu#debian-testing-bullseye-debian-unstable-sid
 
 # se existe vai direto
 apt = Apt()
+distro = Distro();
+
 if not apt.instaled("dnscrypt-proxy"):
-    if apt.exists("dnscrypt-proxy"):
-        apt.addrepo("unstable"); # no Debian 12 foi colocado cono unstabe package
+    if distro.name() == "debian":
+        apt.addrepo("unstable");
     apt.install("dnscrypt-proxy");
 
-# =========== COPIA DE RESOURCES ==========================
-shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
+if apt.instaled("dnscrypt-proxy"):
+    # =========== COPIA DE RESOURCES ==========================
+    shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
 
-# =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("dnscrypt-proxy");
-ctl.reload();
-ctl.disable();
+    # =========== INICIANDO SERVICOS E PROGRMAS ===============
+    ctl = Systemctl("dnscrypt-proxy");
+    ctl.reload();
+    ctl.disable();
 
-ctl = Systemctl("kfm_dns.service");
-ctl.reload();
-ctl.enable();
-ctl.start();
-if ctl.status():
-    print("Está rodando o serviço DNS Crypt");
+    ctl = Systemctl("kfm_dns.service");
+    ctl.reload();
+    ctl.enable();
+    ctl.start();
+    if ctl.status():
+        print("Está rodando o serviço DNS Crypt");
+    else:
+        print("NÃO está rodando o serviço DNS Crypt");
 else:
-    print("NÃO está rodando o serviço DNS Crypt");
+    print("Não fo i possível instalar o dnscrypt");

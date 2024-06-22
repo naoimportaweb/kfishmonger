@@ -29,7 +29,7 @@ install(){
         fi
         chmod +x ${DIR}/command/kfm.sh
         ln -s ${DIR}/command/kfm.sh /bin/kfm
-        /bin/kfm -c install -b
+        /bin/kfm -c install
 }
 
 existspackage(){
