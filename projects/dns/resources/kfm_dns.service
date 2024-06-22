@@ -1,0 +1,9 @@
+[Unit]
+Description=Json Service
+After=network.target
+
+[Service]
+ExecStart=python3 /opt/kfishmonger/projects/dns/start.py
+
+[Install]
+WantedBy=graphical.target

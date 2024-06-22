@@ -4,13 +4,10 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.systemctl import Systemctl;
+from api.process import Process;
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("dnscrypt-proxy");
-ctl.start();
 
-if ctl.status():
-    print("Rodando DNS");
-else:
-    print("Nao está rodando.");
+p = Process("dnscrypt-proxy -config /etc/dnscrypt-proxy/dnscrypt-proxy.toml");
+p.run();
+

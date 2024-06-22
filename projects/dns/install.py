@@ -18,9 +18,14 @@ if not apt.instaled("dnscrypt-proxy"):
     apt.install("dnscrypt-proxy");
 
 # =========== COPIA DE RESOURCES ==========================
+shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 ctl = Systemctl("dnscrypt-proxy");
+ctl.reload();
+ctl.disable();
+
+ctl = Systemctl("kfm_dns.service");
 ctl.reload();
 ctl.enable();
 ctl.start();

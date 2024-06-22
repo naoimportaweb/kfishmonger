@@ -7,7 +7,7 @@ sys.path.append(ROOT);
 from api.systemctl import Systemctl;
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("dnscrypt-proxy");
+ctl = Systemctl("kfm_dns.service");
 ctl.restart();
 
 if ctl.status():

@@ -13,6 +13,9 @@ class Systemctl:
     def enable(self):
         return self.__generico__("enable")
 
+    def disable(self):
+        return self.__generico__("disable")
+
     def start(self):
         return self.__generico__("start")
     
