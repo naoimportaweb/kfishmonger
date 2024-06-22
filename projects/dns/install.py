@@ -15,27 +15,52 @@ from api.distro import Distro;
 apt = Apt()
 distro = Distro();
 
-if not apt.instaled("dnscrypt-proxy"):
-    if distro.name() == "debian":
-        apt.addrepo("unstable");
-    apt.install("dnscrypt-proxy");
+process = Process("wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
+process.run();
 
-if apt.instaled("dnscrypt-proxy"):
-    # =========== COPIA DE RESOURCES ==========================
-    shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
+process = Process("tar -C /tmp/ -xzf /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
+process.run();
 
-    # =========== INICIANDO SERVICOS E PROGRMAS ===============
-    ctl = Systemctl("dnscrypt-proxy");
-    ctl.reload();
-    ctl.disable();
+process = Process("mkdir /etc/dnscrypt-proxy");
+process.run();
 
-    ctl = Systemctl("kfm_dns.service");
-    ctl.reload();
-    ctl.enable();
-    ctl.start();
-    if ctl.status():
-        print("Está rodando o serviço DNS Crypt");
-    else:
-        print("NÃO está rodando o serviço DNS Crypt");
+process = Process("cp -r /tmp/linux-x86_64/* /etc/dnscrypt-proxy/");
+process.run();
+
+process = Process("cp /etc/dnscrypt-proxy/example-dnscrypt-proxy.toml /etc/dnscrypt-proxy/dnscrypt-proxy.toml");
+process.run();
+
+shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
+
+ctl = Systemctl("kfm_dns.service");
+ctl.reload();
+ctl.enable();
+ctl.start();
+if ctl.status():
+    print("Está rodando o serviço DNS Crypt");
 else:
-    print("Não fo i possível instalar o dnscrypt");
+    print("NÃO está rodando o serviço DNS Crypt");
+
+#if not apt.instaled("dnscrypt-proxy"):
+#    if distro.name() == "debian":
+#        apt.addrepo("unstable");
+#    apt.install("dnscrypt-proxy");
+#if apt.instaled("dnscrypt-proxy"):
+#    # =========== COPIA DE RESOURCES ==========================
+#    shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
+#
+#    # =========== INICIANDO SERVICOS E PROGRMAS ===============
+#    ctl = Systemctl("dnscrypt-proxy");
+#    ctl.reload();
+#    ctl.disable();
+#
+#    ctl = Systemctl("kfm_dns.service");
+#    ctl.reload();
+#    ctl.enable();
+#    ctl.start();
+#    if ctl.status():
+#        print("Está rodando o serviço DNS Crypt");
+#    else:
+#        print("NÃO está rodando o serviço DNS Crypt");
+#else:
+#    print("Não fo i possível instalar o dnscrypt");
