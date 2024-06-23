@@ -37,3 +37,5 @@ Utilize o comando kfm para interagir com o ambiente
 kfm -p conky -c status
 ```
 
+## Tutorial
+[![Como instalar a ferramenta](https://img.youtube.com/vi/nmYPn4tgV58/0.jpg)](https://www.youtube.com/watch?v=nmYPn4tgV58)
