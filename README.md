@@ -40,4 +40,4 @@ kfm -p conky -c status
 ## Tutorial
 
 ### Instalando a ferramenta (Youtube)
-[![Como instalar a ferramenta](https://img.youtube.com/vi/nmYPn4tgV58/0.jpg)](https://www.youtube.com/watch?v=nmYPn4tgV58){:target="_blank"}
+[![Como instalar a ferramenta](https://img.youtube.com/vi/nmYPn4tgV58/0.jpg)](https://www.youtube.com/watch?v=nmYPn4tgV58)

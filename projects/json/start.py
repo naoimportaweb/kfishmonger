@@ -59,12 +59,11 @@ def main():
     tmonitor.start();
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         print("Service fishmonger.json started, port: 20000");
-        s.bind(("", 20000));
+        s.bind(("127.0.0.1", 20000));
         s.listen(100);
         while True:
             try:  
                 conn, addr = s.accept();
-                print("Endereco:", addr);
                 t = Thread(target=processar_requisicao, args=(addr, conn, ));
                 t.start();
             except KeyboardInterrupt:
