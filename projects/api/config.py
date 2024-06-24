@@ -1,5 +1,7 @@
 import os, sys, hashlib;
 
+from api.process import Process;
+
 class Config():
     def __init__(self, path):
         self.directory = os.path.dirname( path );
@@ -12,7 +14,12 @@ class Config():
             self.lines = f.readlines();
             for i in range(len(self.lines)):
                 self.lines[i] = self.lines[i].rstrip();
-    
+    def clear(self):
+        self.lines = [];
+
+    def add(self, line):
+        self.lines.append(line);
+
     def equal(self, path):
         if not os.path.exists(path):
             return False;
@@ -23,10 +30,14 @@ class Config():
         return hashlib.md5( texto.encode() ).hexdigest() == hashlib.md5( open( path, "r" ).read().encode() ).hexdigest();
 
     def save(self):
+        is_blocked_file = self.isblock();
+        if is_blocked_file:
+            self.unblock();
         with open(self.path, "w") as f:
             for line in self.lines:
                 f.write( line + os.linesep );
-    
+        #if is_blocked_file:
+        #    self.block();
     def saveas(self, path):
         with open(path, "w") as f:
             for line in self.lines:
@@ -47,15 +58,31 @@ class Config():
     
     def commentattr(self, key):
         for i in range(len(self.lines)):
-            if self.lines[i][:1].strip() == "#":
+            if self.lines[i][:1].strip() == self.comment:
                 continue;
             partes = self.lines[i].strip().split(" ");
             if partes[0] == key:
-                self.lines[i] = "#" + self.lines[i].strip(); 
+                self.lines[i] = self.comment + self.lines[i].strip(); 
+
     def uncomment(self, key):
         for i in range(len(self.lines)):
-            if self.lines[i][:1].strip() != "#":
+            if self.lines[i][:1].strip() != self.comment:
                 continue;
             partes = self.lines[i].strip()[1:].split(" ");
             if partes[0] == key:
                 self.lines[i] = self.lines[i].strip()[1:]; 
+    
+    def isblock(self):
+        p = Process("lsattr " + self.path);
+        output = p.run();
+        return output[:22].find("i");
+    
+    def block(self):
+        p = Process("chattr +i " + self.path);
+        output = p.run();
+        return self.isblock();
+
+    def unblock(self):
+        p = Process("chattr -i " + self.path);
+        output = p.run();
+        return not self.isblock();
