@@ -13,11 +13,21 @@ from api.process import Process;
 
 if os.path.exists("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy"):
     print("Já está instalado.");
-    sys.exit(0);
+    #sys.exit(0);
 
 # se existe vai direto
 apt = Apt()
 distro = Distro();
+
+remover = ["/tmp/linux-x86_64", "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" ];
+for arquivo in remover:
+    if os.path.exists(arquivo):
+        if os.path.isdir(arquivo):
+            shutil.rmtree(arquivo, ignore_errors=True)
+        else:
+            os.unlink(arquivo);
+if apt.instaled( "dnscrypt-proxy" ):
+    apt.purge( "dnscrypt-proxy" );
 
 process = Process("wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
 process.run();
@@ -43,3 +53,8 @@ if ctl.status():
     print("Está rodando o serviço DNS Crypt");
 else:
     print("NÃO está rodando o serviço DNS Crypt");
+
+ctl = Systemctl("dnscrypt-proxy");
+if ctl.exists():
+    ctl.disable();
+    ctl.stop();

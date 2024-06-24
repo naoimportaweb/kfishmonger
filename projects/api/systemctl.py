@@ -6,6 +6,12 @@ from .process import Process;
 class Systemctl:
     def __init__(self, service):
         self.service = service;
+    def exists(self):
+        try:
+            subprocess.check_call(['systemctl', 'status', self.service], stdout=open(os.devnull,'wb'), stderr=subprocess.STDOUT);
+            return True;
+        except:
+            return False;
 
     def reload(self):
         subprocess.check_call(['systemctl', 'daemon-reload'], stdout=open(os.devnull,'wb'), stderr=subprocess.STDOUT);

@@ -6,6 +6,9 @@ class Config():
     def __init__(self, path):
         self.directory = os.path.dirname( path );
         self.path = path;
+        self.realpath = path;
+        if os.path.islink(self.path):
+            self.realpath = os.path.realpath( self.path );
         self.lines = [];
         self.comment = "#";
 
@@ -73,16 +76,16 @@ class Config():
                 self.lines[i] = self.lines[i].strip()[1:]; 
     
     def isblock(self):
-        p = Process("lsattr " + self.path);
+        p = Process("lsattr " + self.realpath );
         output = p.run();
         return output[:22].find("i");
     
     def block(self):
-        p = Process("chattr +i " + self.path);
+        p = Process("chattr +i " + self.realpath);
         output = p.run();
         return self.isblock();
 
     def unblock(self):
-        p = Process("chattr -i " + self.path);
+        p = Process("chattr -i " + self.realpath);
         output = p.run();
         return not self.isblock();
