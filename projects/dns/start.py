@@ -16,10 +16,3 @@ p.asThread(callbakc_retorno);
 
 process = Process("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy -config /etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy.toml");
 process.run();
-
-
-r = Resolv();
-r.clear();
-r.add("nameserver 1.1.1.1");
-r.save();
-r.block();

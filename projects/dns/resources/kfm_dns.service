@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=python3 /opt/kfishmonger/projects/dns/start.py
+ExecStop=python3 /opt/kfishmonger/projects/dns/stop.py
 
 [Install]
 WantedBy=graphical.target

@@ -24,6 +24,7 @@ ctl.stop();
 torrc = Torrc();
 torrc.runasdaemon();
 torrc.tunnelport(9051);
+torrc.exclude14eyes();
 torrc.save();
 
 ctl.start();

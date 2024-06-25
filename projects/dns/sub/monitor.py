@@ -20,6 +20,7 @@ while True:
             #nameserver 127.0.2.1 no resolv.conf
             r.add("nameserver 127.0.2.1");
         r.save();
+        r.block();
     except KeyboardInterrupt:
         sys.exit(0);
     except:

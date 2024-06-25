@@ -26,8 +26,8 @@ for arquivo in remover:
             shutil.rmtree(arquivo, ignore_errors=True)
         else:
             os.unlink(arquivo);
-if apt.instaled( "dnscrypt-proxy" ):
-    apt.purge( "dnscrypt-proxy" );
+#if apt.instaled( "dnscrypt-proxy" ):
+#    apt.purge( "dnscrypt-proxy" );
 
 process = Process("wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
 process.run();
