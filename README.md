@@ -41,3 +41,6 @@ kfm -p conky -c status
 
 ### Instalando a ferramenta (Youtube)
 [![Como instalar a ferramenta](https://img.youtube.com/vi/nmYPn4tgV58/0.jpg)](https://www.youtube.com/watch?v=nmYPn4tgV58)
+
+### Instalando uma VPN (Youtube)
+[![Como instalar uma VPN](https://img.youtube.com/vi/RLvXRktQHtU/0.jpg)](https://www.youtube.com/watch?v=RLvXRktQHtU)
