@@ -44,3 +44,7 @@ kfm -p conky -c status
 
 ### Instalando uma VPN (Youtube)
 [![Como instalar uma VPN](https://img.youtube.com/vi/RLvXRktQHtU/0.jpg)](https://www.youtube.com/watch?v=RLvXRktQHtU)
+
+### Instalando o Proxychains4 (Youtube)
+[![Proxychains4](https://img.youtube.com/vi/fodZ56IoDxs/0.jpg)](https://www.youtube.com/watch?v=fodZ56IoDxs)
+

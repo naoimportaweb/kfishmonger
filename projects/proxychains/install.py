@@ -9,12 +9,15 @@ from api.config import Config;
 from api.downloadinstall import DownloadInstall;
 
 def main():
-    #d = DownloadInstall("/tmp/", "arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download")
-    #d.make();
-    #shutil.copy( d.tmp + "/src/proxychains.conf", "/etc/");
+    d = DownloadInstall("/tmp/", "arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download")
+    d.make();
+    shutil.copy( d.tmp + "/src/proxychains.conf", "/etc/");
 
-    #apt = Apt();
-    #apt.install("proxychains");
+    if os.path.exists("/usr/bin/proxychains"):
+        os.unlink("/usr/bin/proxychains");
+    if os.path.exists("/usr/local/bin/proxychains4"):
+        os.symlink("/usr/local/bin/proxychains4", "/usr/bin/proxychains")
+
     config = Config("/etc/proxychains.conf");
     config.open()
     config.uncomment("proxy_dns");
