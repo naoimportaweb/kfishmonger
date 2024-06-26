@@ -6,13 +6,19 @@ sys.path.append(ROOT);
 
 from api.apt import Apt;
 from api.config import Config;
+from api.downloadinstall import DownloadInstall;
 
 def main():
-    apt = Apt();
-    apt.install("proxychains");
+    #d = DownloadInstall("/tmp/", "arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download")
+    #d.make();
+    #shutil.copy( d.tmp + "/src/proxychains.conf", "/etc/");
+
+    #apt = Apt();
+    #apt.install("proxychains");
     config = Config("/etc/proxychains.conf");
     config.open()
     config.uncomment("proxy_dns");
+    config.uncommentline("localnet 127.0.0.0/255.0.0.0");
     config.uncomment("dynamic_chain");
     config.commentattr("strict_chain");
     config.commentattr("socks4");

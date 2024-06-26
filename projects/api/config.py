@@ -75,6 +75,13 @@ class Config():
             if partes[0] == key:
                 self.lines[i] = self.lines[i].strip()[1:]; 
     
+    def uncommentline(self, key):
+        for i in range(len(self.lines)):
+            if self.lines[i][:1].strip() != self.comment:
+                continue;
+            buffer = self.lines[i].strip()[1:].strip();
+            if buffer == key:
+                self.lines[i] = self.lines[i].strip()[1:].strip();     
     def isblock(self):
         p = Process("lsattr " + self.realpath );
         output = p.run();

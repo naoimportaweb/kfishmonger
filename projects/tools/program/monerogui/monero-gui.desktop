@@ -1,0 +1,17 @@
+[Desktop Entry]
+Name=Monero GUI
+GenericName=Monero-GUI
+X-GNOME-FullName=Monero-GUI
+Comment=Monero GUI
+Keywords=Monero;
+Exec=/home/well/monero.sh
+Terminal=false
+Type=Application
+Icon=/home/well/.local/share/icons/hicolor/256x256/monero.png
+Categories=Network;GNOME;Qt;
+MimeType=x-scheme-handler/monero;x-scheme-handler/moneroseed
+StartupNotify=true
+X-GNOME-Bugzilla-Bugzilla=GNOME
+X-GNOME-UsesNotifications=true
+StartupWMClass=monero-wallet-gui
+
