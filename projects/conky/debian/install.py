@@ -19,7 +19,7 @@ pip = Pip();
 pip.install("psutil");
 pip.install("netifaces");
 # =========== COPIA DE RESOURCES ==========================
-directory_username_autostart = "/home/"+  getpass.getuser()  +"/.config/autostart/";
+directory_username_autostart = "/home/"+  distro.user()  +"/.config/autostart/";
 if not os.path.exists( directory_username_autostart ):
     os.makedirs( directory_username_autostart );
 

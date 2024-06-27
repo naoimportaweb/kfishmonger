@@ -8,8 +8,10 @@ from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.config import Config;
 from api.process import Process;
+from api.distro import Distro;
 
-directory_username = "/home/"+  os.getlogin()  +"/";
+distro = Distro();
+directory_username = "/home/"+  distro.user()  +"/";
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 apt = Apt()
@@ -20,13 +22,13 @@ shutil.copy( CURRENTDIR + "/resources/vpn.service", "/etc/systemd/system/");
 
 config = Config("/etc/systemd/system/vpn.service");
 config.open();
-config.replace("{LOGNAME}", getpass.getuser() );
+config.replace("{LOGNAME}", distro.user() );
 config.save();
 
 if not os.path.exists( directory_username + "/.vpn" ):
     os.makedirs(directory_username + "/.vpn");
 
-process = Process("chown " + getpass.getuser() + " " + directory_username + "/.vpn");
+process = Process("chown " + distro.user() + " " + directory_username + "/.vpn");
 process.run();
 
 #config = Config(directory_username + "/.vpn/user.txt");

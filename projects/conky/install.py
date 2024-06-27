@@ -17,7 +17,7 @@ def main():
     # RUN INSTALL SCRIPT
     process = Process("python3 " + path_script);
     process.run();
-    process = Process("chown -R " + getpass.getuser() + ":" + getpass.getuser() + " /opt/kfishmonger");
+    process = Process("chown -R " + distro.user() + ":" + distro.user() + " /opt/kfishmonger");
     process.run();
 
 if __name__ == "__main__":

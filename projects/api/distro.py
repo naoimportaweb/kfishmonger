@@ -10,6 +10,12 @@ class Distro():
         else:
             print("Nao foi possivel detectar.");
     
+    def user(self):
+        tags = ["SUDO_USER", "USERNAME", "USERNAME"];
+        for tag in tags:
+            if os.environ.get( tag ) != "" && os.environ.get( tag ) != "root":
+                return os.environ.get( tag );
+
     def graphical(self):
         return self.__detect_desktop_environment__();
     

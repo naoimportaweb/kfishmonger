@@ -6,23 +6,26 @@ sys.path.append(ROOT);
 
 from api.downloadinstall import DownloadInstall;
 from api.process import Process;
+from api.distro import Distro
+
+distro = Distro();
 
 def main():
     download = DownloadInstall("muvaldbrowser.tar.xz","https://mullvad.net/pt/download/browser/linux-x86_64/latest");
     download.download();
     download.extract("/opt/mullvad/");
 
-    if not os.path.exists("/home/"+ getpass.getuser()  +"/.local/share/applications"):
-        os.makedirs("/home/"+ getpass.getuser()  +"/.local/share/applications");
+    if not os.path.exists("/home/"+ distro.user()  +"/.local/share/applications"):
+        os.makedirs("/home/"+ distro.user()  +"/.local/share/applications");
     
-    shutil.copy( CURRENTDIR + "/resources/mullvad.desktop", "/home/"+ os.getlogin()  +"/.local/share/applications");
-    shutil.copy( CURRENTDIR + "/resources/mullvad-proxy.desktop", "/home/"+ os.getlogin()  +"/.local/share/applications");
+    shutil.copy( CURRENTDIR + "/resources/mullvad.desktop", "/home/"+ distro.user()  +"/.local/share/applications");
+    shutil.copy( CURRENTDIR + "/resources/mullvad-proxy.desktop", "/home/"+ distro.user()  +"/.local/share/applications");
 
-    process = Process("chown -R " + getpass.getuser() + " /opt/mullvad");
+    process = Process("chown -R " + distro.user() + " /opt/mullvad");
     process.run();
-    process = Process("chown -R " + getpass.getuser() + ":"+ getpass.getuser() +" /home/"+ getpass.getuser()  +"/.local/share/applications/mullvad.desktop");
+    process = Process("chown -R " + distro.user() + ":"+ distro.user() +" /home/"+ distro.user()  +"/.local/share/applications/mullvad.desktop");
     process.run();
-    process = Process("chown -R " + getpass.getuser() + ":"+ getpass.getuser() +" /home/"+ getpass.getuser()  +"/.local/share/applications/mullvad-proxy.desktop");
+    process = Process("chown -R " + distro.user() + ":"+ distro.user() +" /home/"+ distro.user()  +"/.local/share/applications/mullvad-proxy.desktop");
     process.run();
 
 if __name__ == "__main__":
