@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=GGH
+GenericName=GGH
+Comment=GGH
+Categories=Network;WebBrowser;Security;
+Exec=python3 /opt/ggh/cliente/app.py
+X-MullvadBrowser-ExecShell=python3 /opt/ggh/cliente/app.py
+Icon=ggh
+StartupWMClass=GGH +

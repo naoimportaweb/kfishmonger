@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=GGH +PROXY
+GenericName=GGH +PROXY
+Comment=GGH + PROXY
+Categories=Network;WebBrowser;Security;
+Exec=python3 /opt/kfishmonger/command/exec.py /opt/ggh/cliente/app.py
+X-MullvadBrowser-ExecShell=python3 /opt/kfishmonger/command/exec.py /opt/ggh/cliente/app.py
+Icon=ggh
+StartupWMClass=GGH +PROXY
