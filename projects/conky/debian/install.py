@@ -1,4 +1,4 @@
-import sys, os, shutil, inspect;
+import sys, os, shutil, inspect, getpass;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
@@ -19,7 +19,7 @@ pip = Pip();
 pip.install("psutil");
 pip.install("netifaces");
 # =========== COPIA DE RESOURCES ==========================
-directory_username_autostart = "/home/"+  os.getlogin()  +"/.config/autostart/";
+directory_username_autostart = "/home/"+  getpass.getuser()  +"/.config/autostart/";
 if not os.path.exists( directory_username_autostart ):
     os.makedirs( directory_username_autostart );
 

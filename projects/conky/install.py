@@ -1,4 +1,4 @@
-import os, sys, platform, shutil, inspect;
+import os, sys, platform, shutil, inspect, getpass;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
@@ -17,7 +17,7 @@ def main():
     # RUN INSTALL SCRIPT
     process = Process("python3 " + path_script);
     process.run();
-    process = Process("chown -R " + os.getlogin() + ":" + os.getlogin() + " /opt/kfishmonger");
+    process = Process("chown -R " + getpass.getuser() + ":" + getpass.getuser() + " /opt/kfishmonger");
     process.run();
 
 if __name__ == "__main__":
