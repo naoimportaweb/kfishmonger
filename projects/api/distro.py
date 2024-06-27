@@ -13,7 +13,7 @@ class Distro():
     def user(self):
         tags = ["SUDO_USER", "USERNAME", "USERNAME"];
         for tag in tags:
-            if os.environ.get( tag ) != "" && os.environ.get( tag ) != "root":
+            if os.environ.get( tag ) != "" and os.environ.get( tag ) != "root":
                 return os.environ.get( tag );
 
     def graphical(self):
