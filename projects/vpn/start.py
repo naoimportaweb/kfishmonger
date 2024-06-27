@@ -14,6 +14,8 @@ ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
 from api.process import Process;
+from api.distro import Distro;
+distro = Distro();
 
 def setmac(interface):
     p = Process("sudo ip link set "+ interface +" down"); p.run();
@@ -22,7 +24,7 @@ def setmac(interface):
     p = Process("sudo ip link set "+ interface +" up"); p.run();
 
 def main():
-    directory_username = "/home/"+  os.environ["LOGNAME"]  +"/";
+    directory_username = "/home/"+  distro.user()  +"/";
     path_configuracao = directory_username +".vpn/config.json";
     json_config = {};
 
