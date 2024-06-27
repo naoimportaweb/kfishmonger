@@ -15,6 +15,10 @@ def install_project(project):
     p = Process( "python3 " + ROOT + "/projects/"+ project +"/install.py" );
     print(p.run());
 
+def install_sub_project(project, sub):
+    p = Process( "python3 " + ROOT + "/projects/"+ project +"/sub/"+ sub +"/install.py" );
+    print(p.run());
+
 def command(project, command):
     file = ROOT + "/projects/"+ project +"/"+ command +".py";
     if not os.path.exists( file ):
@@ -28,12 +32,16 @@ def main():
     parser.add_argument("-c","--command", required=True);
     parser.add_argument("-b","--background", nargs="?", const="", default="");
     parser.add_argument("-p","--project", nargs="?", const="", default="");
+    parser.add_argument("-s","--sub", nargs="?", const="", default="");
     args = parser.parse_args();
     if args.command == "install":
         if args.project == "":
             install_all();
         else:
-            install_project( args.project );
+            if args.sub == "":
+                install_project( args.project );
+            else:
+                install_sub_project( args.project, args.sub  );
     else:
         command(args.project, args.command);
 

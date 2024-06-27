@@ -8,9 +8,9 @@ from api.downloadinstall import DownloadInstall;
 from api.process import Process;
 
 def main():
-    #download = DownloadInstall("muvaldbrowser.tar.xz","https://mullvad.net/pt/download/browser/linux-x86_64/latest");
-    #download.download();
-    #download.extract("/opt/mullvad/");
+    download = DownloadInstall("muvaldbrowser.tar.xz","https://mullvad.net/pt/download/browser/linux-x86_64/latest");
+    download.download();
+    download.extract("/opt/mullvad/");
 
     shutil.copy( CURRENTDIR + "/resources/mullvad.desktop", "/home/"+ os.getlogin()  +"/.local/share/applications");
     shutil.copy( CURRENTDIR + "/resources/mullvad-proxy.desktop", "/home/"+ os.getlogin()  +"/.local/share/applications");
