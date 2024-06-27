@@ -11,7 +11,7 @@ from api.distro import Distro
 distro = Distro();
 
 def main():
-    download = DownloadInstall("muvaldbrowser.tar.xz","https://mullvad.net/pt/download/browser/linux-x86_64/latest");
+    download = DownloadInstall("mullvadbrowser.tar.xz","https://mullvad.net/pt/download/browser/linux-x86_64/latest");
     download.download();
     download.extract("/opt/mullvad/");
 

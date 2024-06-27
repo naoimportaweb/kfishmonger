@@ -1,12 +1,24 @@
 #!/usr/bin/python3
 
 import socket, json, requests;
+import sys, os, shutil, inspect, time;
+import re
+
+CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
+ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
+sys.path.append(ROOT);
+
+from api.systemctl import Systemctl
 
 HOST = "127.0.0.1";
 PORT = 20000;
 
-r = requests.get("https://wtfismyip.com/json");
-js_myip = json.loads(r.text);
+s = Systemctl("vpn.service");
+if s.running():
+    r = requests.get("https://wtfismyip.com/json");
+    js_myip = json.loads(r.text);
+else:
+    js_myip = {"YourFuckingCountry" : "-", "YourFuckingIPAddress" : "-"}
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT));

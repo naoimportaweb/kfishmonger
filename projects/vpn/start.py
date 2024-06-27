@@ -24,25 +24,26 @@ def setmac(interface):
     p = Process("sudo ip link set "+ interface +" up"); p.run();
 
 def main():
-    directory_username = "/home/"+  distro.user()  +"/";
-    path_configuracao = directory_username +".vpn/config.json";
+    #directory_username = "/home/"+  distro.user()  +"/";
+    directory_username = "/var/kfm/vpn";
+    path_configuracao = directory_username +"/config.json";
     json_config = {};
 
     if os.path.exists(path_configuracao):
         json_config = json.loads( open(path_configuracao).read() );
 
-    path_password = directory_username +".vpn/pass.txt"
+    path_password = directory_username +"/pass.txt"
     if not os.path.exists(path_password):
         with open(path_password, "w") as f:
             f.write( "username_vpn" + os.linesep );
             f.write( "password_vpn" + os.linesep );
 
-    if os.path.exists(directory_username +".vpn/openvpn.ovpn"):
+    if os.path.exists(directory_username +"/openvpn.ovpn"):
         # set mackaddress
         if json_config.get("mac") != None:
             for interface in json_config["mac"]:
                 setmac( interface );
-        command = "/usr/sbin/openvpn --config "+ directory_username +".vpn/openvpn.ovpn --auth-user-pass " + path_password; 
+        command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
         print( p.run() );
 

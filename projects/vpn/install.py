@@ -25,19 +25,19 @@ config.open();
 config.replace("{LOGNAME}", distro.user() );
 config.save();
 
-if not os.path.exists( directory_username + "/.vpn" ):
-    os.makedirs(directory_username + "/.vpn");
+if not os.path.exists("/var/kfm/vpn"):
+    os.makedirs("/var/kfm/vpn");
 
-process = Process("chown " + distro.user() + " " + directory_username + "/.vpn");
-process.run();
+if os.path.exists( directory_username + "/.vpn" ):
+    files = os.listdir(directory_username + "/.vpn/");
+    for item in files:
+        shutil.copy( directory_username + "/.vpn/" + item, "/var/kfm/vpn/" )
+        os.unlink(directory_username + "/.vpn/" + item);
+    shutil.rmtree(directory_username + "/.vpn", ignore_errors=False);
 
-#config = Config(directory_username + "/.vpn/user.txt");
-#if not config.findattribute("user"):
-#    config.addattribute("user");
-#    config.save();
-#if not config.findattribute("password"):
-#    config.addattribute("password");
-#    config.save();
+#process = Process("chown " + distro.user() + " " + directory_username + "/.vpn");
+#process.run();
+
 
 # =========== SERVICE ==========================
 ctl = Systemctl("vpn.service");

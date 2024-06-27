@@ -91,6 +91,10 @@ if [ -L ${DIR} ] ; then
     exit 0
 fi
 
+if [ ! -d "/var/kfm/" ] ; then
+    mkdir "/var/kfm/"
+fi
+
 if [ -d ${DIR} ] ; then
     echo 'O diretório já existe, deseja continuar (y|n)?:'
     read OPCAO

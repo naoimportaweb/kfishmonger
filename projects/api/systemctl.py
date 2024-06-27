@@ -45,6 +45,15 @@ class Systemctl:
             if linha.find("Active: active") >= 0:
                 return True;
         return False;
+    
+    def running(self):
+        p = subprocess.Popen(['systemctl' , "--no-pager", "status", self.service], stdout=subprocess.PIPE, universal_newlines=True);
+        output = p.stdout;
+        for linha in output:
+            if linha.find("(running)") >= 0:
+                return True;
+        return False;
+
 
 def main():
     sysctl = Systemctl("json.service");

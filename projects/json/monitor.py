@@ -6,6 +6,8 @@ sys.path.append(ROOT);
 
 from api.process import Process;
 
+def callback(process, retorno):
+    print(retorno);
 def main():
     while True:
         try:
@@ -13,7 +15,7 @@ def main():
             for file in files:
                 p = Process( "python3 " + CURRENTDIR + "/sub/" + file );
                 if not p.exists():
-                    p.run();
+                    p.asThread(callback);
         except:
             traceback.print_exc();
         finally:
