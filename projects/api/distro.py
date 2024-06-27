@@ -11,7 +11,7 @@ class Distro():
             print("Nao foi possivel detectar.");
     
     def user(self):
-        tags = ["SUDO_USER", "USERNAME", "USERNAME"];
+        tags = ["SUDO_USER", "USERNAME", "USERNAME", "USER"];
         for tag in tags:
             if os.environ.get( tag ) != "" and os.environ.get( tag ) != "root":
                 return os.environ.get( tag );
