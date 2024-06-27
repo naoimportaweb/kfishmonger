@@ -12,6 +12,9 @@ def main():
     download.download();
     download.extract("/opt/mullvad/");
 
+    if not os.path.exists("/home/"+ os.getlogin()  +"/.local/share/applications"):
+        os.makedirs("/home/"+ os.getlogin()  +"/.local/share/applications");
+    
     shutil.copy( CURRENTDIR + "/resources/mullvad.desktop", "/home/"+ os.getlogin()  +"/.local/share/applications");
     shutil.copy( CURRENTDIR + "/resources/mullvad-proxy.desktop", "/home/"+ os.getlogin()  +"/.local/share/applications");
 
