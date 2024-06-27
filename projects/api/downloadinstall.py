@@ -1,4 +1,4 @@
-import uuid;
+import uuid, stat;
 import sys, os, shutil, inspect, time;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
@@ -9,12 +9,26 @@ sys.path.append(CURRENTDIR);
 from api.process import Process;
 
 class DownloadInstall():
-    def __init__(self, path, file, url):
-        self.path = path;
+    def __init__(self, file, url):
         self.url = url;
         self.file = file;
         self.tmp = "/tmp/" + str(uuid.uuid4());
         os.makedirs(self.tmp);
+
+    def __permission__(self, path):
+        if not os.path.exists(path):
+            return;
+        if os.path.isdir(path):
+            os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH);
+            lista = os.listdir( path );
+            for item in lista:
+                self.__permission__(path + "/" + item);
+        else:
+            st = os.stat(path);
+            if  bool(st.st_mode & stat.S_IEXEC):
+                os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH);
+            else:
+                os.chmod(path, st.st_mode | stat.S_IRGRP | stat.S_IROTH);
 
     def download(self):
         if os.path.exists("/tmp/" + self.file):
@@ -22,7 +36,13 @@ class DownloadInstall():
         process = Process("wget "+ self.url +" -O /tmp/" + self.file);
         process.run();
         process = Process("tar --strip-components 1 -C "+ self.tmp +" -xf /tmp/" + self.file);
-        process.run(); 
+        process.run();
+
+    def extract(self, path):
+        if not os.path.exists(path):
+            os.makedirs(path, exist_ok=True);
+        shutil.copytree(self.tmp, path , dirs_exist_ok=True)
+        self.__permission__(path);
     
     def make(self):
         self.download();

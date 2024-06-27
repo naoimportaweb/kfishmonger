@@ -9,7 +9,7 @@ from api.config import Config;
 from api.downloadinstall import DownloadInstall;
 
 def main():
-    d = DownloadInstall("/tmp/", "arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download")
+    d = DownloadInstall("arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download")
     d.make();
     shutil.copy( d.tmp + "/src/proxychains.conf", "/etc/");
 
