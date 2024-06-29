@@ -35,11 +35,12 @@ class DownloadInstall():
             os.unlink("/tmp/" + self.file);
         process = Process("wget "+ self.url +" -O /tmp/" + self.file);
         process.run();
-        if self.file.find("tar.gz"):
+        if self.file.find("tar.gz") > 0:
             #p = Process("tar xzvf "+ path +" -C /opt/ggh/ --strip-components=1");
             process = Process("tar xzvf /tmp/" + self.file + " -C "+ self.tmp +" --strip-components 1");
             process.run();
         else:
+            print(self.file);
             process = Process("tar --strip-components 1 -C "+ self.tmp +" -xf /tmp/" + self.file);
             process.run();
 
