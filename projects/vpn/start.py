@@ -16,6 +16,7 @@ sys.path.append(ROOT);
 from api.process import Process;
 from api.distro import Distro;
 from vpn.api.openvpn import Openvpn;
+from vpn.api.routers import Routers;
 
 distro = Distro();
 
@@ -31,6 +32,7 @@ def main():
     ovpn = Openvpn();
     ovpn.loadrandom();
     ovpn.save();
+    routers = Routers();
 
     path_configuracao = directory_username +"/config.json";
     json_config = {};
@@ -39,19 +41,22 @@ def main():
         json_config = json.loads( open(path_configuracao).read() );
 
     path_password = directory_username +"/pass.txt"
-    if not os.path.exists(path_password):
-        with open(path_password, "w") as f:
-            f.write( "username_vpn" + os.linesep );
-            f.write( "password_vpn" + os.linesep );
+    #if not os.path.exists(path_password):
+    #    with open(path_password, "w") as f:
+    #        f.write( "username_vpn" + os.linesep );
+    #        f.write( "password_vpn" + os.linesep );
 
     if os.path.exists(directory_username +"/openvpn.ovpn"):
         # set mackaddress
         if json_config.get("mac") != None:
             for interface in json_config["mac"]:
                 setmac( interface );
+        
         command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
         print( p.run() );
+        #if json_config.get("kill") != None and json_config.get("gateway") != None:
+        #    routers.kill(json_config["gateway"]);
 
 if __name__ == "__main__":
     main();
