@@ -17,6 +17,7 @@ class Config():
             self.lines = f.readlines();
             for i in range(len(self.lines)):
                 self.lines[i] = self.lines[i].rstrip();
+    
     def clear(self):
         self.lines = [];
 

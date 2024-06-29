@@ -15,6 +15,8 @@ sys.path.append(ROOT);
 
 from api.process import Process;
 from api.distro import Distro;
+from vpn.api.openvpn import Openvpn;
+
 distro = Distro();
 
 def setmac(interface):
@@ -26,6 +28,10 @@ def setmac(interface):
 def main():
     #directory_username = "/home/"+  distro.user()  +"/";
     directory_username = "/var/kfm/vpn";
+    ovpn = Openvpn();
+    ovpn.loadrandom();
+    ovpn.save();
+
     path_configuracao = directory_username +"/config.json";
     json_config = {};
 
