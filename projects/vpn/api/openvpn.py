@@ -57,6 +57,9 @@ class Openvpn():
             self.ovpn_lines[i] = self.ovpn_lines[i].strip();
         # procurar por: remote kkkkkkkk.com.br NUMBER e fazer a traducao por IP.
         for i in range(len(self.ovpn_lines)):
+            if self.ovpn_lines[i].find("ncp-disable") >= 0:
+                self.ovpn_lines[i] = "#ncp-disable";
+                continue;
             if self.ovpn_lines[i][:len("remote ")] == "remote ":
                 partes = self.ovpn_lines[i].split(" ");
                 if len(partes) < 2:
