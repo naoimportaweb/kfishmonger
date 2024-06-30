@@ -15,8 +15,8 @@ distro = Distro();
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 apt = Apt();
 pip = Pip();
-apt.install("conky-all");
-apt.install("jp");
+#apt.install("conky-all");
+#apt.install("jp");
 pip.install("psutil");
 pip.install("netifaces");
 
