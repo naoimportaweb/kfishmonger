@@ -7,6 +7,8 @@ class Distro():
             return "debian";
         elif distro_name.find("Ubuntu") > 0:
             return "ubuntu";
+        elif distro_name.find("Kali") > 0:
+            return "ubuntu";
         else:
             print("Nao foi possivel detectar.");
     
