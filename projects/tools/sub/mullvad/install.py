@@ -27,6 +27,8 @@ def main():
     process.run();
     process = Process("chown -R " + distro.user() + ":"+ distro.user() +" /home/"+ distro.user()  +"/.local/share/applications/mullvad-proxy.desktop");
     process.run();
+    process = Process("xdg-settings set default-web-browser mullvad.desktop"); #set default browser mullvad
+    process.run();
 
 if __name__ == "__main__":
     main();

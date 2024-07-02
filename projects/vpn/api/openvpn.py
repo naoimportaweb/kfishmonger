@@ -100,7 +100,6 @@ class Openvpn():
                 else:
                     self.ovpn_lines[i] = "key /var/kfm/vpn/client.key";
                     key_path = path + "/" + partes[1];
-        print(ca_path);
         if ca_path != None:
             if ca_path != "/var/kfm/vpn/ca.crt":
                 shutil.copy(ca_path, "/var/kfm/vpn/ca.crt");
