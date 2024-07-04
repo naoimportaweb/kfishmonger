@@ -38,6 +38,9 @@ class DownloadInstall():
         if self.file.find("tar.gz") > 0:
             process = Process("tar xzvf /tmp/" + self.file + " -C "+ self.tmp +" --strip-components 1");
             process.run();
+        elif self.file.find(".zip") > 0:
+            process = Process("unzip /tmp/" + self.file + " -d "+ self.tmp +"");
+            process.run();
         else:
             print(self.file);
             process = Process("tar --strip-components 1 -C "+ self.tmp +" -xf /tmp/" + self.file);

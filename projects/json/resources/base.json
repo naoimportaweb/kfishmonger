@@ -1,5 +1,6 @@
 {
 	"name" : "Knife Fishmonger",
 	"tor" : {"ip" : "", "port" : 9050, "country" : ""},
-	"vpn" : {"ip" : "", "country" : ""}
+	"vpn" : {"ip" : "", "country" : ""},
+    "dns" : {"ip" : ""}
 }

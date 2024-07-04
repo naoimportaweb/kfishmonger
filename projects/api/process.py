@@ -13,12 +13,12 @@ class Process:
         self.th = None;
         self.stop_thread = False;
     
-    def exists(self):
-        #ps aux | grep -v grep | grep
+    def exists(self, program_name=None):
         commando = "ps aux";
-        print(commando.split(" "));
+        if program_name == None:
+            program_name = self.textual;
         self.p = subprocess.Popen(commando.split(" "), stdout=subprocess.PIPE, universal_newlines=True);
-        return self.p.stdout.read().find( self.textual ) > 0;
+        return self.p.stdout.read().find( program_name ) > 0;
     
     def run(self):
         self.p = subprocess.Popen(self.comand, stdout=subprocess.PIPE, universal_newlines=True);
