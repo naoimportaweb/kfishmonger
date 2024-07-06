@@ -54,7 +54,7 @@ instaledpackage(){
     fi
 }
 
-packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq")
+packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables")
 for str in ${packages[@]}; do
     if instaledpackage ${str} ; then
         echo "[.] Já possui ${str};"

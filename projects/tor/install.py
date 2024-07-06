@@ -25,6 +25,11 @@ torrc = Torrc();
 torrc.runasdaemon();
 torrc.tunnelport(9051);
 torrc.exclude14eyes();
+torrc.virtualnetwork();
+torrc.trasnport();
+torrc.hostsonresolve();
+torrc.socksport();
+torrc.dnsport();
 torrc.save();
 
 ctl.start();
@@ -34,3 +39,6 @@ if ctl.status():
     print("Rodando");
 else:
     print("Nao está rodando.");
+
+
+
