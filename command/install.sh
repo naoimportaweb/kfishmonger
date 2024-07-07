@@ -54,6 +54,8 @@ instaledpackage(){
     fi
 }
 
+apt update -y
+apt upgrade -y
 packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables")
 for str in ${packages[@]}; do
     if instaledpackage ${str} ; then
