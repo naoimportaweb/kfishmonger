@@ -1,6 +1,6 @@
 import sys, os, shutil, time, hashlib, netifaces, json, traceback
 
-sys.path.insert(0,"/opt/kfishmonger/projects/") 
+sys.path.insert(0,"/opt/kfishmonger/projects/");
 
 from threading import Thread
 from api.process import Process;
