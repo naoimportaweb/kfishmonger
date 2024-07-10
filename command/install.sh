@@ -18,7 +18,7 @@ install(){
         if [ -f /tmp/kfishmonger.zip ] ; then
             rm /tmp/kfishmonger.zip
         fi
-        wget -O /tmp/kfishmonger.zip ${URL}
+        wget -q -O /tmp/kfishmonger.zip ${URL}
         if [ -d /tmp/kfishmonger-main/ ] ; then
             rm -r /tmp/kfishmonger-main
         fi
