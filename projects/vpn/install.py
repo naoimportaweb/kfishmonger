@@ -35,10 +35,6 @@ if os.path.exists( directory_username + "/.vpn" ):
         os.unlink(directory_username + "/.vpn/" + item);
     shutil.rmtree(directory_username + "/.vpn", ignore_errors=False);
 
-#process = Process("chown " + distro.user() + " " + directory_username + "/.vpn");
-#process.run();
-
-
 # =========== SERVICE ==========================
 ctl = Systemctl("vpn.service");
 ctl.reload();

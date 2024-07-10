@@ -119,9 +119,13 @@ class Openvpn():
         files = os.listdir( self.path );
         candidatos = [];
         for file in files:
+            if file[:1] == ".":
+                print("A VPN", file, " está desativada.");
+                continue;
             if os.path.isdir( self.path + "/" + file) and os.path.exists(self.path + "/" + file + "/openvpn.ovpn") and os.path.exists(self.path + "/" + file + "/pass.txt"):
                 candidatos.append(file);
         index = 0;
+        print("Candidatos para execução: ", candidatos);
         if len(candidatos) > 0:
             index = random.randint(0, len(candidatos) - 1);
         return self.load(self.path + "/" + candidatos[index]);

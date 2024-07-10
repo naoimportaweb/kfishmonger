@@ -19,6 +19,7 @@ if s.running():
     js_myip = json.loads(r.text);
 else:
     js_myip = {"YourFuckingCountry" : "-", "YourFuckingIPAddress" : "-"}
+    print("VPN Service desativado no Systemctl");
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     s.connect((HOST, PORT));
