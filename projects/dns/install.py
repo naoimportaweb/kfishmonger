@@ -30,7 +30,8 @@ for arquivo in remover:
             os.unlink(arquivo);
             log.info("Removido o arquivo " + arquivo);
 
-process = Process("wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
+print("[+] Download do arquivo: https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
+process = Process("wget -q https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
 process.run();
 log.download( "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz", "https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" );
 
