@@ -22,7 +22,7 @@ install(){
         if [ -d /tmp/kfishmonger-main/ ] ; then
             rm -r /tmp/kfishmonger-main
         fi
-        unzip /tmp/kfishmonger.zip -d /tmp/
+        unzip -qq /tmp/kfishmonger.zip -d /tmp/
         cp -r /tmp/kfishmonger-main/* ${DIR}
         if [ -L /bin/kfm ] ; then
             rm /bin/kfm
@@ -74,7 +74,7 @@ done
 for str in ${packages[@]}; do
     if ! instaledpackage ${str} ; then
         if existspackage ${str} ; then
-            echo '[+] Instalação do pacote ${str}'
+            echo "[+] Instalação do pacote ${str}"
             apt install ${str} -y &> /dev/null
         fi
     fi
