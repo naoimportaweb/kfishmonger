@@ -11,6 +11,7 @@ class Openvpn():
         self.path = "/var/kfm/vpn/";
         self.ovpn_lines = None;
         self.migrate();
+        self.eleito = "";
     #customizar da versao antiga para nova vers'ao
     def migrate(self):
         files = os.listdir( self.path );
@@ -125,9 +126,9 @@ class Openvpn():
             if os.path.isdir( self.path + "/" + file) and os.path.exists(self.path + "/" + file + "/openvpn.ovpn") and os.path.exists(self.path + "/" + file + "/pass.txt"):
                 candidatos.append(file);
         index = 0;
-        print("Candidatos para execução: ", candidatos);
         if len(candidatos) > 0:
             index = random.randint(0, len(candidatos) - 1);
+        self.eleito = candidatos[index];
         return self.load(self.path + "/" + candidatos[index]);
 
 def main():

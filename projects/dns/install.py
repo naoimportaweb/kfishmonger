@@ -8,6 +8,7 @@ from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.distro import Distro;
 from api.process import Process;
+from api.log import Log;
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 # Para o debian 11 e posterior: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-Debian-and-Ubuntu#debian-testing-bullseye-debian-unstable-sid
 
@@ -18,6 +19,7 @@ if os.path.exists("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy"):
 # se existe vai direto
 apt = Apt()
 distro = Distro();
+log = Log("dns");
 
 remover = ["/tmp/linux-x86_64", "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" ];
 for arquivo in remover:
@@ -26,11 +28,12 @@ for arquivo in remover:
             shutil.rmtree(arquivo, ignore_errors=True)
         else:
             os.unlink(arquivo);
-#if apt.instaled( "dnscrypt-proxy" ):
-#    apt.purge( "dnscrypt-proxy" );
+            log.info("Removido o arquivo " + arquivo);
 
 process = Process("wget https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
 process.run();
+log.download( "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz", "https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" );
+
 process = Process("mkdir /tmp/linux-x86_64");
 process.run();
 process = Process("tar --strip-components 1 -C /tmp/linux-x86_64/ -xzf /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");

@@ -7,10 +7,14 @@ sys.path.append(ROOT);
 from api.apt import Apt;
 from api.config import Config;
 from api.downloadinstall import DownloadInstall;
+from api.log import Log;
 
 def main():
-    d = DownloadInstall("arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download")
+    log = Log("proxychains");
+    d = DownloadInstall("arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download");
+    log.info("Download de https://sourceforge.net/projects/proxychains-ng/files/latest/download");
     d.make();
+    log.info("Make proxychains 4");
     shutil.copy( d.tmp + "/src/proxychains.conf", "/etc/");
 
     if os.path.exists("/usr/bin/proxychains"):
@@ -28,6 +32,7 @@ def main():
     if config.findattribute("socks5") == None:
         config.addattribute( "socks5 127.0.0.1 9050" );
     config.save();
+    log.info("Arquivo de configuração alterado /etc/proxychains.conf");
 
 if __name__ == "__main__":
     main();

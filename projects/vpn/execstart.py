@@ -16,21 +16,24 @@ sys.path.append(ROOT);
 from api.process import Process;
 from api.distro import Distro;
 from vpn.api.openvpn import Openvpn;
+from api.log import Log;
 
 distro = Distro();
+log = Log("vpn");
 
 def setmac(interface):
     p = Process("sudo ip link set "+ interface +" down"); p.run();
     novo_mac_address = "%02x:%02x:%02x:%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
+    log.info("Novo mac address " + novo_mac_address + " para interface " + interface);
     p = Process("sudo ip link set "+ interface +" address " + novo_mac_address); p.run();
     p = Process("sudo ip link set "+ interface +" up"); p.run();
 
 def main():
-    #directory_username = "/home/"+  distro.user()  +"/";
     directory_username = "/var/kfm/vpn";
     ovpn = Openvpn();
     ovpn.loadrandom();
     ovpn.save();
+    log.info("Será usada a VPN: "+  ovpn.eleito);
 
     path_configuracao = directory_username +"/config.json";
     json_config = {};
@@ -45,7 +48,7 @@ def main():
         if json_config.get("mac") != None:
             for interface in json_config["mac"]:
                 setmac( interface );
-        
+        log.info("VPN será inicializada.");
         command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
         print( p.run() );
