@@ -32,6 +32,7 @@ class Logger(object):
 class Log():
     def __init__(self, name):
         self.file = Logger( name );
+        self.file.info("--------=======++++++++ " + name.upper() + "+++++++========-------");
     def warning(self, message):
         self.file.warning( message );
     def info(self, message):
