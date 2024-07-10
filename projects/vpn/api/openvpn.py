@@ -53,63 +53,68 @@ class Openvpn():
         return [];
 
     def load(self, path):
-        self.ovpn_lines = open(path + "/openvpn.ovpn", "r").readlines();
-        for i in range(len(self.ovpn_lines)):
-            self.ovpn_lines[i] = self.ovpn_lines[i].strip();
-        # procurar por: remote kkkkkkkk.com.br NUMBER e fazer a traducao por IP.
-        for i in range(len(self.ovpn_lines)):
-            if self.ovpn_lines[i].find("ncp-disable") >= 0:
-                self.ovpn_lines[i] = "#ncp-disable";
-                continue;
-            if self.ovpn_lines[i][:len("remote ")] == "remote ":
-                partes = self.ovpn_lines[i].split(" ");
-                if len(partes) < 2:
+        try:
+            self.ovpn_lines = open(path + "/openvpn.ovpn", "r").readlines();
+            for i in range(len(self.ovpn_lines)):
+                self.ovpn_lines[i] = self.ovpn_lines[i].strip();
+            # procurar por: remote kkkkkkkk.com.br NUMBER e fazer a traducao por IP.
+            for i in range(len(self.ovpn_lines)):
+                if self.ovpn_lines[i].find("ncp-disable") >= 0:
+                    self.ovpn_lines[i] = "#ncp-disable";
                     continue;
-                ip = self.__cut_ip__(partes[1]);
-                if ip == None: # pode ser um dominio, exemplo: server1vpn.proton.net
-                    buffer_ips_traduzidos = self.__translate_domain__(partes[1]);
-                    if len(buffer_ips_traduzidos) > 0:
-                        ip = buffer_ips_traduzidos[0];
-                if ip != None:
-                    self.ovpn_lines[i] = "remote " + ip + " " + partes[2];
-        # agora colocar caminho fixo para os certificados
-        ca_path = None;
-        key_path = None;
-        cert_path = None;
+                if self.ovpn_lines[i][:len("remote ")] == "remote ":
+                    partes = self.ovpn_lines[i].split(" ");
+                    if len(partes) < 2:
+                        continue;
+                    ip = self.__cut_ip__(partes[1]);
+                    if ip == None: # pode ser um dominio, exemplo: server1vpn.proton.net
+                        buffer_ips_traduzidos = self.__translate_domain__(partes[1]);
+                        if len(buffer_ips_traduzidos) > 0:
+                            ip = buffer_ips_traduzidos[0];
+                    if ip != None:
+                        self.ovpn_lines[i] = "remote " + ip + " " + partes[2];
+            # agora colocar caminho fixo para os certificados
+            ca_path = None;
+            key_path = None;
+            cert_path = None;
 
-        for i in range(len(self.ovpn_lines)):
-            if self.ovpn_lines[i][:len("ca ")] == "ca ":
-                partes = self.ovpn_lines[i].split(" ");
-                if partes[1].find("/") == 0:
-                    ca_path = partes[1];
-                else:
-                    self.ovpn_lines[i] = "ca /var/kfm/vpn/ca.crt";
-                    ca_path = path + "/" + partes[1];
-        for i in range(len(self.ovpn_lines)):
-            if self.ovpn_lines[i][:len("cert ")] == "cert ":
-                partes = self.ovpn_lines[i].split(" ");
-                if partes[1].find("/") == 0:
-                    cert_path =  partes[1];
-                else:
-                    self.ovpn_lines[i] = "cert /var/kfm/vpn/client.crt";
-                    cert_path = path + "/" + partes[1];
-        for i in range(len(self.ovpn_lines)):
-            if self.ovpn_lines[i][:len("key ")] == "key ":
-                partes = self.ovpn_lines[i].split(" ");
-                if partes[1].find("/") == 0:
-                    key_path = partes[1];
-                else:
-                    self.ovpn_lines[i] = "key /var/kfm/vpn/client.key";
-                    key_path = path + "/" + partes[1];
-        if ca_path != None:
-            if ca_path != "/var/kfm/vpn/ca.crt":
-                shutil.copy(ca_path, "/var/kfm/vpn/ca.crt");
-            if key_path != "/var/kfm/vpn/client.key":
-                shutil.copy(key_path, "/var/kfm/vpn/client.key");
-            if cert_path != "/var/kfm/vpn/client.crt":
-                shutil.copy(cert_path, "/var/kfm/vpn/client.crt");
-        if os.path.exists(path + "/pass.txt"):
-            shutil.copy(path + "/pass.txt", "/var/kfm/vpn/pass.txt");
+            for i in range(len(self.ovpn_lines)):
+                if self.ovpn_lines[i][:len("ca ")] == "ca ":
+                    partes = self.ovpn_lines[i].split(" ");
+                    if partes[1].find("/") == 0:
+                        ca_path = partes[1];
+                    else:
+                        self.ovpn_lines[i] = "ca /var/kfm/vpn/ca.crt";
+                        ca_path = path + "/" + partes[1];
+            for i in range(len(self.ovpn_lines)):
+                if self.ovpn_lines[i][:len("cert ")] == "cert ":
+                    partes = self.ovpn_lines[i].split(" ");
+                    if partes[1].find("/") == 0:
+                        cert_path =  partes[1];
+                    else:
+                        self.ovpn_lines[i] = "cert /var/kfm/vpn/client.crt";
+                        cert_path = path + "/" + partes[1];
+            for i in range(len(self.ovpn_lines)):
+                if self.ovpn_lines[i][:len("key ")] == "key ":
+                    partes = self.ovpn_lines[i].split(" ");
+                    if partes[1].find("/") == 0:
+                        key_path = partes[1];
+                    else:
+                        self.ovpn_lines[i] = "key /var/kfm/vpn/client.key";
+                        key_path = path + "/" + partes[1];
+            if ca_path != None:
+                if ca_path != "/var/kfm/vpn/ca.crt":
+                    shutil.copy(ca_path, "/var/kfm/vpn/ca.crt");
+                if key_path != "/var/kfm/vpn/client.key":
+                    shutil.copy(key_path, "/var/kfm/vpn/client.key");
+                if cert_path != "/var/kfm/vpn/client.crt":
+                    shutil.copy(cert_path, "/var/kfm/vpn/client.crt");
+            if os.path.exists(path + "/pass.txt"):
+                shutil.copy(path + "/pass.txt", "/var/kfm/vpn/pass.txt");
+            return True;
+        except:
+            traceback.print_exc();
+            return False;
 
     def save(self):    
         with open("/var/kfm/vpn/openvpn.ovpn","w" ) as f:
@@ -126,7 +131,9 @@ class Openvpn():
             if os.path.isdir( self.path + "/" + file) and os.path.exists(self.path + "/" + file + "/openvpn.ovpn") and os.path.exists(self.path + "/" + file + "/pass.txt"):
                 candidatos.append(file);
         index = 0;
-        if len(candidatos) > 0:
+        if len(candidatos) == 0:
+            return False; # nao temos VPN para nos conectar.
+        if len(candidatos) > 1: # se tiver mais de 1, ai vamos randomizar.
             index = random.randint(0, len(candidatos) - 1);
         self.eleito = candidatos[index];
         return self.load(self.path + "/" + candidatos[index]);
