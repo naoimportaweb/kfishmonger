@@ -14,7 +14,7 @@ log = Log("vpn");
 
 def setmac(interface):
     p = Process("sudo ip link set "+ interface +" down"); p.run();
-    novo_mac_address = "%02x:%02x:%02x:%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
+    novo_mac_address = "28:%02x:%02x:%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
     log.info("Novo mac address " + novo_mac_address + " para interface " + interface);
     p = Process("sudo ip link set "+ interface +" address " + novo_mac_address); p.run();
     p = Process("sudo ip link set "+ interface +" up"); p.run();
