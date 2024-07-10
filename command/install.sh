@@ -54,6 +54,7 @@ instaledpackage(){
     fi
 }
 
+echo '[+] Atualizando o sisetma para instalação'
 apt update -y &> /dev/null
 apt upgrade -y &> /dev/null
 packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables")
@@ -73,7 +74,20 @@ done
 for str in ${packages[@]}; do
     if ! instaledpackage ${str} ; then
         if existspackage ${str} ; then
+            echo '[+] Instalação do pacote ${str}'
             apt install ${str} -y &> /dev/null
+        fi
+    fi
+done
+
+# após a instalacao, vamos fazer uma força bruta d etestes
+for str in ${packages[@]}; do
+    if instaledpackage ${str} ; then
+        echo "[.] Já possui ${str};"
+    else
+        if ! existspackage ${str} ; then
+            echo "O pacote ${str} não existe. Por isso não pode ser instalado. Consulte manual de sua distribuição ou instale manualmente"
+            exit 1
         fi
     fi
 done
@@ -82,10 +96,15 @@ touch /etc/pip.conf
 echo '[global]' > /etc/pip.conf
 echo 'break-system-packages = true' >> /etc/pip.conf
 
+echo '[+] Instalando por PIP netifaces'
 pip3 install netifaces &> /dev/null
+echo '[+] Instalando por PIP psutil'
 pip3 install psutil &> /dev/null
+echo '[+] Instalando por PIP pycryptodome'
 pip3 install pycryptodome &> /dev/null
+echo '[+] Instalando por PIP Pysocks'
 pip3 install Pysocks &> /dev/null
+echo '[+] Instalando por PIP socks'
 pip3 install socks &> /dev/null
 
 if [ -L ${DIR} ] ; then
