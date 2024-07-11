@@ -70,7 +70,7 @@ instaledpackage(){
     fi
 }
 
-echo '[+] Atualizando o sisetma para instalação'
+echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
 apt update -y &> /dev/null
 apt upgrade -y &> /dev/null
 packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables")
