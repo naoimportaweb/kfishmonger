@@ -42,6 +42,9 @@ def main():
                 install_project( args.project );
             else:
                 install_sub_project( args.project, args.sub  );
+    elif args.command == "update":
+        p = Process("/bin/bash /opt/kfishmonger/command/update.sh");
+        p.run();
     else:
         command(args.project, args.command);
 

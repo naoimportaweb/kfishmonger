@@ -1,4 +1,4 @@
-import sys, os, shutil, inspect, random, json;
+import sys, os, shutil, inspect, random, json, time;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
@@ -12,9 +12,30 @@ from api.log import Log;
 distro = Distro();
 log = Log("vpn");
 
-def setmac(interface):
+def random_bytes(num=6):
+    return [random.randrange(256) for _ in range(num)]
+
+def generate_mac(uaa=False, multicast=False, oui=None, separator=':', byte_fmt='%02x'):
+    mac = random_bytes()
+    if oui:
+        if type(oui) == str:
+            oui = [int(chunk) for chunk in oui.split(separator)]
+        mac = oui + random_bytes(num=6-len(oui))
+    else:
+        if multicast:
+            mac[0] |= 1 # set bit 0
+        else:
+            mac[0] &= ~1 # clear bit 0
+        if uaa:
+            mac[0] &= ~(1 << 1) # clear bit 1
+        else:
+            mac[0] |= 1 << 1 # set bit 1
+    return separator.join(byte_fmt % b for b in mac)
+
+# LISTA DE POSSÍVEIS MAC: https://gist.github.com/NullArray/0380871a42b608830357f998df735e71
+def setmac(interface, oui_default="08:00:27"):
     p = Process("sudo ip link set "+ interface +" down"); p.run();
-    novo_mac_address = "28:%02x:%02x:%02x:%02x:%02x" % ( random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
+    novo_mac_address = generate_mac(oui=oui_default);
     log.info("Novo mac address " + novo_mac_address + " para interface " + interface);
     p = Process("sudo ip link set "+ interface +" address " + novo_mac_address); p.run();
     p = Process("sudo ip link set "+ interface +" up"); p.run();
@@ -42,7 +63,11 @@ def main():
         path_password = directory_username +"/pass.txt";
         if json_config.get("mac") != None:
             for interface in json_config["mac"]:
-                setmac( interface );
+                oui = None;
+                if json_config.get("oui") != None:
+                    oui = json_config["oui"][ random.randint(0, len(json_config["oui"]) - 1 ) ];
+                setmac( interface, oui_default=oui );
+                time.sleep(5);
         log.info("VPN será inicializada em poucos segundos.");
         command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
