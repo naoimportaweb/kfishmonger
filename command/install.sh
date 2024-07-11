@@ -6,12 +6,24 @@ if [ "$EUID" -ne 0 ]
 fi
 
 DIR=/opt/kfishmonger
-printf "Se deseja instalar a versão estável digite (e), caso queira instalar a versão teste digite (t):"
-read OPCAO
-if [ $OPCAO = "e" ] ; then
-    URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
+
+auto=0
+for i; do 
+   if [ $i = "-y" ] ; then
+      auto=1
+   fi 
+done
+
+if [ $auto -eq 1 ] ; then
+    URL=`cat /var/kfm/data/url.txt`
 else
-    URL='https://codeload.github.com/naoimportaweb/kfishmonger/zip/refs/heads/main'
+    printf "Se deseja instalar a versão estável digite (e), caso queira instalar a versão teste digite (t):"
+    read OPCAO
+    if [ $OPCAO = "e" ] ; then
+        URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
+    else
+        URL='https://codeload.github.com/naoimportaweb/kfishmonger/zip/refs/heads/main'
+    fi
 fi
 
 install(){
@@ -32,6 +44,8 @@ install(){
         chmod +x ${DIR}/command/kfm.sh
         ln -s ${DIR}/command/kfm.sh /bin/kfm
         /bin/kfm -c install
+        #salvar a URL como a ultima opção, vou fazer aqui em baixo pois sei que o processo de instalaçao acontecue.
+        echo $URL > "/var/kfm/data/url.txt";
 }
 
 existspackage(){
@@ -118,13 +132,21 @@ if [ ! -d "/var/kfm/" ] ; then
     mkdir "/var/kfm/"
 fi
 
+if [ ! -d "/var/kfm/data/" ] ; then
+    mkdir "/var/kfm/data/"
+fi
+
 if [ -d ${DIR} ] ; then
-    echo 'O diretório já existe, deseja continuar (y|n)?:'
-    read OPCAO
-    if [ $OPCAO = "y" ] ; then
+    if [ $auto -eq 1 ] ; then
         install
     else
-        exit 0
+        echo 'O diretório já existe, deseja continuar (y|n)?:'
+        read OPCAO
+        if [ $OPCAO = "y" ] ; then
+            install
+        else
+            exit 0
+        fi
     fi
 else
     mkdir ${DIR}
