@@ -6,23 +6,24 @@ sys.path.append(ROOT);
 
 from api.log import Log;
 from vpn.api.routers import Routers;
+from api.config_project import ConfigProject;
 
 routers = Routers();
 log = Log("vpn");
 log.info("Ligando o kill");
+config = ConfigProject("vpn", log=log);
+config.load();
 
-path_configuracao = "/var/kfm/vpn/config.json";
-json_config = {};
-if os.path.exists(path_configuracao):
-    json_config = json.loads( open(path_configuracao).read() );
+#path_configuracao = "/var/kfm/vpn/config.json";
+#json_config = {};
+#if os.path.exists(path_configuracao):
+#    json_config = json.loads( open(path_configuracao).read() );
 
-if json_config.get("kill") == True:
-    if json_config.get("gateway") != None:
-        routers.kill(json_config["gateway"]);
+if config.kill == True:
+    if config.gateway != None:
+        routers.kill( config.gateway );
         log.info("Removido a regra default.");
     else:
-        print("Nao foi possivel, voce deve configurar um Gateway. Conforme documentacao oficial.");
         log.error("Nao foi possivel, voce deve configurar um Gateway. Conforme documentacao oficial.");
 else:
-    print("Nao foi possivel, voce deve configurar a chave kill com valor true. Conforme documentacao oficial.");
     log.error("Nao foi possivel, voce deve configurar a chave kill com valor true. Conforme documentacao oficial.");
