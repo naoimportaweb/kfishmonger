@@ -19,6 +19,6 @@ class ConfigProject():
             if js_var.get( key ) == None:
                 js_var[key] = js_opt[key];
         with open("/var/kfm/" + self.project + "/config.json","w") as f:
-            f.write( json.dumps( json_var ) );
+            f.write( json.dumps( js_var ) );
             if self.log != None:
                 self.log.info("Configuração salva em: /var/kfm/" + self.project + "/config.json");
