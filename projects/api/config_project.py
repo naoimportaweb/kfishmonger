@@ -14,11 +14,11 @@ class ConfigProject():
         if os.path.exists( "/opt/kfishmonger/projects/" + self.project + "/resources/config.json" ):
             js_opt = json.loads(open("/opt/kfishmonger/projects/" + self.project + "/resources/config.json","r").read());
         if os.path.exists("/var/kfm/" + self.project + "/resources/config.json"):
-            js_var = json.loads(open("/var/kfm/" + self.project + "/resources/config.json","r").read());
+            js_var = json.loads(open("/var/kfm/" + self.project + "/config.json","r").read());
         for key in js_opt:
             if js_var.get( key ) == None:
                 js_var[key] = js_opt[key];
-        with open("/var/kfm/" + self.project + "/resources/config.json","w") as f:
+        with open("/var/kfm/" + self.project + "/config.json","w") as f:
             f.write( json.dumps( json_var ) );
             if self.log != None:
-                self.log.info("Configuração salva em: /var/kfm/" + self.project + "/resources/config.json");
+                self.log.info("Configuração salva em: /var/kfm/" + self.project + "/config.json");
