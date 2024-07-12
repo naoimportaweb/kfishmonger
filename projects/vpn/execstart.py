@@ -16,21 +16,25 @@ def random_bytes(num=6):
     return [random.randrange(256) for _ in range(num)]
 
 def generate_mac(uaa=False, multicast=False, oui=None, separator=':', byte_fmt='%02x'):
-    mac = random_bytes()
-    if oui:
-        if type(oui) == str:
-            oui = [int(chunk) for chunk in oui.split(separator)]
-        mac = oui + random_bytes(num=6-len(oui))
+    if oui != None:
+        return  oui + ":%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
     else:
-        if multicast:
-            mac[0] |= 1 # set bit 0
-        else:
-            mac[0] &= ~1 # clear bit 0
-        if uaa:
-            mac[0] &= ~(1 << 1) # clear bit 1
-        else:
-            mac[0] |= 1 << 1 # set bit 1
-    return separator.join(byte_fmt % b for b in mac)
+        return "%02x:%02x:%02x:%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
+    #mac = random_bytes()
+    #if oui:
+    #    if type(oui) == str:
+    #        oui = [int(chunk) for chunk in oui.split(separator)]
+    #    mac = oui + random_bytes(num=6-len(oui))
+    #else:
+    #    if multicast:
+    #        mac[0] |= 1 # set bit 0
+    #    else:
+    #        mac[0] &= ~1 # clear bit 0
+    #    if uaa:
+    #        mac[0] &= ~(1 << 1) # clear bit 1
+    #    else:
+    #        mac[0] |= 1 << 1 # set bit 1
+    #return separator.join(byte_fmt % b for b in mac)
 
 # LISTA DE POSSÍVEIS MAC: https://gist.github.com/NullArray/0380871a42b608830357f998df735e71
 def setmac(interface, oui_default="08:00:27"):

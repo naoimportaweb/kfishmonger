@@ -44,8 +44,8 @@ class Systemctl:
         output = p.stdout;
         for linha in output:
             if linha.find("Active: active") >= 0:
-                if log != None:
-                    log.info("O serviço " + self.service + " está ATIVO.");
+                if self.log != None:
+                    self.log.info("O serviço " + self.service + " está ATIVO.");
                 return True;
         return False;
     
@@ -54,8 +54,8 @@ class Systemctl:
         output = p.stdout;
         for linha in output:
             if linha.find("(running)") >= 0:
-                if log != None:
-                    log.info("O serviço " + self.service + " está sendo EXECUTADO.");
+                if self.log != None:
+                    self.log.info("O serviço " + self.service + " está sendo EXECUTADO.");
                 return True;
         return False;
 

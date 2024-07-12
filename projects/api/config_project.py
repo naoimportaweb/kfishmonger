@@ -6,8 +6,8 @@ class ConfigProject():
         self.project = project;
         if not os.path.exists("/var/kfm/" + self.project):
             os.makedirs("/var/kfm/" + self.project);
-            if log != None:
-                log.info("Criando o diretório /var/kfm/" + self.project);
+            if self.log != None:
+                self.log.info("Criando o diretório /var/kfm/" + self.project);
     def copy(self):
         js_opt = {};
         js_var = {};
@@ -20,5 +20,5 @@ class ConfigProject():
                 js_var[key] = js_opt[key];
         with open("/var/kfm/" + self.project + "/resources/config.json","w") as f:
             f.write( json.dumps( json_var ) );
-            if log != None:
-                log.info("Configuração salva em: /var/kfm/" + self.project + "/resources/config.json");
+            if self.log != None:
+                self.log.info("Configuração salva em: /var/kfm/" + self.project + "/resources/config.json");

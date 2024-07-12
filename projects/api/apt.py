@@ -8,8 +8,8 @@ class Apt:
         self.log = log;
     def install(self, package):
         check_call(['apt', 'install', package, '-y'], stdout=open(os.devnull,'wb'), stderr=STDOUT);
-        if log != None:
-            log.info("Instalando pacote " + package + " com APT.");
+        if self.log != None:
+            self.log.info("Instalando pacote " + package + " com APT.");
     
     def exists(self, package):
         p = Process("apt-cache show " + package);
