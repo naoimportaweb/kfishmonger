@@ -8,6 +8,7 @@ class ConfigProject():
             os.makedirs("/var/kfm/" + self.project);
             if self.log != None:
                 self.log.info("Criando o diretório /var/kfm/" + self.project);
+    
     def copy(self):
         js_opt = {};
         js_var = {};
@@ -22,3 +23,15 @@ class ConfigProject():
             f.write( json.dumps( js_var ) );
             if self.log != None:
                 self.log.info("Configuração salva em: /var/kfm/" + self.project + "/config.json");
+
+    def load(self):
+        js_var = json.loads(open("/var/kfm/" + self.project + "/config.json","r").read());
+        for key in js_var:
+            setattr(self, key, js_var[key]);
+        
+def main():
+    c = ConfigProject("vpn");
+    c.load();
+    print( c.oui );
+if __name__ == "__main__":
+    main();
