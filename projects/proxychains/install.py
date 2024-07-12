@@ -8,9 +8,12 @@ from api.apt import Apt;
 from api.config import Config;
 from api.downloadinstall import DownloadInstall;
 from api.log import Log;
+from api.config_project import ConfigProject
 
 def main():
     log = Log("proxychains");
+    config_project = ConfigProject("proxychains", log=log);
+    config_project.copy();
     d = DownloadInstall("arquivo.tar.xz", "https://sourceforge.net/projects/proxychains-ng/files/latest/download");
     log.info("Download de https://sourceforge.net/projects/proxychains-ng/files/latest/download");
     d.make();

@@ -4,8 +4,12 @@ from subprocess import STDOUT, check_call;
 from .process import Process;
 
 class Apt:
+    def __init__(self, log=None):
+        self.log = log;
     def install(self, package):
         check_call(['apt', 'install', package, '-y'], stdout=open(os.devnull,'wb'), stderr=STDOUT);
+        if log != None:
+            log.info("Instalando pacote " + package + " com APT.");
     
     def exists(self, package):
         p = Process("apt-cache show " + package);

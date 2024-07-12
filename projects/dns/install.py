@@ -9,17 +9,22 @@ from api.systemctl import Systemctl;
 from api.distro import Distro;
 from api.process import Process;
 from api.log import Log;
+from api.config_project import ConfigProject;
+
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 # Para o debian 11 e posterior: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-Debian-and-Ubuntu#debian-testing-bullseye-debian-unstable-sid
+log = Log("dns");
 
 if os.path.exists("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy"):
     print("Já está instalado.");
     #sys.exit(0);
 
 # se existe vai direto
-apt = Apt()
+apt = Apt(log=log)
 distro = Distro();
-log = Log("dns");
+
+config_project = ConfigProject("dns", log=log);
+config_project.copy();
 
 remover = ["/tmp/linux-x86_64", "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" ];
 for arquivo in remover:

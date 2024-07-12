@@ -7,13 +7,20 @@ sys.path.append(ROOT);
 from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.torrc import Torrc;
-
+from api.config_project import ConfigProject
+from api.log import Log;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-apt = Apt()
+log = Log("vpn");
+apt = Apt(log=log)
 apt.install("tor");
 
 # =========== COPIA DE RESOURCES ==========================
+
+# =========== ARQUIVO DE CONFIGURAÇAO DO SERVIÇO ==========================
+
+config_project = ConfigProject("tor", log=log);
+config_project.copy();
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 ctl = Systemctl("tor.service");

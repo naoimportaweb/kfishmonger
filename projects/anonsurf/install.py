@@ -4,6 +4,13 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
+from api.log import Log;
+from api.config_project import ConfigProject
+
+log = Log("anonsurf");
+config_project = ConfigProject("anonsurf", log=log);
+config_project.copy();
+
 def main():
     os.symlink("/opt/kfishmonger/projects/anonsurf/resources/anonsurf.sh", "/bin/anonsurf")
     st = os.stat('/opt/kfishmonger/projects/anonsurf/resources/anonsurf.sh')

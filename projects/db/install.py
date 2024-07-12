@@ -6,7 +6,9 @@ sys.path.append(ROOT);
 
 #from api.apt import Apt;
 from api.systemctl import Systemctl;
-#from api.pip import Pip;
+from api.log import Log;
+from api.config_project import ConfigProject;
+log = Log("db");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 
 DIR_VAR = "/var/kfm";
@@ -17,6 +19,8 @@ if not os.path.exists(DIR_VAR):
     os.makedirs(DIR_VAR);
 
 # =========== COPIA DE RESOURCES ==========================
+config_project = ConfigProject("db", log=log);
+config_project.copy();
 
 shutil.copy( CURRENTDIR + "/resources/kfm_db.service", "/etc/systemd/system/");
 

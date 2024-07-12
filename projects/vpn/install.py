@@ -10,15 +10,17 @@ from api.config import Config;
 from api.process import Process;
 from api.distro import Distro;
 from api.log import Log;
+from api.config_project import ConfigProject
 
 distro = Distro();
 log = Log("vpn");
-apt = Apt()
+apt = Apt(log=log)
 
 directory_username = "/home/"+  distro.user()  +"/";
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 apt.install("openvpn");
+
 # =========== COPIA DE RESOURCES ==========================
 shutil.copy( CURRENTDIR + "/resources/vpn.service", "/etc/systemd/system/");
 
@@ -27,11 +29,17 @@ config.open();
 config.replace("{LOGNAME}", distro.user() );
 config.save();
 
+# =========== CRIANDO DIRETORIOS ==========================
 if not os.path.exists("/var/kfm/vpn"):
     os.makedirs("/var/kfm/vpn");
     log.info("Criando o diretório /var/kfm/vpn");
 
+# =========== ARQUIVO DE CONFIGURAÇAO DO SERVIÇO ==========================
 
+config_project = ConfigProject("vpn", log=log);
+config_project.copy();
+
+# =========== IMPORTANDO VERSÃO ANTIGA DA VPN ==========================
 if os.path.exists( directory_username + "/.vpn" ):
     files = os.listdir(directory_username + "/.vpn/");
     for item in files:

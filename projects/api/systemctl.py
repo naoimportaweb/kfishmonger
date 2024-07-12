@@ -4,7 +4,8 @@ import subprocess;
 from .process import Process;
 
 class Systemctl:
-    def __init__(self, service):
+    def __init__(self, service, log=None):
+        self.log = log;
         self.service = service;
     def exists(self):
         try:
@@ -43,6 +44,8 @@ class Systemctl:
         output = p.stdout;
         for linha in output:
             if linha.find("Active: active") >= 0:
+                if log != None:
+                    log.info("O serviço " + self.service + " está ATIVO.");
                 return True;
         return False;
     
@@ -51,6 +54,8 @@ class Systemctl:
         output = p.stdout;
         for linha in output:
             if linha.find("(running)") >= 0:
+                if log != None:
+                    log.info("O serviço " + self.service + " está sendo EXECUTADO.");
                 return True;
         return False;
 

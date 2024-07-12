@@ -1,5 +1,11 @@
 #!/bin/bash
 
+export BLUE='\033[1;94m'
+export GREEN='\033[1;92m'
+export RED='\033[1;91m'
+export RESETCOLOR='\033[1;00m'
+
+
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root/Por favor, execute como root"
   exit
@@ -17,7 +23,11 @@ done
 if [ $auto -eq 1 ] ; then
     URL=`cat /var/kfm/data/url.txt`
 else
-    printf "Se deseja instalar a versão estável digite (e), caso queira instalar a versão teste digite (t):"
+    #printf "Se deseja instalar a versão estável digite (e), caso queira instalar a versão teste digite (t):"
+    echo -e "\n\n $BLUE Temos dois repositórios, são estes: $RESETCOLOR"
+    echo -e "  -$GREEN Repositório estável,$RESETCOLOR para instalar a versão estável digite e. É a recomendada."
+    echo -e "  -$RED Repositório de testes,$RESETCOLOR para instalar a versão teste digite t. É a versão de testes de novas funcionalidades."
+    printf "  Qual a$BLUE opção: $RESETCOLOR"
     read OPCAO
     if [ $OPCAO = "e" ] ; then
         URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'

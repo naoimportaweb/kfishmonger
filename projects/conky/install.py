@@ -6,6 +6,12 @@ sys.path.append(ROOT);
 
 from api.distro import Distro;
 from api.process import Process;
+from api.log import Log;
+from api.config_project import ConfigProject;
+
+log = Log("conky");
+config_project = ConfigProject("conky", log=log);
+config_project.copy();
 
 def main():
     # FIND BY INSTALL SCRIPT
