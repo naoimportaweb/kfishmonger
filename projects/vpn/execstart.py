@@ -8,9 +8,12 @@ from api.process import Process;
 from api.distro import Distro;
 from vpn.api.openvpn import Openvpn;
 from api.log import Log;
+from api.config_project import ConfigProject;
 
 distro = Distro();
 log = Log("vpn");
+config = ConfigProject("vpn", log=log);
+config.load();
 
 def random_bytes(num=6):
     return [random.randrange(256) for _ in range(num)]
@@ -53,25 +56,27 @@ def main():
     ovpn.save();
     log.info("Será usada a VPN: "+  ovpn.eleito);
 
-    path_configuracao = directory_username +"/config.json";
-    json_config = {};
+    #path_configuracao = directory_username +"/config.json";
+    #json_config = {};
 
-    if os.path.exists(path_configuracao):
-        log.info("Existe um arquivo de configuração extra para a VPN.");
-        json_config = json.loads( open(path_configuracao).read() );
-    else:
-        log.info("NÃO Existe um arquivo de configuração extra para a VPN.");
+    #if os.path.exists(path_configuracao):
+    #    log.info("Existe um arquivo de configuração extra para a VPN.");
+    #    json_config = json.loads( open(path_configuracao).read() );
+    #else:
+    #    log.info("NÃO Existe um arquivo de configuração extra para a VPN.");
 
     
     if os.path.exists(directory_username +"/openvpn.ovpn"):
         path_password = directory_username +"/pass.txt";
-        if json_config.get("mac") != None:
-            for interface in json_config["mac"]:
+        if len(config.mac) > 0:
+            for interface in config.mac:
                 oui = None;
-                if json_config.get("oui") != None:
-                    oui = json_config["oui"][ random.randint(0, len(json_config["oui"]) - 1 ) ];
+                if len(config.oui) > 0:
+                    oui = config.oui[ random.randint(0, len(config.oui) - 1 ) ];
+                else:
+                    oui = "08:00:27";
                 setmac( interface, oui_default=oui );
-                time.sleep(5);
+                time.sleep(1);
         log.info("VPN será inicializada em poucos segundos.");
         command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
