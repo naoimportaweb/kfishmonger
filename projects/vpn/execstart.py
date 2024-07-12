@@ -20,7 +20,7 @@ def random_bytes(num=6):
 
 def generate_mac(uaa=False, multicast=False, oui=None, separator=':', byte_fmt='%02x'):
     if oui != None:
-        return  oui + ":%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
+        return  oui + ":%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
     else:
         return "%02x:%02x:%02x:%02x:%02x:%02x" % (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255) );
     #mac = random_bytes()

@@ -44,7 +44,11 @@ def main():
                 install_sub_project( args.project, args.sub  );
     elif args.command == "update":
         p = Process("/bin/bash /opt/kfishmonger/command/update.sh");
-        p.run();
+        print(p.run());
+    elif args.command == "log":
+        path_log = "/var/kfm/log/" + args.project + ".log";
+        if os.path.exists( path_log ):
+            print( open( path_log , "r").read() );
     else:
         command(args.project, args.command);
 
