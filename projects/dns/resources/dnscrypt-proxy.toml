@@ -1,6 +1,15 @@
-# Empty listen_addresses to use systemd socket activation
+# IP:Porta do serviço local
 listen_addresses = ['127.0.2.1:53']
+
+# Resolvedores de nomes, uma lista  completa pode ser localizada em: 
 server_names = ['cloudflare']
+
+# Habilitando socks5 TOR
+proxy = 'socks5://127.0.0.1:9050'
+
+# Lista de domínios bloqueados no resolvedor de nomes
+[blocked_names]
+    blocked_names_file = '/var/kfm/dns/blocked-names.txt'
 
 [query_log]
   file = '/var/log/dnscrypt-proxy/query.log'
