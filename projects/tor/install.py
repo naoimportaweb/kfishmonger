@@ -9,6 +9,7 @@ from api.systemctl import Systemctl;
 from api.torrc import Torrc;
 from api.config_project import ConfigProject
 from api.log import Log;
+from CONST import *;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 log = Log("vpn");
@@ -30,14 +31,14 @@ ctl.stop();
 # Tem que alterar o arquivo /etc/tor/torrc
 torrc = Torrc();
 torrc.runasdaemon();
-torrc.tunnelport(9051);
+torrc.tunnelport(   port=TOR_HTTP_TUNNEL  );
 torrc.exclude14eyes();
 torrc.virtualnetwork();
-torrc.trasnport();
+torrc.trasnport(    port=TOR_TRANSPORT_PORT );
 torrc.hostsonresolve();
-torrc.socksport();
+torrc.socksport(    port=TOR_SOCKS_5_PORT );
 torrc.dnsport();
-torrc.save();
+torrc.save(         port=TOR_DNS_PORT);
 
 ctl.start();
 ctl.enable();

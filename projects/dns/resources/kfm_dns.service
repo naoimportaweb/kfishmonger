@@ -3,8 +3,7 @@ Description=Json Service
 After=network.target
 
 [Service]
-ExecStart=python3 /opt/kfishmonger/projects/dns/start.py
-ExecStop=python3 /opt/kfishmonger/projects/dns/stop.py
+ExecStart=python3 /opt/kfishmonger/projects/dns/execstart.py
 
 [Install]
 WantedBy=graphical.target

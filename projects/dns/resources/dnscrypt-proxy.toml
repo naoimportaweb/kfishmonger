@@ -1,11 +1,11 @@
 # IP:Porta do serviço local
-listen_addresses = ['127.0.2.1:53']
+listen_addresses = ['127.0.2.1:DNS_LISTEN_PORT']
 
 # Resolvedores de nomes, uma lista  completa pode ser localizada em: 
-server_names = ['cloudflare']
+server_names = ['SERVER_NAME']
 
 # Habilitando socks5 TOR
-proxy = 'socks5://127.0.0.1:9050'
+proxy = 'TOR_SOCKS_5'
 
 # Lista de domínios bloqueados no resolvedor de nomes
 [blocked_names]

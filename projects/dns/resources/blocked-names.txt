@@ -25,12 +25,35 @@ oascentral.*        # inline comments are allowed after a pound sign
 stats.*
 tag.*
 telemetry.*
+*telemetry*
 tracker.*
 *.local
 eth0.me
 *.workgroup
-*.uol.com.br
-*.globo.com
+*.uol.com.br*
+*.globo.com*
+
+## TELEMETRY BROWSER ##
+*mozilla.org*
+*detectportal.firefox.com*
+*cnd.mullvad.net*
+*statically.io*
+*pgl.yoyo.org*
+*curbengh.github.io*
+*about.gitlab.com*
+*jsdelivr.com*
+*variations.brave.com*
+*p3a-json.brave.com*
+*star-randsrv.bsg.brave.com*
+*safebrowsing.brave.com*
+*go-updater.brave.com*
+*clientservices.googleapis.com*
+*update.googleapis.com*
+*optimizationguide-pa.googleapis.com*
+*gvt3.com*
+*gvt2.com*
+*gvt1.com*
+*safebrowsing.googleapis.com*
 
 ## Prevent usage of Apple private relay, that bypasses DNS
 

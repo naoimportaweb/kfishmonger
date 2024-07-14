@@ -1,3 +1,4 @@
 {
-    "execute" : true
+    "execute" : true,
+    "server_name" : "cloudflare"
 }

@@ -48,12 +48,11 @@ process = Process("mkdir /etc/dnscrypt-proxy");
 process.run();
 process = Process("cp -r /tmp/linux-x86_64/ /etc/dnscrypt-proxy/");
 process.run();
-#process = Process("cp /etc/dnscrypt-proxy/linux-x86_64/example-dnscrypt-proxy.toml /etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy.toml");
-#process.run();
 
 shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
-shutil.copy( CURRENTDIR + "/resources/dnscrypt-proxy.toml", "/etc/dnscrypt-proxy/linux-x86_64/");
-shutil.copy( CURRENTDIR + "/resources/blocked-names.txt", "/var/kfm/dns/");
+
+if not os.path.exists("/var/kfm/dns/blocked-names.txt"):
+    shutil.copy( CURRENTDIR + "/resources/blocked-names.txt", "/var/kfm/dns/");
 
 ctl = Systemctl("kfm_dns.service");
 ctl.reload();

@@ -19,7 +19,7 @@ def main():
         except:
             traceback.print_exc();
         finally:
-            time.sleep(60);
+            time.sleep(30);
 
 if __name__ == "__main__":
     main();

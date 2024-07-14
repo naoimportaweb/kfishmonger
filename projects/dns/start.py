@@ -1,32 +1,29 @@
-import sys, os, inspect, traceback, time;
+import sys, os, inspect;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.log import Log;
-from api.process import Process;
+from api.systemctl import Systemctl;
 from api.resolv import Resolv;
-from api.config_project import ConfigProject;
+from api.process import Process;
+from CONST import *;
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
+#ctl = Systemctl("kfm_dns.service");
 
-log = Log("dns");
-config = ConfigProject("dns", log=log);
-config.load();
-if config.execute:
-    while True:
-        try:
-            process = Process("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy -config /etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy.toml");
-            if not process.exists():
-                log.info("Será iniciado o serviço: /etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy");
-                process.run();
-            else:
-                log.info("Já está em execução.");
-                print("Processo em execucao.");
-        except KeyboardInterrupt:
-            sys.exit(0);
-        except:
-            traceback.print_exc();
-        time.sleep(60);
-else:
-    log.info("A execução do DNS está desabilitado. Consulte o manual.");
+r = Resolv();
+r.clear();
+r.add("nameserver " + DNS_DEFAULT_RESOLVER);
+r.save();
+
+def main():
+    ctl = Systemctl("kfm_dns.service");
+    ctl.start();
+    if ctl.status():
+        print("Está rodando o serviço DNS Encrypt.");
+    else:
+        print("Sem DNS Encrypt.");
+
+if __name__ == "__main__":
+    main();
+

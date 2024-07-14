@@ -5,8 +5,10 @@ ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
 from api.systemctl import Systemctl
+from CONST import *;
+
 def main():
-    ctl = Systemctl("vpn.service");
+    ctl = Systemctl( VPN_SERVICE );
     ctl.stop();
     if ctl.status():
         print("Está rodando a VPN.");
