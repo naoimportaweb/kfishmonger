@@ -48,9 +48,9 @@ def setmac(interface, oui_default="08:00:27"):
     p = Process("sudo ip link set "+ interface +" up"); p.run();
 
 def main():
-    if config.execute == False:
-        log.info("A VPN está desabilitada no arquivo /var/kfm/vpn/config.json.");
-        return;
+    #if config.execute == False:
+    #    log.info("A VPN está desabilitada no arquivo /var/kfm/vpn/config.json.");
+    #    return;
     directory_username = "/var/kfm/vpn";
     ovpn = Openvpn();
     if not ovpn.loadrandom():
