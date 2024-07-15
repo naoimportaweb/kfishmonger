@@ -80,7 +80,7 @@ instaledpackage(){
     fi
 }
 
-echo 'Deseja atualizar o sistema para fazer a instalação? (y|n)'
+printf 'Deseja atualizar o sistema para fazer a instalação? (y|n): '
 read OPCAO
 if [ $OPCAO = "y" ] ; then
     echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
@@ -155,7 +155,7 @@ if [ -d ${DIR} ] ; then
     if [ $auto -eq 1 ] ; then
         install
     else
-        echo 'O diretório já existe, deseja continuar (y|n)?:'
+        printf 'O diretório já existe, deseja continuar (y|n)?: '
         read OPCAO
         if [ $OPCAO = "y" ] ; then
             install
