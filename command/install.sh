@@ -96,7 +96,7 @@ for str in ${packages[@]}; do
         if existspackage ${str} ; then
             echo "[+] Será instalado ${str};"
         else
-            echo "O pacote ${str} não existe. Por isso não pode ser instalado. Consulte manual de sua distribuição ou instale manualmente"
+            echo "$RED [*]O pacote ${str} não existe. Por isso não pode ser instalado. Consulte manual de sua distribuição ou instale manualmente$RESETCOLOR"
             exit 1
         fi
     fi
@@ -117,7 +117,7 @@ for str in ${packages[@]}; do
         echo "[.] Já possui ${str};"
     else
         if ! existspackage ${str} ; then
-            echo "O pacote ${str} não existe. Por isso não pode ser instalado. Consulte manual de sua distribuição ou instale manualmente"
+            echo "$RED [*]O pacote ${str} não existe. Por isso não pode ser instalado. Consulte manual de sua distribuição ou instale manualmente$RESETCOLOR"
             exit 1
         fi
     fi

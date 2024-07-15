@@ -34,7 +34,7 @@ eth0.me
 *.globo.com*
 
 ## TELEMETRY BROWSER ##
-*mozilla.org*
+*push.services.mozilla.org*
 *detectportal.firefox.com*
 *cnd.mullvad.net*
 *statically.io*
