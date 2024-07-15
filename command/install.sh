@@ -80,9 +80,14 @@ instaledpackage(){
     fi
 }
 
-echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
-apt update -y &> /dev/null
-apt upgrade -y &> /dev/null
+echo 'Deseja atualizar o sistema para fazer a instalação?'
+read OPCAO
+if [ $OPCAO = "y" ] ; then
+    echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
+    apt update -y 
+    apt upgrade -y 
+fi
+
 packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables")
 for str in ${packages[@]}; do
     if instaledpackage ${str} ; then
