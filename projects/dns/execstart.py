@@ -9,7 +9,7 @@ from api.process import Process;
 from api.resolv import Resolv;
 from api.config import Config;
 from api.config_project import ConfigProject;
-from CONST import *;
+from api.CONST import *;
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 

@@ -7,7 +7,7 @@ sys.path.append(ROOT);
 from api.systemctl import Systemctl;
 from api.resolv import Resolv;
 from api.process import Process;
-from CONST import *;
+from api.CONST import *;
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 #ctl = Systemctl("kfm_dns.service");
 

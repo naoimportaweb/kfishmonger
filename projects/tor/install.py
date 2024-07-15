@@ -9,7 +9,7 @@ from api.systemctl import Systemctl;
 from api.torrc import Torrc;
 from api.config_project import ConfigProject
 from api.log import Log;
-from CONST import *;
+from api.CONST import *;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 log = Log("vpn");
