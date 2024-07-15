@@ -37,8 +37,8 @@ torrc.virtualnetwork();
 torrc.trasnport(    port=TOR_TRANSPORT_PORT );
 torrc.hostsonresolve();
 torrc.socksport(    port=TOR_SOCKS_5_PORT );
-torrc.dnsport();
-torrc.save(         port=TOR_DNS_PORT);
+torrc.dnsport(      port=TOR_DNS_PORT);
+torrc.save( );
 
 ctl.start();
 ctl.enable();
