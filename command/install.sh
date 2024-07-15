@@ -80,7 +80,7 @@ instaledpackage(){
     fi
 }
 
-echo 'Deseja atualizar o sistema para fazer a instalação?'
+echo 'Deseja atualizar o sistema para fazer a instalação? (y|n)'
 read OPCAO
 if [ $OPCAO = "y" ] ; then
     echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
