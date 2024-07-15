@@ -48,9 +48,6 @@ def setmac(interface, oui_default="08:00:27"):
     p = Process("sudo ip link set "+ interface +" up"); p.run();
 
 def main():
-    #if config.execute == False:
-    #    log.info("A VPN está desabilitada no arquivo /var/kfm/vpn/config.json.");
-    #    return;
     directory_username = "/var/kfm/vpn";
     ovpn = Openvpn();
     if not ovpn.loadrandom():
@@ -59,27 +56,17 @@ def main():
     ovpn.save();
     log.info("Será usada a VPN: "+  ovpn.eleito);
 
-    #path_configuracao = directory_username +"/config.json";
-    #json_config = {};
-
-    #if os.path.exists(path_configuracao):
-    #    log.info("Existe um arquivo de configuração extra para a VPN.");
-    #    json_config = json.loads( open(path_configuracao).read() );
-    #else:
-    #    log.info("NÃO Existe um arquivo de configuração extra para a VPN.");
-
-    
     if os.path.exists(directory_username +"/openvpn.ovpn"):
         path_password = directory_username +"/pass.txt";
-        if len(config.mac) > 0:
-            for interface in config.mac:
-                oui = None;
-                if len(config.oui) > 0:
-                    oui = config.oui[ random.randint(0, len(config.oui) - 1 ) ];
-                else:
-                    oui = "08:00:27";
-                setmac( interface, oui_default=oui );
-                time.sleep(1);
+        #if len(config.mac) > 0:
+        #    for interface in config.mac:
+        #        oui = None;
+        #        if len(config.oui) > 0:
+        #            oui = config.oui[ random.randint(0, len(config.oui) - 1 ) ];
+        #        else:
+        #            oui = "08:00:27";
+        #        setmac( interface, oui_default=oui );
+        #        time.sleep(1);
         log.info("VPN será inicializada em poucos segundos.");
         command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
