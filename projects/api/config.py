@@ -3,7 +3,7 @@ import os, sys, hashlib;
 from api.process import Process;
 
 class Config():
-    def __init__(self, path):
+    def __init__(self, path, delimitador=" "):
         self.directory = os.path.dirname( path );
         self.path = path;
         self.realpath = path;
@@ -11,6 +11,7 @@ class Config():
             self.realpath = os.path.realpath( self.path );
         self.lines = [];
         self.comment = "#";
+        self.delimitador = delimitador;
 
     def open(self):
         with open(self.path, "r") as f:
@@ -40,8 +41,9 @@ class Config():
         with open(self.path, "w") as f:
             for line in self.lines:
                 f.write( line + os.linesep );
-        #if is_blocked_file:
-        #    self.block();
+        if is_blocked_file:
+            self.block();
+
     def saveas(self, path):
         with open(path, "w") as f:
             for line in self.lines:
@@ -53,8 +55,17 @@ class Config():
                 return line;
         return None;
 
-    def addattribute(self, attribute):
-        self.lines.append( attribute );
+    def addattribute(self, attribute, value=None):
+        if value == None:
+            self.lines.append( attribute );
+        else:
+            for i in range(len(self.lines)):
+                line = self.lines[i];
+                parts = line.strip().split( self.delimitador );
+                if parts[0].strip().lower() == attribute.strip().lower():
+                    self.lines[i] = attribute + self.delimitador + value;
+                    return;
+            self.lines.append( attribute + self.delimitador + value );
 
     def replace(self, key, value):
         for i in range(len(self.lines)):

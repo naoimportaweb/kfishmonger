@@ -4,9 +4,11 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
+from api.CONST import *;
 from api.systemctl import Systemctl
+
 def main():
-    ctl = Systemctl("vpn.service");
+    ctl = Systemctl( VPN_SERVICE );
     ctl.stop();
     if ctl.status():
         print("Está rodando a VPN.");

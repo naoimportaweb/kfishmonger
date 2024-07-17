@@ -24,7 +24,7 @@ config_project = ConfigProject("tor", log=log);
 config_project.copy();
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("tor.service");
+ctl = Systemctl( TOR_SERVICE );
 ctl.reload();
 ctl.stop();
 

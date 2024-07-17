@@ -9,11 +9,12 @@ ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
 
 from api.systemctl import Systemctl
+from api.CONST import *;
 
 HOST = "127.0.0.1";
 PORT = 20000;
 
-s = Systemctl("vpn.service");
+s = Systemctl( VPN_SERVICE );
 if s.running():
     r = requests.get("https://wtfismyip.com/json");
     js_myip = json.loads(r.text);

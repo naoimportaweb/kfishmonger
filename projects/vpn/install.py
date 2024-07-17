@@ -11,6 +11,7 @@ from api.process import Process;
 from api.distro import Distro;
 from api.log import Log;
 from api.config_project import ConfigProject
+from api.CONST import *;
 
 distro = Distro();
 log = Log("vpn");
@@ -47,8 +48,17 @@ if os.path.exists( directory_username + "/.vpn" ):
         os.unlink(directory_username + "/.vpn/" + item);
     shutil.rmtree(directory_username + "/.vpn", ignore_errors=False);
 
+# =========== DESABILITAR O IPV6 PARA NÃO EXPOR =================
+
+config = Config("/etc/sysctl.conf");
+config.open();
+config.addattribute("net.ipv6.conf.all.disable_ipv6",       value= "1");
+config.addattribute("net.ipv6.conf.default.disable_ipv6",   value= "1");
+config.addattribute("net.ipv6.conf.lo.disable_ipv6",        value= "1");
+config.save();
+
 # =========== SERVICE ==========================
-ctl = Systemctl("vpn.service");
+ctl = Systemctl( VPN_SERVICE );
 ctl.reload();
 ctl.start();
 ctl.enable();
