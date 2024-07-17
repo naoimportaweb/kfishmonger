@@ -3,11 +3,10 @@ import sys, os, shutil, inspect, time, traceback;
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
-
-print("ROOT", ROOT);
+sys.path.append(ROOT + "/dns/");
 
 from api.resolv import Resolv;
-from dns.api.dig import Dig;
+from api.dig import Dig;
 
 while True:
     try:

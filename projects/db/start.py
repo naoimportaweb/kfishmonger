@@ -7,6 +7,8 @@ sys.path.append(ROOT);
 from api.process import Process;
 from threading import Thread;
 from api.database import Database;
+from api.CONST import *;
+
 databases = {};
 
 def processar_requisicao(addr, conn):
@@ -18,7 +20,6 @@ def processar_requisicao(addr, conn):
     conn.sendall( json.dumps(retorno).encode() );
 
 def versao000000001(js):
-    #js = json.loads( data );
     if databases.get( js["database"] ) == None:
         databases[ js["database"] ] = Database( js["database"] );
     if js["method"] == "schema":
@@ -31,8 +32,8 @@ def versao000000001(js):
 
 def main():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        print("Service Database started, port: 20001");
-        s.bind(("127.0.0.1", 20001));
+        print("Service Database started, port: " + str(DB_PORT));
+        s.bind(("127.0.0.1", DB_PORT));
         s.listen(100);
         while True:
             try:  

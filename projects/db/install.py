@@ -22,10 +22,10 @@ if not os.path.exists(DIR_VAR):
 config_project = ConfigProject("db", log=log);
 config_project.copy();
 
-shutil.copy( CURRENTDIR + "/resources/kfm_db.service", "/etc/systemd/system/");
+shutil.copy( CURRENTDIR + "/resources/" + DB_SERVICE, "/etc/systemd/system/");
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("kfm_db.service");
+ctl = Systemctl( DB_SERVICE );
 ctl.reload();
 ctl.start();
 ctl.enable();

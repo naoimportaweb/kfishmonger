@@ -11,3 +11,7 @@ DNS_DEFAULT_RESOLVER    = "1.1.1.1";
 DNS_LISTEN_PORT         = "53";
 
 VPN_SERVICE             = "vpn.service";
+
+
+DB_PORT                 = 20001;
+DB_SERVICE              = "kfm_db.service";
