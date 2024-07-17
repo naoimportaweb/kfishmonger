@@ -50,7 +50,7 @@ if os.path.exists( directory_username + "/.vpn" ):
 
 # =========== DESABILITAR O IPV6 PARA NÃO EXPOR =================
 
-config = Config("/etc/sysctl.conf");
+config = Config("/etc/sysctl.conf", delimitador="=");
 config.open();
 config.addattribute("net.ipv6.conf.all.disable_ipv6",       value= "1");
 config.addattribute("net.ipv6.conf.default.disable_ipv6",   value= "1");
