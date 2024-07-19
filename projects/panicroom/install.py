@@ -9,21 +9,21 @@ from api.systemctl import Systemctl;
 from api.pip import Pip;
 from api.log import Log;
 from api.config_project import ConfigProject
-from api.CONST import *;
 
-log = Log("json");
+log = Log("panicroom");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-pip = Pip();
-pip.install("PySocks");
-pip.install("requests");
-# =========== COPIA DE RESOURCES ==========================
-config_project = ConfigProject("json", log=log);
-config_project.copy();
 
-shutil.copy( CURRENTDIR + "/resources/json.service", "/etc/systemd/system/");
+
+# =========== COPIA DE RESOURCES ==========================
+config_project = ConfigProject("panicroom", log=log);
+config_project.copy();
+config_project.execute = True;
+config_project.save();
+
+shutil.copy( CURRENTDIR + "/resources/kfm_panicroom.service", "/etc/systemd/system/");
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl( JSON_SERVICE , log=log);
+ctl = Systemctl("kfm_panicroom.service", log=log);
 ctl.reload();
 ctl.start();
 ctl.enable();

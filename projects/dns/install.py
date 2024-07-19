@@ -1,4 +1,4 @@
-import sys, os, shutil, inspect, time;
+import sys, os, shutil, inspect;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
@@ -17,7 +17,6 @@ log = Log("dns");
 
 if os.path.exists("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy"):
     print("Já está instalado.");
-    #sys.exit(0);
 
 # se existe vai direto
 apt = Apt(log=log)

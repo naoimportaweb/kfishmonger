@@ -8,12 +8,12 @@ from api.systemctl import Systemctl
 from api.CONST import *;
 
 def main():
-    ctl = Systemctl( JSON_SERVICE );
-    ctl.start();
+    ctl = Systemctl( PANICROOM_SERVICE );
+    ctl.stop();
     if ctl.status():
-        print("Está rodando o sistema JSON-CONKY.");
+        print("Está rodando os sistemas FAKE.");
     else:
-        print("O sistema JSON-CONKY está desligados.");
+        print("Os sistemas FAKE estão desligados.");
 
 if __name__ == "__main__":
     main();

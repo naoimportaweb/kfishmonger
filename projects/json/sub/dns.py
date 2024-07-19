@@ -1,17 +1,12 @@
-#!/usr/bin/python3
-
-import socket, json, requests;
-import sys, os, shutil, inspect, time;
-import re
+import sys, os, inspect, json;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
+sys.path.append(ROOT + "/json/");
 
-from api.systemctl import Systemctl
-
-HOST = "127.0.0.1";
-PORT = 20000;
+from api.systemctl import Systemctl;
+from api.jsonclient import JsonClient;
 
 ip = "-";
 with open("/etc/resolv.conf", "r") as r:
@@ -22,9 +17,7 @@ with open("/etc/resolv.conf", "r") as r:
             ip = part[1];
             break;
 
-with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-    s.connect((HOST, PORT));
-    js = {"dns" : {"ip" : ip }};
-    dados = "00000000000000000000" + json.dumps(js);
-    s.sendall( dados.encode() );
+jsonclient = JsonClient();
+jsonclient.send( {"dns" : {"ip" : ip }} );
+
 

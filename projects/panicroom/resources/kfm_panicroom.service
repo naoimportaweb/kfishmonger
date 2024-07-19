@@ -1,0 +1,9 @@
+[Unit]
+Description=Panic Room Service
+After=network.target
+
+[Service]
+ExecStart=python3 /opt/kfishmonger/projects/panicroom/execstart.py
+
+[Install]
+WantedBy=graphical.target
