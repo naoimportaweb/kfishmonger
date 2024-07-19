@@ -14,6 +14,9 @@ from api.CONST import *;
 log = Log("fake");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 
+pip = Pip();
+pip.install("paramiko");
+
 # =========== COPIA DE RESOURCES ==========================
 config_project = ConfigProject("fake", log=log);
 config_project.copy();
