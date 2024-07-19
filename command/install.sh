@@ -5,7 +5,6 @@ export GREEN='\033[1;92m'
 export RED='\033[1;91m'
 export RESETCOLOR='\033[1;00m'
 
-
 if [ "$EUID" -ne 0 ]
   then echo "Please run as root/Por favor, execute como root"
   exit
@@ -80,12 +79,17 @@ instaledpackage(){
     fi
 }
 
-printf 'Deseja atualizar o sistema para fazer a instalação, é recomendado? (y|n): '
-read OPCAO
-if [ $OPCAO = "y" ] ; then
-    echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
+if [ $auto -eq 1 ] ; then
     apt update -y 
-    apt upgrade -y 
+    apt upgrade -y  
+else
+    printf 'Deseja atualizar o sistema para fazer a instalação, é recomendado? (y|n): '
+    read OPCAO
+    if [ $OPCAO = "y" ] ; then
+        echo '[+] Atualizando o sisetma para instalação (* ISSO PODE DEMORAR)'
+        apt update -y 
+        apt upgrade -y 
+    fi
 fi
 
 packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables")
