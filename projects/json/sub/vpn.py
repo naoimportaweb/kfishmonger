@@ -3,6 +3,7 @@ import json, requests, sys, os, inspect;
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
+sys.path.append(ROOT + "/json/");
 
 from api.systemctl import Systemctl
 from api.CONST import *;

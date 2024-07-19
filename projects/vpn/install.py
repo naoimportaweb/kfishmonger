@@ -23,8 +23,8 @@ directory_username = "/home/"+  distro.user()  +"/";
 apt.install("openvpn");
 
 # =========== COPIA DE RESOURCES ==========================
-if os.path.exists("/etc/systemd/system/vpn.service"):
-    os.unlink("/etc/systemd/system/vpn.service");
+#if os.path.exists("/etc/systemd/system/vpn.service"):
+#    os.unlink("/etc/systemd/system/vpn.service");
 shutil.copy( CURRENTDIR + "/resources/vpn.service", "/etc/systemd/system/");
 
 config = Config("/etc/systemd/system/vpn.service");
