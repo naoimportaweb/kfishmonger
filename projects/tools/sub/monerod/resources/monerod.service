@@ -1,0 +1,9 @@
+[Unit]
+Description=MoneroD Service
+After=network.target
+
+[Service]
+ExecStart=/opt/monero/bin/monerod --data-dir /opt/monero/block
+
+[Install]
+WantedBy=graphical.target
