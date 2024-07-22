@@ -45,6 +45,15 @@ kfm -p conky -c status
 ### Instalando uma VPN (Youtube)
 [![Como instalar uma VPN](https://img.youtube.com/vi/RLvXRktQHtU/0.jpg)](https://www.youtube.com/watch?v=RLvXRktQHtU)
 
+### Múltiplas configurações de VPN e uma correção do sistema FishMonger (Youtube)
+[![Como instalar uma VPN](https://img.youtube.com/vi/207lP8PQqS4/0.jpg)](https://www.youtube.com/watch?v=207lP8PQqS4)
+
+### KILL SWITCH em caso de queda de VPN, a forma mais precisa e correta (Youtube)
+[![Como instalar uma VPN](https://img.youtube.com/vi/mhO0G_Xps9s/0.jpg)](https://www.youtube.com/watch?v=mhO0G_Xps9s)
+
+### Como visualizar o LOG de inicialização da VPN no projeto FishMonger (Youtube)
+[![Como instalar uma VPN](https://img.youtube.com/vi/JLilY7vkE2I/0.jpg)](https://www.youtube.com/watch?v=JLilY7vkE2I )
+
 ### Instalando o Proxychains4 (Youtube)
 [![Proxychains4](https://img.youtube.com/vi/fodZ56IoDxs/0.jpg)](https://www.youtube.com/watch?v=fodZ56IoDxs)
 
