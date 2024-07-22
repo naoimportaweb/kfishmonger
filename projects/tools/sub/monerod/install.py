@@ -21,6 +21,7 @@ def main():
     d.download(force=False);
     d.extract("/opt/monero/bin", permission=False);
     shutil.copy( CURRENTDIR + "/resources/monerod.service", "/etc/systemd/system/");
+    shutil.copy( CURRENTDIR + "/resources/monerod.conf", "/opt/monero/bin/");
     ctl = Systemctl( "monerod.service" , log=log);
     ctl.reload();
     ctl.start();
