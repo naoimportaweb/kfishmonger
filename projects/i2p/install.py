@@ -14,29 +14,22 @@ distro = Distro();
 apt = Apt();
 log = Log("i2p");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
+apt.install("curl");
+apt.install("lsb-release");
+apt.install("apt-transport-https");
+apt.install("software-properties-common");
+with open("/etc/apt/sources.list.d/i2p.list", "w") as f:
+    f.write("deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] https://deb.i2p.net/ "+ distro.release() +" main");
+if not os.path.exists("/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg"):
+    p = Process("curl -o /tmp/i2p-archive-keyring.gpg https://geti2p.net/_static/i2p-archive-keyring.gpg");
+    print(p.run());
+    shutil.copy("/tmp/i2p-archive-keyring.gpg", "/usr/share/keyrings");
+    os.symlink("/usr/share/keyrings/i2p-archive-keyring.gpg", "/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg")
+apt.update();
+apt.install("i2p");
 if distro.name() == "debian":
-    apt.install("curl");
-    apt.install("lsb-release");
-    apt.install("apt-transport-https");
-    apt.install("software-properties-common");
-    with open("/etc/apt/sources.list.d/i2p.list", "w") as f:
-        f.write("deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] https://deb.i2p.net/ "+ distro.release() +" main");
-    if not os.path.exists("/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg"):
-        p = Process("curl -o /tmp/i2p-archive-keyring.gpg https://geti2p.net/_static/i2p-archive-keyring.gpg");
-        print(p.run());
-        shutil.copy("/tmp/i2p-archive-keyring.gpg", "/usr/share/keyrings");
-        os.symlink("/usr/share/keyrings/i2p-archive-keyring.gpg", "/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg")
-    apt.update();
-    apt.install("i2p");
     apt.install("i2p-keyring");
-elif ditro.name() == "ubuntu":
-    apt.install("software-properties-common");
-    apt.apt_add_repository("ppa:i2p-maintainers/i2p");
-    apt.update();
-    apt.install("i2p");
-else:
-    print("Este sistema operacional não está preparado para instalação.");
-    exit(1);
+
 # =========== COPIA DE RESOURCES ==========================
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
