@@ -1,4 +1,10 @@
-import os, sys, subprocess, platform, netifaces;
+import os, sys, subprocess, platform, netifaces, inspect;
+
+CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
+sys.path.append(CURRENTDIR);
+
+
+from process import Process;
 
 class Distro():
     def name(self):
@@ -11,6 +17,10 @@ class Distro():
             return "ubuntu";
         else:
             print("Nao foi possivel detectar.");
+    
+    def release(self):
+        p = Process('lsb_release -sc');
+        return str(p.run()).strip();
     
     def user(self):
         try:

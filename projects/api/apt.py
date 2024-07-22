@@ -6,6 +6,11 @@ from .process import Process;
 class Apt:
     def __init__(self, log=None):
         self.log = log;
+    
+    def update(self):
+        check_call(['apt', 'update', '-y'], stdout=open(os.devnull,'wb'), stderr=STDOUT);
+        if self.log != None:
+            self.log.info("Instalando pacote " + package + " com APT.");
     def install(self, package):
         check_call(['apt', 'install', package, '-y'], stdout=open(os.devnull,'wb'), stderr=STDOUT);
         if self.log != None:
@@ -15,6 +20,11 @@ class Apt:
         p = Process("apt-cache show " + package);
         output = p.run();
         return output.find("E: No packages found") < 0;
+    
+    def apt_add_repository(self, repo):
+        check_call(['apt-add-repository', repo], stdout=open(os.devnull,'wb'), stderr=STDOUT);
+        if self.log != None:
+            self.log.info("Instalando pacote " + package + " com APT.");
     
     def addrepo(self, repo):
         p = Process("echo \"deb https://deb.debian.org/debian/ "+ repo +" main\" | sudo tee /etc/apt/sources.list.d/"+ repo +".list");
