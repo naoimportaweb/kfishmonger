@@ -3,7 +3,7 @@ Description=MoneroD Service
 After=network.target
 
 [Service]
-ExecStart=/opt/monero/bin/monerod --data-dir /opt/monero/block
+ExecStart=python3 /opt/kfishmonger/projects/tools/sub/monerod/execstart.py
 
 [Install]
 WantedBy=graphical.target
