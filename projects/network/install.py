@@ -8,6 +8,7 @@ from api.apt import Apt;
 from api.systemctl import Systemctl;
 from api.log import Log;
 from api.config_project import ConfigProject
+from api.CONST import *;
 
 log = Log("network");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
@@ -18,10 +19,10 @@ apt.install("net-tools");
 config_project = ConfigProject("network", log=log);
 config_project.copy();
 
-shutil.copy( CURRENTDIR + "/resources/kfm_network.service", "/etc/systemd/system/");
+shutil.copy( CURRENTDIR + "/resources/" + NETWORK_SERVICE, "/etc/systemd/system/");
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("kfm_network.service");
+ctl = Systemctl( NETWORK_SERVICE );
 ctl.reload();
 ctl.start();
 ctl.enable();

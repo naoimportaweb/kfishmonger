@@ -60,9 +60,3 @@ class Systemctl:
         return False;
 
 
-def main():
-    sysctl = Systemctl("json.service");
-    print( sysctl.exists() );
-
-if __name__ == "__main__":
-    main();

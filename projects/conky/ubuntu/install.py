@@ -15,8 +15,6 @@ distro = Distro();
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 apt = Apt();
 pip = Pip();
-#apt.install("conky-all");
-#apt.install("jp");
 pip.install("psutil");
 pip.install("netifaces");
 
@@ -28,12 +26,3 @@ if not os.path.exists( directory_username_autostart ):
 
 shutil.copy( CURRENTDIR + "/" + distro.graphical() + "/resources/conky.desktop", directory_username_autostart);
 
-# =========== INICIANDO SERVICOS E PROGRMAS ===============
-#ctl = Systemctl("conky.service");
-#ctl.reload();
-#ctl.start();
-#ctl.enable();
-#if ctl.status():
-#    print("Rodando");
-#else:
-#    print("Nao está rodando.");

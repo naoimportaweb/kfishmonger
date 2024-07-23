@@ -33,18 +33,6 @@ if distro.name() == "debian":
 # =========== COPIA DE RESOURCES ==========================
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-
-
-
-
-
-
-
-
-
-
-
-
 #Instructions for Ubuntu and derivatives like Linux Mint & Trisquel
 #sudo apt-get install software-properties-common
 #sudo apt-add-repository ppa:i2p-maintainers/i2p

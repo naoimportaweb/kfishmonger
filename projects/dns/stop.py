@@ -9,7 +9,6 @@ from api.resolv import Resolv;
 from api.process import Process;
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-#ctl = Systemctl("kfm_dns.service");
 
 r = Resolv();
 r.clear();

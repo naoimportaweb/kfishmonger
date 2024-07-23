@@ -8,6 +8,7 @@ from api.apt import Apt;
 from api.downloadinstall import DownloadInstall;
 from api.log import Log;
 from api.systemctl import Systemctl;
+from api.CONST import *;
 
 def main():
     if not os.path.exists("/opt/monero"):
@@ -20,9 +21,11 @@ def main():
     d = DownloadInstall("monerod.tar.bz2", "https://downloads.getmonero.org/linux64");
     d.download(force=False);
     d.extract("/opt/monero/bin", permission=False);
-    shutil.copy( CURRENTDIR + "/resources/monerod.service", "/etc/systemd/system/");
+    if os.path.exists("/etc/systemd/system/" + MONERO_SERVICE_OLD):
+        os.unlink("/etc/systemd/system/" + MONERO_SERVICE_OLD);
+    shutil.copy( CURRENTDIR + "/resources/" + MONERO_SERVICE, "/etc/systemd/system/");
     shutil.copy( CURRENTDIR + "/resources/monerod.conf", "/opt/monero/bin/");
-    ctl = Systemctl( "monerod.service" , log=log);
+    ctl = Systemctl( MONERO_SERVICE , log=log);
     ctl.reload();
     ctl.start();
     ctl.enable();

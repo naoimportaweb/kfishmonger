@@ -9,6 +9,7 @@ from api.systemctl import Systemctl;
 from api.pip import Pip;
 from api.log import Log;
 from api.config_project import ConfigProject
+from api.CONST import *;
 
 log = Log("panicroom");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
@@ -20,10 +21,10 @@ config_project.copy();
 config_project.execute = True;
 config_project.save();
 
-shutil.copy( CURRENTDIR + "/resources/kfm_panicroom.service", "/etc/systemd/system/");
+shutil.copy( CURRENTDIR + "/resources/" + PANICROOM_SERVICE, "/etc/systemd/system/");
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-ctl = Systemctl("kfm_panicroom.service", log=log);
+ctl = Systemctl( PANICROOM_SERVICE , log=log);
 ctl.reload();
 ctl.start();
 ctl.enable();

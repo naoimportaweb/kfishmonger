@@ -9,7 +9,6 @@ from api.resolv import Resolv;
 from api.process import Process;
 from api.CONST import *;
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
-#ctl = Systemctl("kfm_dns.service");
 
 r = Resolv();
 r.clear();
@@ -17,7 +16,7 @@ r.add("nameserver " + DNS_DEFAULT_RESOLVER);
 r.save();
 
 def main():
-    ctl = Systemctl("kfm_dns.service");
+    ctl = Systemctl( DNS_SERVICE );
     ctl.start();
     if ctl.status():
         print("Está rodando o serviço DNS Encrypt.");

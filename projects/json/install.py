@@ -11,6 +11,7 @@ from api.log import Log;
 from api.config_project import ConfigProject
 from api.CONST import *;
 
+
 log = Log("json");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 pip = Pip();
@@ -20,7 +21,10 @@ pip.install("requests");
 config_project = ConfigProject("json", log=log);
 config_project.copy();
 
-shutil.copy( CURRENTDIR + "/resources/json.service", "/etc/systemd/system/");
+if os.path.exists("/etc/systemd/system/" + JSON_SERVICE_OLD):
+    os.unlink("/etc/systemd/system/" + JSON_SERVICE_OLD);
+
+shutil.copy( CURRENTDIR + "/resources/" + JSON_SERVICE, "/etc/systemd/system/");
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 ctl = Systemctl( JSON_SERVICE , log=log);

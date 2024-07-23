@@ -10,6 +10,7 @@ from api.distro import Distro;
 from api.process import Process;
 from api.log import Log;
 from api.config_project import ConfigProject;
+from api.CONST import *;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 # Para o debian 11 e posterior: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-Debian-and-Ubuntu#debian-testing-bullseye-debian-unstable-sid
@@ -48,12 +49,12 @@ process.run();
 process = Process("cp -r /tmp/linux-x86_64/ /etc/dnscrypt-proxy/");
 process.run();
 
-shutil.copy( CURRENTDIR + "/resources/kfm_dns.service", "/etc/systemd/system/");
+shutil.copy( CURRENTDIR + "/resources/" + DNS_SERVICE, "/etc/systemd/system/");
 
 if not os.path.exists("/var/kfm/dns/blocked-names.txt"):
     shutil.copy( CURRENTDIR + "/resources/blocked-names.txt", "/var/kfm/dns/");
 
-ctl = Systemctl("kfm_dns.service");
+ctl = Systemctl( DNS_SERVICE );
 ctl.reload();
 ctl.enable();
 ctl.start();

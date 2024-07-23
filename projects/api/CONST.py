@@ -9,13 +9,15 @@ TOR_DNS_PORT            = 53;
 
 DNS_DEFAULT_RESOLVER    = "1.1.1.1";
 DNS_LISTEN_PORT         = "53";
+DNS_SERVICE =           "kfm_dns.service"
 
-VPN_SERVICE             = "vpn.service";
-
+VPN_SERVICE             = "kfm_vpn.service";
+VPN_SERVICE_OLD         = "vpn.service";
 
 DB_PORT                 = 20001;
 DB_SERVICE              = "kfm_db.service";
 
+NETWORK_SERVICE         = "kfm_network.service";
 
 FAKE_SERVICE            = "kfm_fake.service";
 
@@ -25,4 +27,8 @@ PANICROOM_PORT          = 20002;
 
 
 JSON_PORT               = 20000;
-JSON_SERVICE            = "json.service"
+JSON_SERVICE            = "kfm_json.service"
+JSON_SERVICE_OLD        = "json.service"
+
+MONERO_SERVICE_OLD      = "monerod.service";
+MONERO_SERVICE          = "kfm_monerod.service";
