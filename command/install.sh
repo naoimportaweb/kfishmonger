@@ -92,7 +92,6 @@ else
     fi
 fi
 
-
 packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables" "python3-pip")
 for str in ${packages[@]}; do
     if instaledpackage ${str} ; then
