@@ -8,9 +8,8 @@ sys.path.append(ROOT);
 from api.apt import Apt;
 from api.downloadinstall import DownloadInstall
 
-
 def main():    
-    apt = Apt();
+    apt = Apt(verbose=True);
     apt.install("ffmpeg");
     apt.install("qtmultimedia5-dev");
     apt.install("libcurl4-openssl-dev");
