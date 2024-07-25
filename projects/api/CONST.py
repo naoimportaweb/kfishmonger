@@ -1,4 +1,3 @@
-
 PATH_SYSTEM             = "/opt/kfishmonger";
 
 TOR_SERVICE             = "tor.service";
@@ -9,7 +8,7 @@ TOR_DNS_PORT            = 53;
 
 DNS_DEFAULT_RESOLVER    = "1.1.1.1";
 DNS_LISTEN_PORT         = "53";
-DNS_SERVICE =           "kfm_dns.service"
+DNS_SERVICE             = "kfm_dns.service"
 
 VPN_SERVICE             = "kfm_vpn.service";
 VPN_SERVICE_OLD         = "vpn.service";
@@ -21,10 +20,8 @@ NETWORK_SERVICE         = "kfm_network.service";
 
 FAKE_SERVICE            = "kfm_fake.service";
 
-
 PANICROOM_SERVICE       = "kfm_panicroom.service";
 PANICROOM_PORT          = 20002;
-
 
 JSON_PORT               = 20000;
 JSON_SERVICE            = "kfm_json.service"
