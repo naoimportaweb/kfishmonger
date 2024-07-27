@@ -9,6 +9,7 @@ sys.path.append(ROOT);
 sys.path.append(ROOT + "/panicroom/");
 
 from api.log import Log;
+from api.CONST import *;
 from api.panicroomclient import PanicRoomClient;
 
 log = Log("fake_port_scan");
@@ -90,8 +91,11 @@ def scancheck(sip,dip,sport,dport,seqnum,acknum,flags):
     revthreeway = dip + ":" + str(dport) + "->" + sip + ":" + str(sport);
     dbdata =  sip + "->" + dip;
     reverse = dip + "->" + sip;
+
+    if dport in IGNORE_PORT_SCAN:
+        return;
     
-    returned = halfconnectscan(sip,dip,sport,dport,seqnum,acknum,flags)
+    returned = halfconnectscan(sip, dip, sport, dport, seqnum, acknum, flags);
     if returned:
         if(isinstance(returned,(str))):
             print( returned ); # HALF CONNECTION DETECTADO

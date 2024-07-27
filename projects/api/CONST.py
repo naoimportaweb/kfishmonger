@@ -29,3 +29,6 @@ JSON_SERVICE_OLD        = "json.service"
 
 MONERO_SERVICE_OLD      = "monerod.service";
 MONERO_SERVICE          = "kfm_monerod.service";
+
+
+IGNORE_PORT_SCAN = [80, 8080, 9050, 9040, 9051, 53, 20000, 20001, 20002];
