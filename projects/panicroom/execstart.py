@@ -10,15 +10,30 @@ from api.CONST import *;
 
 js = None;
 
+
 def processar_requisicao(addr, conn):
     data = conn.recv(40960);
     versao = data[:20];
     data = json.loads(data[20:]);
     return versao000000001(data);
 
+def posicao(busca):
+    global js;
+    for i in range(len( js["alert"] )):
+        if js["alert"][i]["message"] == busca:
+            return i;
+    return -1;
+
 def add_alert(data):
     global js;
-    js["alert"].insert(0, {"type" : data["type"], "message" : data["message"]});
+    pos = posicao( data["message"] );
+    if pos < 0:
+        js["alert"].insert(0, {"type" : data["type"], "message" : data["message"], "cont" : 1});
+    else:
+        if js["alert"][pos]["cont"] == "":
+            js["alert"][pos]["cont"] = 0;
+        js["alert"][pos]["cont"] = js["alert"][pos]["cont"] + 1;
+        js["alert"].insert(0, js["alert"].pop( pos ) );
     with open( "/tmp/alert.json", "w") as f:
         f.write( json.dumps( js ) );
 
@@ -42,7 +57,8 @@ def main():
                traceback.print_exc();
 
 if __name__ == '__main__':
-    if not os.path.exists("/tmp/alert.json"):
-        shutil.copy( CURRENTDIR + "/resources/alert.json", "/tmp/");
+    if os.path.exists("/tmp/alert.json"):
+        os.unlink("/tmp/alert.json");
+    shutil.copy( CURRENTDIR + "/resources/alert.json", "/tmp/");
     js = json.loads( open( "/tmp/alert.json", "r").read() );
     main();

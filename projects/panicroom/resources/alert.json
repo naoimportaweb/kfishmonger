@@ -1,14 +1,14 @@
 {
     "alert" : [
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" },
-                {   "type" : "", "message" : "" }
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" },
+                {   "type" : "", "message" : "", "cont" : "" }
             ]
 }

@@ -15,6 +15,8 @@ def main():
         files = os.listdir( CURRENTDIR + "/sub");
         for file in files:
             try:
+                if file.find(".py") < 0:
+                    continue;
                 p = Process( "python3 " + CURRENTDIR + "/sub/" + file );
                 if not p.exists():
                     p.asThread(callback);
