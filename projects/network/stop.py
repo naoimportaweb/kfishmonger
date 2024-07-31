@@ -9,7 +9,7 @@ from api.CONST import *;
 
 def main():
     ctl = Systemctl( NETWORK_SERVICE );
-    ctl.start();
+    ctl.stop();
     if ctl.status():
         print("O serviço " + NETWORK_SERVICE + " está sendo executado.");
     else:

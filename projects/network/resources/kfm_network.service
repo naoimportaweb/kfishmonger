@@ -3,7 +3,7 @@ Description=Network KFM Service
 After=network.target
 
 [Service]
-ExecStart=python3 /opt/kfishmonger/projects/network/start.py
+ExecStart=python3 /opt/kfishmonger/projects/network/execstart.py
 
 [Install]
 WantedBy=graphical.target

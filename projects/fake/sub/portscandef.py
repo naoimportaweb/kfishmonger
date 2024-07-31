@@ -109,7 +109,7 @@ def scancheck(sip,dip,sport,dport,seqnum,acknum,flags):
     if returned:
         if(isinstance(returned,(str))):
             print(returned); #conexãso bem sucedida, FULL CONNECT 
-            panicroom.send_alert("ALERT", "Conexão FUL realizada.");
+            panicroom.send_alert("ALERT", "Conexão FULL realizada.");
             log.info(returned);
         else:
             print(bgcolors.BOLD + bgcolors.OKBLUE + revthreeway + bgcolors.ENDC); # Tentativa de conexão em uma porta fechada
