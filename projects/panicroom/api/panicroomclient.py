@@ -14,8 +14,8 @@ class PanicRoomClient():
         self.log = None;
     def send_alert(self, type_alert, message):
         js = {"command" : "add" ,"type" : type_alert, "message" : message };
-        if log != None:
-            log.info( "ALERT -> " + message );
+        if self.log != None:
+            self.log.info( "ALERT -> " + message );
         self.send(js);
     def send(self, js):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
