@@ -1,4 +1,4 @@
-import sys, os, shutil, inspect, time, traceback, random, re, socket;
+import sys, os, shutil, inspect, time, traceback, random, re, socket, json;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
@@ -12,6 +12,7 @@ class Openvpn():
         self.ovpn_lines = None;
         self.migrate();
         self.eleito = "";
+        self.config = json.loads(open("/var/kfm/vpn/config.json", "r").read() );
     #customizar da versao antiga para nova vers'ao
     def migrate(self):
         files = os.listdir( self.path );
@@ -122,21 +123,24 @@ class Openvpn():
                 f.write(self.ovpn_lines[i] + "\n");
 
     def loadrandom(self):
-        files = os.listdir( self.path );
-        candidatos = [];
-        for file in files:
-            if file[:1] == ".":
-                print("A VPN", file, " está desativada.");
-                continue;
-            if os.path.isdir( self.path + "/" + file) and os.path.exists(self.path + "/" + file + "/openvpn.ovpn") and os.path.exists(self.path + "/" + file + "/pass.txt"):
-                candidatos.append(file);
-        index = 0;
-        if len(candidatos) == 0:
-            return False; # nao temos VPN para nos conectar.
-        if len(candidatos) > 1: # se tiver mais de 1, ai vamos randomizar.
-            index = random.randint(0, len(candidatos) - 1);
-        self.eleito = candidatos[index];
-        return self.load(self.path + "/" + candidatos[index]);
+        if self.config.get("static") != None and self.config["static"] != "" and os.path.exists("/var/kfm/vpn/" + self.config["static"]):
+            self.eleito = self.config["static"];
+        else:
+            files = os.listdir( self.path );
+            candidatos = [];
+            for file in files:
+                if file[:1] == ".":
+                    print("A VPN", file, " está desativada.");
+                    continue;
+                if os.path.isdir( self.path + "/" + file) and os.path.exists(self.path + "/" + file + "/openvpn.ovpn") and os.path.exists(self.path + "/" + file + "/pass.txt"):
+                    candidatos.append(file);
+            index = 0;
+            if len(candidatos) == 0:
+                return False; # nao temos VPN para nos conectar.
+            if len(candidatos) > 1: # se tiver mais de 1, ai vamos randomizar.
+                index = random.randint(0, len(candidatos) - 1);
+            self.eleito = candidatos[index];
+        return self.load(self.path + "/" + self.eleito);
 
 def main():
     ovpn = Openvpn();
