@@ -9,6 +9,7 @@ from api.distro import Distro;
 from vpn.api.openvpn import Openvpn;
 from api.log import Log;
 from api.config_project import ConfigProject;
+from api.resolv import Resolv;
 
 distro = Distro();
 log = Log("vpn");
@@ -53,6 +54,10 @@ def main():
                 setmac( interface, oui_default=oui );
                 time.sleep(1);
         log.info("VPN será inicializada em poucos segundos.");
+        r = Resolv();
+        r.add("nameserver 1.1.1.1");
+        r.save();
+        r.block();
         command = "/usr/sbin/openvpn --config "+ directory_username +"/openvpn.ovpn --auth-user-pass " + path_password; 
         p = Process(command, wait=False);
         print( p.run() );

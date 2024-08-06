@@ -25,7 +25,7 @@ class bgcolors:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
 
-global threewayhandshake, waiting, fullscandb, halfscandb, xmasscandb, nullscandb, finscandb, scannedports, blacklist, stop;
+global threewayhandshake, waiting, fullscandb, halfscandb, xmasscandb, nullscandb, finscandb, scannedports, blacklist, stop, IGNORE_IP_SCAN;
 
 blacklist = []
 fullscandb = {}
@@ -37,6 +37,7 @@ waiting = []
 threewayhandshake = []
 scannedports = {}
 stop = False;
+IGNORE_IP_SCAN = ["127.0.0.1"];
 
 def convert(dec):
     final = []
@@ -92,7 +93,7 @@ def scancheck(sip,dip,sport,dport,seqnum,acknum,flags):
     dbdata =  sip + "->" + dip;
     reverse = dip + "->" + sip;
 
-    if dport in IGNORE_PORT_SCAN:
+    if dport in IGNORE_PORT_SCAN or sip in IGNORE_IP_SCAN:
         return;
     
     returned = halfconnectscan(sip, dip, sport, dport, seqnum, acknum, flags);

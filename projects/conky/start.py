@@ -1,4 +1,4 @@
-import sys, os, shutil, time, hashlib, netifaces, json, traceback
+import sys, os, shutil, time, hashlib, netifaces, json, traceback;
 
 sys.path.insert(0,"/opt/kfishmonger/projects/");
 
@@ -15,6 +15,9 @@ def md5(path):
 def documento():
     while True:
         try:
+            config_var = {};
+            if os.path.exists("/var/kfm/conky/config.json"):
+                config_var = json.loads( open("/var/kfm/conky/config.json","r").read() );
             shutil.copy( "/opt/kfishmonger/projects/conky/resources/conky.config", "/tmp/conky.buffer.config");
             p = Process("chmod 666 /tmp/conky.buffer.config");
             p.run();
@@ -26,6 +29,8 @@ def documento():
                 if maior_tamanho_carateres < len(interfaces[i]):
                     maior_tamanho_carateres  = len(interfaces[i]);
             for i in range(len( interfaces )):
+                if config_var.get("ignore") != None and interfaces[i] in config_var["ignore"]:
+                    continue;
                 tamanho = 35;
                 if i == 0:
                     tamanho = 15;
