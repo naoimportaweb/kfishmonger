@@ -20,7 +20,8 @@ config_project.load();
 # sempre qué é executado,o script monta o arquivo de configuração TOML
 config_user = Config( PATH_SYSTEM + "/projects/dns/resources/dnscrypt-proxy.toml" );
 config_user.open();
-config_user.replace("TOR_SOCKS_5", "socks5://127.0.0.1:" + str(TOR_SOCKS_5_PORT));
+#config_user.replace("TOR_SOCKS_5", "socks5://127.0.0.1:" + str(TOR_SOCKS_5_PORT));
+config_user.replace("TOR_SOCKS_5", "");
 config_user.replace("SERVER_NAME", config_project.server_name);
 config_user.replace("DNS_LISTEN_PORT", DNS_LISTEN_PORT);
 config_user.saveas("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy.toml");
