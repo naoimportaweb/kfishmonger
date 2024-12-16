@@ -1,5 +1,5 @@
 import uuid, stat;
-import sys, os, shutil, inspect, time;
+import sys, os, shutil, inspect, time, hashlib;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
@@ -9,11 +9,15 @@ sys.path.append(CURRENTDIR);
 from api.process import Process;
 
 class DownloadInstall():
-    def __init__(self, file, url, log=None):
+    def __init__(self, file, url, hash_file=None, log=None):
         self.url = url;
         self.file = file;
+        self.hash_file = hash_file;
         self.tmp = "/tmp/" + str(uuid.uuid4());
         os.makedirs(self.tmp);
+    
+    def getPath(self):
+        return "/tmp/" + self.file;
 
     def __permission__(self, path):
         if not os.path.exists(path):
@@ -31,22 +35,31 @@ class DownloadInstall():
                 os.chmod(path, st.st_mode | stat.S_IRGRP | stat.S_IROTH);
 
     def download(self, force=True):
-        if os.path.exists("/tmp/" + self.file) and force == True:
-            os.unlink("/tmp/" + self.file);
-        if not os.path.exists("/tmp/" + self.file):
-            process = Process("wget "+ self.url +" -O /tmp/" + self.file);
+        # aqui é para baixar o arquivbo
+        if os.path.exists( self.getPath()) and force == True:
+            os.unlink(self.getPath());
+        if not os.path.exists(self.getPath()):
+            process = Process("wget "+ self.url +" -O " + self.getPath());
             process.run();
+        
+        # faz validacao caso exista uma hash de validaçao
+        if self.hash_file != None:
+            if not hashlib.sha256( open(  self.getPath() , "rb").read() ).hexdigest() == self.hash_file:
+                raise Exception("A hash do arquivo não confere.");
+        
+        # Descompactar os tipos de arquivos
+        # TODO: tem que melhorar fazer uma reflexaáo de codigo e reduzir numero de linahs nos ifs a baixo
         if self.file.find("tar.gz") > 0:
-            process = Process("tar xzvf /tmp/" + self.file + " -C "+ self.tmp +" --strip-components 1");
+            process = Process("tar xzvf " + self.getPath() + " -C "+ self.tmp +" --strip-components 1");
             process.run();
         elif self.file.find(".zip") > 0:
-            process = Process("unzip /tmp/" + self.file + " -d "+ self.tmp +"");
+            process = Process("unzip " + self.getPath() + " -d "+ self.tmp +"");
             process.run();
         elif self.file.find("tar.bz2") > 0:
-            process = Process("tar -xjvf /tmp/"+ self.file +" -C "+ self.tmp  +" --strip-components 1");
+            process = Process("tar -xjvf "+ self.getPath() +" -C "+ self.tmp  +" --strip-components 1");
             process.run();
         else:
-            process = Process("tar --strip-components 1 -C "+ self.tmp +" -xf /tmp/" + self.file);
+            process = Process("tar --strip-components 1 -C "+ self.tmp +" -xf " + self.getPath());
             process.run();
         return self.tmp;
 

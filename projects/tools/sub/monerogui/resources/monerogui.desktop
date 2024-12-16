@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Monero-Gui
+GenericName=Monero-Gui
+Comment=Monero GUI
+Categories=Accessories
+Exec=/opt/monero-gui/monero.sh
+Icon=
+StartupWMClass=Monero
