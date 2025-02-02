@@ -6,7 +6,7 @@ TOR_TRANSPORT_PORT      = 9040;
 TOR_HTTP_TUNNEL         = 9051;
 TOR_DNS_PORT            = 53;
 
-DNS_DEFAULT_RESOLVER    = "1.1.1.1";
+DNS_DEFAULT_RESOLVER    = "8.8.8.8";
 DNS_LISTEN_PORT         = "53";
 DNS_SERVICE             = "kfm_dns.service"
 

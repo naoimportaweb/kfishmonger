@@ -7,6 +7,7 @@ sys.path.append(ROOT + "/dns/");
 
 from api.resolv import Resolv;
 from api.dig import Dig;
+from api.CONST import *
 
 time.sleep(60);
 
@@ -17,8 +18,7 @@ while True:
         r.clear();
         r.add("# não editar");
         if d.ip() == None:
-            #nameserver 1.1.1.1 no resolv.conf
-            r.add("nameserver 1.1.1.1");
+            r.add("nameserver " + DNS_DEFAULT_RESOLVER);
         else:
             #nameserver 127.0.2.1 no resolv.conf
             r.add("nameserver 127.0.2.1");

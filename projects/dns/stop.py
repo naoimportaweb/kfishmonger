@@ -7,12 +7,13 @@ sys.path.append(ROOT);
 from api.systemctl import Systemctl;
 from api.resolv import Resolv;
 from api.process import Process;
+from api.CONST import *
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 
 r = Resolv();
 r.clear();
-r.add("nameserver 1.1.1.1");
+r.add("nameserver " + DNS_DEFAULT_RESOLVER);
 r.save();
 
 

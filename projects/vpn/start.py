@@ -5,7 +5,7 @@ ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
 from api.systemctl import Systemctl
-from api.CONST import *;
+from api.CONST import *
 
 def main():
     ctl = Systemctl( VPN_SERVICE );
