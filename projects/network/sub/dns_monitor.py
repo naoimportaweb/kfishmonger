@@ -1,5 +1,9 @@
 import sys, os, shutil, inspect, time, traceback, time;
 
+# Chamado no command line exemplo: sudo kfm -p dns -c install -s dns_monitor
+#    ai esse script vem e atua no serviço, neste caso pedindo um dns_monitor
+
+
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);

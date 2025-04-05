@@ -1,40 +1,49 @@
 #!/bin/bash
+# Script de instalação do KFM, que deverá ser alocado em /opt/
+#    deste script sáo disparados as instalações de pacotes tanto
+#    do Linux quanto do Python
 
+# CORES para melhorar layout do instalador
 export BLUE='\033[1;94m'
 export GREEN='\033[1;92m'
 export RED='\033[1;91m'
 export RESETCOLOR='\033[1;00m'
 
+DIR=/opt/kfishmonger    #Diretório padrão de instalação
+auto=0                  #Se está no automático (1) ou manual (0), mas se for no
+                        #      manual por command line e passar -y assume-se (1)
+
+# Lista de pacotes Linux que serão instalados ou atualizados
+packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables" "python3-pip")
+#TODO: PARA CADA PROJETO TEM QUE DIZER QUAL PACOTE AQUI..... E DESCREVER CADA UM
+
+# se é uma maquina de desenvolvedor, nao pode trazer do sourceforge
+#    pois pode substituir arquivos novos por antigos, o programador pode
+#    estar cansado e acabar errando, DESENVOLVERO só por github
+if [ -L ${DIR} ] ; then
+    echo "O diretório ${DIR} nao pode ser usado pois é um link simbólico."
+    exit 0
+fi
+
+# Para evitar que pessoas desavisadas façam instalação sem 
+#    poder para isso, o correto [e usar SUDO]
 if [ "$EUID" -ne 0 ]
-  then echo "Please run as root/Por favor, execute como root"
+  then echo "Please run as root or sudo/Por favor, execute como root ou sudo"
   exit
 fi
 
-DIR=/opt/kfishmonger
-
-auto=0
+# Verifica se tem um -Y para não ficar pedindo autorizacao
 for i; do 
    if [ $i = "-y" ] ; then
       auto=1
    fi 
 done
 
-if [ $auto -eq 1 ] ; then
-    URL=`cat /var/kfm/data/url.txt`
-else
-    #printf "Se deseja instalar a versão estável digite (e), caso queira instalar a versão teste digite (t):"
-    echo -e "\n\n $BLUE Temos dois repositórios, são estes: $RESETCOLOR"
-    echo -e "  -$GREEN Repositório estável,$RESETCOLOR para instalar a versão estável digite e. É a recomendada."
-    echo -e "  -$RED Repositório de testes,$RESETCOLOR para instalar a versão teste digite t. É a versão de testes de novas funcionalidades."
-    printf "  Qual a$BLUE opção: $RESETCOLOR"
-    read OPCAO
-    if [ $OPCAO = "e" ] ; then
-        URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
-    else
-        URL='https://codeload.github.com/naoimportaweb/kfishmonger/zip/refs/heads/main'
-    fi
-fi
+# Vai sempre vai pegar a versão testada e estável
+URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
+printf "$BLUE[+]$RESETCOLOR A instalação será realizada pela URL $URL"
 
+# a instalaçao em sí dos pacotes
 install(){
         if [ -f /tmp/kfishmonger.zip ] ; then
             rm /tmp/kfishmonger.zip
@@ -47,6 +56,8 @@ install(){
         echo "[+] Descompactando /tmp/kfishmonger.zip" 
         unzip -qq /tmp/kfishmonger.zip -d /tmp/
         cp -r /tmp/kfishmonger-main/* ${DIR}
+
+        # kfm será um comando do linux, após a instalacao
         if [ -L /bin/kfm ] ; then
             rm /bin/kfm
         fi
@@ -57,6 +68,7 @@ install(){
         echo $URL > "/var/kfm/data/url.txt";
 }
 
+# verifica se existe o pacote no repositório
 existspackage(){
     retorno="`apt-cache show $1`"
     SUB='No packages found'
@@ -68,6 +80,7 @@ existspackage(){
     fi
 }
 
+# funçao que verifica se o pacote já está instalado na maquina
 instaledpackage(){
     retorno="`dpkg-query -W $1`"
     SUB='no packages found matching'
@@ -79,6 +92,10 @@ instaledpackage(){
     fi
 }
 
+# Sempre tem que atualizar a máquina, pois sempre estamos trabalhando
+#    com os pacotes mais atualizados, estamos usando -y então vai no automático
+#    senão, terá que perguntar se o cara requer atualizar, se não atualizar
+#    nao podemos garantir nada.
 if [ $auto -eq 1 ] ; then
     apt update -y 
     apt upgrade -y  
@@ -92,7 +109,8 @@ else
     fi
 fi
 
-packages=("python3-pip" "unzip" "conky-all" "tor" "openvpn" "jq" "iptables" "python3-pip")
+# Dada a lista de pacotes para Linux, fazer laço que verifica tudo
+#    nao pode passar se faltar alguma coisa
 for str in ${packages[@]}; do
     if instaledpackage ${str} ; then
         echo "[.] Já possui ${str};"
@@ -106,31 +124,23 @@ for str in ${packages[@]}; do
     fi
 done
 
+# se chegou ate aqui, tudo tem, entáo tem que agora instalar
 for str in ${packages[@]}; do
+    echo "[+] Instalação do pacote ${str}"
+    apt install ${str} -y &> /dev/null
     if ! instaledpackage ${str} ; then
-        if existspackage ${str} ; then
-            echo "[+] Instalação do pacote ${str}"
-            apt install ${str} -y &> /dev/null
-        fi
+        echo "[-] Não foi possível fazer a instalação do pacote ${str}"
+        exit 1
     fi
 done
 
-# após a instalacao, vamos fazer uma força bruta d etestes
-for str in ${packages[@]}; do
-    if instaledpackage ${str} ; then
-        echo "[.] Já possui ${str};"
-    else
-        if ! existspackage ${str} ; then
-            echo "$RED [*]O pacote ${str} não existe. Por isso não pode ser instalado. Consulte manual de sua distribuição ou instale manualmente$RESETCOLOR"
-            exit 1
-        fi
-    fi
-done
-
+# Aglumas versões do Debian exige um command line do PIP diferente
+#     então ao utilizar este arquivo não será preciso isso.
 touch /etc/pip.conf
 echo '[global]' > /etc/pip.conf
 echo 'break-system-packages = true' >> /etc/pip.conf
 
+# Pacotes do python
 echo '[+] Instalando por PIP netifaces'
 pip3 install netifaces &> /dev/null
 echo '[+] Instalando por PIP psutil'
@@ -142,20 +152,23 @@ pip3 install Pysocks &> /dev/null
 echo '[+] Instalando por PIP socks'
 pip3 install socks &> /dev/null
 
-if [ -L ${DIR} ] ; then
-    echo "O diretório ${DIR} nao pode ser usado pois é um link simbólico."
-    exit 0
-fi
-
+# o projeto KFM guarda arquis em um diretório específico, é neste diretório
+#    que os arquivos ficam difividos por módulos, então tem o módudo vpn que cria
+#    o subdiretório /var/kfm/vpn/
+#TODO: temos que ter um diretório de siglas
 if [ ! -d "/var/kfm/" ] ; then
     mkdir "/var/kfm/"
 fi
 
+# Aqui ficam os arquivos de configuração geral do KFM
 if [ ! -d "/var/kfm/data/" ] ; then
     mkdir "/var/kfm/data/"
 fi
 
+# aqui inicia a instalaçao do KFM, todas as dependencias estão
+#    instaladas até o momento.
 if [ -d ${DIR} ] ; then
+    # o automático nunca pergunta para o usuário, vai direto
     if [ $auto -eq 1 ] ; then
         install
     else

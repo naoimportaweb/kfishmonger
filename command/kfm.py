@@ -7,6 +7,8 @@ sys.path.append(ROOT + "/projects/");
 
 from api.process import Process;
 
+# Instalar tudo, todos os pacotes que tem em config.json (de cada projeto)
+#    o atributo default como true
 def install_all():
     p = Process( "python3 " + ROOT + "/projects/install.py" );
     print(p.run());

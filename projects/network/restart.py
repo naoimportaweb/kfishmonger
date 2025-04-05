@@ -1,5 +1,8 @@
 import sys, os, shutil, inspect, random, json;
 
+# Chamado no command line exemplo: sudo kfm -p dns -c restart
+#    ai esse script vem e atua no serviço, neste caso pedindo um restart
+
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
