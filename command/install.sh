@@ -41,31 +41,31 @@ done
 
 # Vai sempre vai pegar a versão testada e estável
 URL='https://sourceforge.net/projects/kfishmonger/files/latest/download'
-printf "$BLUE[+]$RESETCOLOR A instalação será realizada pela URL $URL"
+printf "$BLUE[+]$RESETCOLOR A instalação será realizada pela URL $GREEN $URL $RESETCOLOR \r\n"
 
 # a instalaçao em sí dos pacotes
 install(){
-        if [ -f /tmp/kfishmonger.zip ] ; then
-            rm /tmp/kfishmonger.zip
-        fi
-        echo "[+] Download do arquivo: ${URL}" 
-        wget -q -O /tmp/kfishmonger.zip ${URL}
-        if [ -d /tmp/kfishmonger-main/ ] ; then
-            rm -r /tmp/kfishmonger-main
-        fi
-        echo "[+] Descompactando /tmp/kfishmonger.zip" 
-        unzip -qq /tmp/kfishmonger.zip -d /tmp/
-        cp -r /tmp/kfishmonger-main/* ${DIR}
+    if [ -f /tmp/kfishmonger.zip ] ; then
+        rm /tmp/kfishmonger.zip
+    fi
+    echo "[+] Download do arquivo: ${URL}" 
+    wget -q -O /tmp/kfishmonger.zip ${URL}
+    if [ -d /tmp/kfishmonger-main/ ] ; then
+        rm -r /tmp/kfishmonger-main
+    fi
+    echo "[+] Descompactando /tmp/kfishmonger.zip" 
+    unzip -qq /tmp/kfishmonger.zip -d /tmp/
+    cp -r /tmp/kfishmonger-main/* ${DIR}
 
-        # kfm será um comando do linux, após a instalacao
-        if [ -L /bin/kfm ] ; then
-            rm /bin/kfm
-        fi
-        chmod +x ${DIR}/command/kfm.sh
-        ln -s ${DIR}/command/kfm.sh /bin/kfm
-        /bin/kfm -c install
-        #salvar a URL como a ultima opção, vou fazer aqui em baixo pois sei que o processo de instalaçao acontecue.
-        echo $URL > "/var/kfm/data/url.txt";
+    # kfm será um comando do linux, após a instalacao
+    if [ -L /bin/kfm ] ; then
+        rm /bin/kfm
+    fi
+    chmod +x ${DIR}/command/kfm.sh
+    ln -s ${DIR}/command/kfm.sh /bin/kfm
+    /bin/kfm -c install
+    #salvar a URL como a ultima opção, vou fazer aqui em baixo pois sei que o processo de instalaçao acontecue.
+    echo $URL > "/var/kfm/data/url.txt";
 }
 
 # verifica se existe o pacote no repositório
@@ -128,6 +128,11 @@ done
 for str in ${packages[@]}; do
     echo "[+] Instalação do pacote ${str}"
     apt install ${str} -y &> /dev/null
+    
+done
+
+# vamos verificar se instalou tudo.....
+for str in ${packages[@]}; do
     if ! instaledpackage ${str} ; then
         echo "[-] Não foi possível fazer a instalação do pacote ${str}"
         exit 1
