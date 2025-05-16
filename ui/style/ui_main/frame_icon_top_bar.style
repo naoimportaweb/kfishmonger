@@ -1,0 +1,4 @@
+background: transparent;
+background-image: url(:/16x16/icons/16x16/cil-terminal.png);
+background-position: center;
+background-repeat: no-repeat;
