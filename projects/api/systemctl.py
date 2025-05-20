@@ -1,7 +1,7 @@
 import os;
 import subprocess;
 
-from .process import Process;
+from process import Process;
 
 class Systemctl:
     def __init__(self, service, log=None):

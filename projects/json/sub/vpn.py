@@ -6,8 +6,8 @@ sys.path.append(ROOT);
 sys.path.append(ROOT + "/json/");
 
 from api.systemctl import Systemctl
-from api.CONST import *;
-from api.jsonclient import *;
+from api.CONST import *
+from api.jsonclient import *
 
 s = Systemctl( VPN_SERVICE );
 if s.running():
