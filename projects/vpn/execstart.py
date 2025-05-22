@@ -3,10 +3,11 @@ import sys, os, shutil, inspect, random, json, time;
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
+sys.path.append("/opt/kfishmonger/projects/vpn/");
 
 from api.process import Process;
 from api.distro import Distro;
-from vpn.api.openvpn import Openvpn;
+from api.openvpn import Openvpn;
 from api.log import Log;
 from api.config_project import ConfigProject;
 from api.resolv import Resolv;

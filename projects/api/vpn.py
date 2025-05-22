@@ -1,7 +1,6 @@
 import os, sys;
 import psutil
 
-
 from process import Process;
 from systemctl import Systemctl;
 from CONST import *

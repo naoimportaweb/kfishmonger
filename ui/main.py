@@ -142,7 +142,7 @@ class MainWindow(QMainWindow):
 
         # PAGE NEW USER
         if btnWidget.objectName() == "btn_vpn":
-            self.ui.stackedWidget.setCurrentWidget(self.ui.page_home)
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_vpn)
             UIFunctions.resetStyle(self, "btn_vpn")
             UIFunctions.labelPage(self, "VPN")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))

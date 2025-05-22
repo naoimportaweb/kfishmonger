@@ -1,6 +1,7 @@
-import os, sys, uuid, requests, json, time;
+import os, sys, uuid, requests, json, time, socks, threading, socket;
 
-import threading
+from urllib3 import PoolManager
+from urllib3.contrib.socks import SOCKSProxyManager
 
 from PySide6.QtCore import (QCoreApplication, QMetaObject, QObject, QPoint, QRect, QSize, QUrl, Qt)
 from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
@@ -9,38 +10,23 @@ from PySide6.QtWidgets import *
 sys.path.append(os.environ["ROOT"]);
 sys.path.append( os.path.dirname(os.environ["ROOT"]) + "/projects/api/" );
 
-from vpn import Vpn;
+from tor import Tor;
+from widget.push_status_button import PushStatusButton;
 
-class PushStatusButton(QPushButton):
-    def __init__(self, parent, str_icon_on, str_icon_off, default_status=False):
-        super().__init__(parent);
-        self.default_status = default_status;
-        self.icon_on =  QIcon(); self.icon_on.addFile( str_icon_on,  QSize(), QIcon.Normal, QIcon.Off);
-        self.icon_off = QIcon(); self.icon_off.addFile(str_icon_off, QSize(), QIcon.Normal, QIcon.Off);
-        self.setMaximumWidth(30)
-        if self.default_status:
-            self.setIcon(self.icon_on);
-        else:
-            self.setIcon(self.icon_off);
-    def setStatus(self, status):
-        self.default_status = status;
-        if self.default_status:
-            self.setIcon(self.icon_on);
-        else:
-            self.setIcon(self.icon_off);
+ignore_country = ["Brazil"];
 
-
-class ProjectWidget(QWidget):
+class ProjectTor(QWidget):
     def make(self):
         layout = QGridLayout()
         self.btn_start_stop = PushStatusButton(self, u":/16x16/icons/16x16/cil-check.png", u":/16x16/icons/16x16/cil-power-standby.png");
         BUTTON_SIZE = QSize(30, 100);
         self.btn_start_stop.setMaximumSize(BUTTON_SIZE);
+        self.btn_start_stop.clicked.connect(self.btn_start_stop_clicked)
         layout.addWidget(self.btn_start_stop, 0, 0, 2, 1);
 
         label_service = QLabel(self)
         label_service.setObjectName(u"label_service")
-        label_service.setText("VPN");
+        label_service.setText("TOR");
         font1 = QFont()
         font1.setFamily(u"Segoe UI")
         font1.setPointSize(20)
@@ -59,11 +45,23 @@ class ProjectWidget(QWidget):
         threading.Thread(target=self.montitor, args=()).start();
         return None;
     
+    def btn_start_stop_clicked(self):
+        service = Tor();
+        if self.btn_start_stop.default_status:
+            service.stop();
+        else:
+            service.start();
+        self.label_country.setText("WAITING...");
+
     def montitor(self):
         while True:
-            r = requests.get("https://wtfismyip.com/json");
-            js_myip = json.loads(r.text);
-            service = Vpn();
-            self.btn_start_stop.setStatus(service.tunnel())
-            self.label_country.setText(js_myip["YourFuckingIPAddress"] + " ("+ js_myip["YourFuckingCountry"] +")"  );
-            time.sleep(60);
+            http = SOCKSProxyManager("socks5://127.0.0.1:9050/")
+            response = http.request('GET', "https://wtfismyip.com/json")
+            js_myip = json.loads(response.data);
+            service = Tor();
+            self.btn_start_stop.setStatus(service.status())
+            if js_myip["YourFuckingCountry"] in ignore_country:
+                self.label_country.setText("?.?.?.? (DANGER)"  );
+            else:
+                self.label_country.setText(js_myip["YourFuckingIPAddress"] + " ("+ js_myip["YourFuckingCountry"] +")"  );
+            time.sleep(30);

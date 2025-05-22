@@ -7,7 +7,8 @@ from PySide6.QtWidgets import *
 sys.path.append(os.environ["ROOT"]);
 
 from widget.page import Page;
-from widget.widget_project import ProjectWidget;
+from widget.widget_vpn import ProjectVpn;
+from widget.widget_tor import ProjectTor;
 
 class PageHome(Page):
     def make(self):
@@ -15,10 +16,13 @@ class PageHome(Page):
         self.verticalLayout_10 = QVBoxLayout(self)
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         frame_layouts = QFrame();
-        buffer = ProjectWidget();
-        buffer.make();
+        buffer1 = ProjectVpn();
+        buffer1.make();
+        buffer2 = ProjectTor();
+        buffer2.make();
         project_layouts = QVBoxLayout(frame_layouts);
-        project_layouts.addWidget( buffer );
+        project_layouts.addWidget( buffer1 );
+        project_layouts.addWidget( buffer2 );
         frame_layouts.setLayout( project_layouts );
         self.verticalLayout_10.addWidget( frame_layouts );
 
