@@ -12,6 +12,7 @@ sys.path.append(os.environ["ROOT"]);
 from widget.page_home import PageHome;
 from widget.page_dois import PageDois;
 from widget.page_vpn import PageVpn;
+from widget.page_none import PageNone;
 
 def style(objeto, arquivo, nome):
     path_style = os.path.join(os.environ["ROOT"], "style", arquivo, nome + ".style");
@@ -399,6 +400,15 @@ class Ui_MainWindow(object):
         self.page_vpn = PageVpn(None);
         self.page_vpn.make();
         self.stackedWidget.addWidget(self.page_vpn)
+
+        self.page_dns = PageNone(None);
+        self.page_dns.make();
+        self.stackedWidget.addWidget(self.page_dns)
+
+        self.page_tor = PageNone(None);
+        self.page_tor.make();
+        self.stackedWidget.addWidget(self.page_tor)
+
         # -------------------------------------------- page widgets -----------------
         self.page_dois = PageDois(None);
         self.page_dois.make();
