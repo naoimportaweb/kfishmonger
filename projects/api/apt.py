@@ -13,7 +13,8 @@ class Apt:
         if self.log != None:
             self.log.info("Instalando pacote " + package + " com APT.");
     def install(self, package):
-        check_call(['apt', 'install', package, '-y'], stdout=open(os.devnull,'wb'), stderr=STDOUT);
+        #check_call(['apt', 'install', package, '-y'], stdout=open(os.devnull,'wb'), stderr=STDOUT);
+        os.system("apt install -y " + package );
         if self.log != None:
             self.log.info("Instalando pacote " + package + " com APT.");
         if self.verbose:

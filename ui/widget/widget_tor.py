@@ -11,9 +11,11 @@ sys.path.append(os.environ["ROOT"]);
 sys.path.append( os.path.dirname(os.environ["ROOT"]) + "/projects/api/" );
 
 from tor import Tor;
+from network import Network;
 from widget.push_status_button import PushStatusButton;
 
-ignore_country = ["Brazil"];
+n = Network();
+ignore_country = [ n.location()["YourFuckingCountry"] ];
 
 class ProjectTor(QWidget):
     def make(self):

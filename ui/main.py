@@ -52,9 +52,9 @@ class MainWindow(QMainWindow):
         ## ==> ADD CUSTOM MENUS
         self.ui.stackedWidget.setMinimumWidth(20)
         UIFunctions.addNewMenu(self, "HOME", "btn_home", "url(:/16x16/icons/16x16/cil-home.png)", True)
-        UIFunctions.addNewMenu(self, "VPN", "btn_vpn", "url(:/16x16/icons/16x16/cil-arrow-right.png)", True)
-        UIFunctions.addNewMenu(self, "TOR", "btn_tor", "url(:/16x16/icons/16x16/cil-arrow-right.png)", True)
-        UIFunctions.addNewMenu(self, "DNS", "btn_dns", "url(:/16x16/icons/16x16/cil-arrow-right.png)", True)
+        UIFunctions.addNewMenu(self, "VPN",  "btn_vpn", "url(:/16x16/icons/16x16/cil-arrow-right.png)", True)
+        UIFunctions.addNewMenu(self, "TOR",  "btn_tor", "url(:/16x16/icons/16x16/cil-arrow-right.png)", True)
+        UIFunctions.addNewMenu(self, "DNS",  "btn_dns", "url(:/16x16/icons/16x16/cil-arrow-right.png)", True)
         UIFunctions.addNewMenu(self, "Custom Widgets", "btn_widgets", "url(:/16x16/icons/16x16/cil-equalizer.png)", False)
         ## ==> END ##
 
@@ -150,15 +150,15 @@ class MainWindow(QMainWindow):
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
         if btnWidget.objectName() == "btn_dns":
-            self.ui.stackedWidget.setCurrentWidget(self.ui.page_vpn)
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_dns)
             UIFunctions.resetStyle(self, "btn_dns")
             UIFunctions.labelPage(self, "DNS")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
         if btnWidget.objectName() == "btn_tor":
-            self.ui.stackedWidget.setCurrentWidget(self.ui.page_vpn)
+            self.ui.stackedWidget.setCurrentWidget(self.ui.page_tor)
             UIFunctions.resetStyle(self, "btn_tor")
-            UIFunctions.labelPage(self, "VPN")
+            UIFunctions.labelPage(self, "TOR")
             btnWidget.setStyleSheet(UIFunctions.selectMenu(btnWidget.styleSheet()))
 
         # PAGE WIDGETS

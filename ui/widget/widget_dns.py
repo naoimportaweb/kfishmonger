@@ -11,6 +11,9 @@ sys.path.append(os.environ["ROOT"]);
 sys.path.append( os.path.dirname(os.environ["ROOT"]) + "/projects/api/" );
 
 from widget.push_status_button import PushStatusButton;
+from systemctl import Systemctl;
+from resolv import Resolv;
+from CONST import *
 
 class ProjectDns(QWidget):
     def make(self):
@@ -32,19 +35,31 @@ class ProjectDns(QWidget):
         label_service.setStyleSheet(u"background: transparent;")
         layout.addWidget(label_service, 0, 1)
 
+        self.label = QLabel(self)
+        self.label.setObjectName(u"label")
+        self.label.setText("-");
+        layout.addWidget(self.label, 1, 1)
+
         self.setMaximumHeight(100)
         self.setLayout(layout)
         threading.Thread(target=self.montitor, args=()).start();
         return None;
     
     def btn_start_stop_clicked(self):
-        service = Tor();
+        service = Systemctl( DNS_SERVICE );
         if self.btn_start_stop.default_status:
             service.stop();
         else:
             service.start();
-        #self.label_country.setText("WAITING...");
+        self.label.setText("WAITING...");
 
     def montitor(self):
         while True:
+            r = Resolv();
+            service = Systemctl( DNS_SERVICE );
+
+            retorno = r.nameservers();
+            if retorno != None:
+                self.label.setText( retorno );
+            self.btn_start_stop.setStatus( service.status() );
             time.sleep(30);

@@ -6,10 +6,15 @@ sys.path.append(ROOT);
 sys.path.append(CURRENTDIR);
 
 from api.config import Config;
+#from resolv import Resolv;
 
 class Resolv(Config):
     def __init__(self):
         super().__init__("/etc/resolv.conf");
+        self.open();
+
+    def nameservers(self):
+        return self.findattribute("nameserver");
         
 def main():
     r = Resolv();

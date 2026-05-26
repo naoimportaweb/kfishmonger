@@ -1,9 +1,7 @@
-import re, os, sys
-import socket, json
-import requests
+import re, os, sys, socket, json, requests;
+
 from requests import adapters
 from urllib3.poolmanager import PoolManager
-
 from process import Process;
 
 class Network():
@@ -19,7 +17,7 @@ class Network():
                 return linha.split(" ")[4];
         return None;
 
-    def tunnels(self):
+    def tunnels(self, test=True):
         buffer = [];
         for device in self.devices:
             if device.type == "tun" and self.test( device.name ):
@@ -102,4 +100,3 @@ if __name__ == "__main__":
     #print( n.location() ); # ISSO AQUI VAI MOSTRAR O SEU IP NAO IMPORTA O QUE ESTEJA USANDO
     #print( n.location(interface="tun0") );
     #print( n.location(interface="tun0", proxy='socks5://127.0.0.1:9050') );
-

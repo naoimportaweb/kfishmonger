@@ -22,8 +22,10 @@ def main():
     if not os.path.exists(PATH_MONERO_GUI):
         os.makedirs(PATH_MONERO_GUI);
     log = Log("monero");
-    page = requests.get("https://www.getmonero.org/downloads/hashes.txt");
+    headers={'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0'}
+    page = requests.get("https://www.getmonero.org/downloads/hashes.txt", headers=headers);
     texto = page.text;
+    print(texto);
     linha = re.findall( r'[a-z0-9]+\s*monero-gui-linux-x64-v[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\.tar\.bz2', texto );
     colunas = linha[0].replace("  ", " ").split(" ");
     d = DownloadInstall(colunas[1], "https://downloads.getmonero.org/gui/" + colunas[1], hash_file=colunas[0]);

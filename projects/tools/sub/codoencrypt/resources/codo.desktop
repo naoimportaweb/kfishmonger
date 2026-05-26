@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=CodóEncrypt
+GenericName=CodóEncrypt
+Comment=CodóEncrypt
+Categories=Network;WebBrowser;Security;
+Exec=python3 /opt/codoencrypt/app/gui/codog.py
+Icon=codo
+StartupWMClass=CODO +
