@@ -5,7 +5,7 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(CURRENTDIR)));
 sys.path.append(ROOT);
 
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.config import Config;
 from api.pip import Pip;
 from api.process import Process;
@@ -22,10 +22,10 @@ def download_file(url, local_filename):
     return False;
 
 def main():    
-    apt = Apt();
-    apt.install("libglu1-mesa-dev");
-    apt.install("libx11-xcb-dev");
-    apt.install("^libxcb*");
+    empacotador = Empacotador.detectar();
+    empacotador.install("libglu1-mesa-dev");
+    empacotador.install("libx11-xcb-dev");
+    empacotador.install("^libxcb*");
 
     distro = Distro();
     pip = Pip();

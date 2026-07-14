@@ -1,6 +1,10 @@
-import os;
+import os, sys, inspect;
 import subprocess;
 
+# systemctl.py e importado tanto como 'api.systemctl' quanto bare 'systemctl'
+#    (api/vpn.py, api/tor.py). Para o 'from process import Process' resolver nos
+#    dois casos, garantimos o dir da api no path — mesmo padrao de distro.py.
+sys.path.append(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))));
 from process import Process;
 
 class Systemctl:

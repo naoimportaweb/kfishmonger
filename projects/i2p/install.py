@@ -4,20 +4,20 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.log import Log;
 from api.CONST import *;
 from api.distro import Distro;
 from api.process import Process;
 
 distro = Distro();
-apt = Apt();
+empacotador = Empacotador.detectar();
 log = Log("i2p");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-apt.install("curl");
-apt.install("lsb-release");
-apt.install("apt-transport-https");
-apt.install("software-properties-common");
+empacotador.install("curl");
+empacotador.install("lsb-release");
+empacotador.install("apt-transport-https");
+empacotador.install("software-properties-common");
 with open("/etc/apt/sources.list.d/i2p.list", "w") as f:
     f.write("deb [signed-by=/usr/share/keyrings/i2p-archive-keyring.gpg] https://deb.i2p.net/ "+ distro.release() +" main");
 if not os.path.exists("/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg"):
@@ -25,10 +25,10 @@ if not os.path.exists("/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg"):
     print(p.run());
     shutil.copy("/tmp/i2p-archive-keyring.gpg", "/usr/share/keyrings");
     os.symlink("/usr/share/keyrings/i2p-archive-keyring.gpg", "/etc/apt/trusted.gpg.d/i2p-archive-keyring.gpg")
-apt.update();
-apt.install("i2p");
+empacotador.update();
+empacotador.install("i2p");
 if distro.name() == "debian":
-    apt.install("i2p-keyring");
+    empacotador.install("i2p-keyring");
 
 # =========== COPIA DE RESOURCES ==========================
 

@@ -8,7 +8,7 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.apt import Apt;                    # Para fazer APT install
+from api.empacotador import Empacotador;                    # Para fazer APT install
 from api.systemctl import Systemctl;        # Para manipular servicos
 from api.log import Log;                    # Para criar logs em /var/kfm/log/
 from api.config_project import ConfigProject # Auxiliar para fazer join de .json que
@@ -22,8 +22,8 @@ from api.CONST import *                     # Um arquivo json cheio de constante
 
 log = Log("network");
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-apt = Apt(log=log);
-apt.install("net-tools");   # instalando a biblioteca net-tools
+empacotador = Empacotador.detectar(log=log);
+empacotador.install("net-tools");   # instalando a biblioteca net-tools
 
 # =========== COPIA DE RESOURCES ==========================
 config_project = ConfigProject("network", log=log);

@@ -4,7 +4,7 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.systemctl import Systemctl;
 from api.torrc import Torrc;
 from api.config_project import ConfigProject
@@ -13,8 +13,8 @@ from api.CONST import *;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
 log = Log("vpn");
-apt = Apt(log=log)
-apt.install("tor");
+empacotador = Empacotador.detectar(log=log)
+empacotador.install("tor");
 
 # =========== COPIA DE RESOURCES ==========================
 

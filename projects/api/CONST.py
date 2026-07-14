@@ -6,9 +6,15 @@ TOR_TRANSPORT_PORT      = 9040;
 TOR_HTTP_TUNNEL         = 9051;
 TOR_DNS_PORT            = 53;
 
-DNS_DEFAULT_RESOLVER    = "8.8.8.8";
+DNS_DEFAULT_RESOLVER    = "8.8.8.8";              # fallback plaintext (ex.: ao PARAR o dnscrypt)
+DNS_LOCAL_RESOLVER      = "127.0.2.1";            # onde o dnscrypt escuta (== listen_addresses do .toml)
 DNS_LISTEN_PORT         = "53";
 DNS_SERVICE             = "kfm_dns.service"
+DNS_VERSION             = "2.1.17";              # dnscrypt-proxy (release do GitHub)
+# Chave minisign que assina os BINARIOS de release (key id 79833371EA15D7E4).
+#    ATENCAO: e DIFERENTE da chave que assina a lista de resolvers (RWQf6...,
+#    usada no dnscrypt-proxy.toml). Verificado ponta-a-ponta contra o 2.1.17.
+DNSCRYPT_MINISIGN_KEY   = "RWTk1xXqcTODeYttYMCMLo0YJHaFEHn7a3akqHlb/7QvIQXHVPxKbjB5";
 
 VPN_SERVICE             = "kfm_vpn.service";
 VPN_SERVICE_OLD         = "vpn.service";

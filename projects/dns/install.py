@@ -1,53 +1,84 @@
-import sys, os, shutil, inspect;
+import sys, os, shutil, inspect, subprocess;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.apt import Apt;
 from api.systemctl import Systemctl;
-from api.distro import Distro;
+from api.empacotador import Empacotador;
 from api.process import Process;
 from api.log import Log;
 from api.config_project import ConfigProject;
 from api.CONST import *;
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-# Para o debian 11 e posterior: https://github.com/DNSCrypt/dnscrypt-proxy/wiki/Installation-on-Debian-and-Ubuntu#debian-testing-bullseye-debian-unstable-sid
 log = Log("dns");
 
 if os.path.exists("/etc/dnscrypt-proxy/linux-x86_64/dnscrypt-proxy"):
-    print("Já está instalado.");
+    print("Já está instalado (será reinstalado/atualizado).");
 
-# se existe vai direto
-apt = Apt(log=log)
-distro = Distro();
+# minisign e usado para verificar a assinatura do binario baixado.
+empacotador = Empacotador.detectar(log=log);
+empacotador.install("minisign");
 
 config_project = ConfigProject("dns", log=log);
 config_project.copy();
 
-remover = ["/tmp/linux-x86_64", "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" ];
-for arquivo in remover:
-    if os.path.exists(arquivo):
-        if os.path.isdir(arquivo):
-            shutil.rmtree(arquivo, ignore_errors=True)
-        else:
-            os.unlink(arquivo);
-            log.info("Removido o arquivo " + arquivo);
+# =========== PARAMETROS DA RELEASE ==================
+# OBS: arch fixa em x86_64 (o path /etc/dnscrypt-proxy/linux-x86_64 tambem e
+#    usado no execstart.py/status.py). Qubes e os alvos multi-distro sao x86_64.
+ARCH = "x86_64";
+BASE = "dnscrypt-proxy-linux_" + ARCH + "-" + DNS_VERSION + ".tar.gz";
+URL  = "https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/" + DNS_VERSION + "/" + BASE;
+TAR  = "/tmp/" + BASE;
+SIG  = TAR + ".minisig";
 
-print("[+] Download do arquivo: https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
-process = Process("wget -q https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz -O /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
-process.run();
-log.download( "/tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz", "https://github.com/DNSCrypt/dnscrypt-proxy/releases/download/2.0.45/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz" );
+# =========== LIMPEZA DE RESTOS ==================
+for caminho in ["/tmp/linux-" + ARCH, TAR, SIG]:
+    if os.path.isdir(caminho):
+        shutil.rmtree(caminho, ignore_errors=True);
+    elif os.path.exists(caminho):
+        os.unlink(caminho);
 
-process = Process("mkdir /tmp/linux-x86_64");
-process.run();
-process = Process("tar --strip-components 1 -C /tmp/linux-x86_64/ -xzf /tmp/dnscrypt-proxy-linux_x86_64-2.0.45.tar.gz");
-process.run();
-process = Process("mkdir /etc/dnscrypt-proxy");
-process.run();
-process = Process("cp -r /tmp/linux-x86_64/ /etc/dnscrypt-proxy/");
-process.run();
+def baixar(url, destino):
+    r = subprocess.run(["wget", "-q", url, "-O", destino]);
+    return r.returncode == 0 and os.path.exists(destino) and os.path.getsize(destino) > 0;
+
+def abortar(msg):
+    log.error(msg);
+    print("ERRO: " + msg + " Nada foi instalado.");
+    for f in [TAR, SIG]:
+        if os.path.exists(f):
+            os.unlink(f);
+    sys.exit(1);
+
+# =========== DOWNLOAD (binario + assinatura) ==================
+print("[+] Baixando " + URL);
+if not baixar(URL, TAR):
+    abortar("Falha no download do dnscrypt-proxy " + DNS_VERSION + ".");
+if not baixar(URL + ".minisig", SIG):
+    abortar("Falha no download da assinatura (.minisig).");
+log.download(TAR, URL);
+
+# =========== VERIFICACAO DA ASSINATURA (minisign) ==================
+# Sem isso instalariamos um binario nao confiavel como resolver DNS do sistema.
+#    A chave publica e a oficial do projeto dnscrypt (fixa em CONST).
+print("[+] Verificando assinatura minisign...");
+verificacao = subprocess.run(["minisign", "-Vm", TAR, "-P", DNSCRYPT_MINISIGN_KEY]);
+if verificacao.returncode != 0:
+    abortar("Assinatura minisign INVALIDA (possivel adulteracao/corrupcao).");
+log.info("Assinatura minisign verificada com sucesso para " + BASE + ".");
+
+# =========== EXTRACAO E INSTALACAO ==================
+os.makedirs("/tmp/linux-" + ARCH, exist_ok=True);
+Process("tar --strip-components 1 -C /tmp/linux-" + ARCH + "/ -xzf " + TAR).run();
+os.makedirs("/etc/dnscrypt-proxy", exist_ok=True);
+Process("cp -r /tmp/linux-" + ARCH + "/ /etc/dnscrypt-proxy/").run();
+
+# Diretorios exigidos pelo toml (query_log, nx_log e cache dos resolvers);
+#    sem eles o dnscrypt-proxy nao sobe.
+os.makedirs("/var/log/dnscrypt-proxy", exist_ok=True);
+os.makedirs("/var/cache/dnscrypt-proxy", exist_ok=True);
 
 shutil.copy( CURRENTDIR + "/resources/" + DNS_SERVICE, "/etc/systemd/system/");
 

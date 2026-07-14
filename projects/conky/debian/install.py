@@ -5,16 +5,16 @@ ROOT = os.path.dirname(os.path.dirname(CURRENTDIR));
 sys.path.append(ROOT);
 
 from api.pip import Pip;
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.systemctl import Systemctl;
 from api.distro import Distro;
 
 distro = Distro();
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-apt = Apt()
-#apt.install("conky");
-#apt.install("jp");
+empacotador = Empacotador.detectar()
+#empacotador.install("conky");
+#empacotador.install("jp");
 pip = Pip();
 pip.install("psutil");
 pip.install("netifaces");

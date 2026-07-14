@@ -6,15 +6,20 @@ sys.path.append(ROOT);
 
 from api.systemctl import Systemctl;
 from api.resolv import Resolv;
+from api.distro import Distro;
 from api.process import Process;
 from api.CONST import *
 
 # =========== INICIANDO SERVICOS E PROGRMAS ===============
 
-r = Resolv();
-r.clear();
-r.add("nameserver " + DNS_DEFAULT_RESOLVER);
-r.save();
+# Em Qubes nao tocamos no resolv.conf (gerenciado pela NetVM); ver start.py.
+if Distro().is_qubes():
+    print("Qubes detectado: preservando o /etc/resolv.conf da NetVM.");
+else:
+    r = Resolv();
+    r.clear();
+    r.add("nameserver " + DNS_DEFAULT_RESOLVER);
+    r.save();
 
 
 p = Process("pkill dnscrypt-proxy");

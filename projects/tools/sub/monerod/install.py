@@ -4,7 +4,7 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(CURRENTDIR)));
 sys.path.append(ROOT);
 
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.downloadinstall import DownloadInstall;
 from api.log import Log;
 from api.systemctl import Systemctl;

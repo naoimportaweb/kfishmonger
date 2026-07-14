@@ -4,7 +4,7 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(CURRENTDIR);
 sys.path.append(ROOT);
 
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.systemctl import Systemctl;
 from api.config import Config;
 from api.process import Process;
@@ -15,12 +15,12 @@ from api.CONST import *;
 
 distro = Distro();
 log = Log("vpn");
-apt = Apt(log=log)
+empacotador = Empacotador.detectar(log=log)
 
 directory_username = "/home/"+  distro.user()  +"/";
 
 # =========== INSTALAÇÃO DE DEPENDENCIAS ==================
-apt.install("openvpn");
+empacotador.install("openvpn");
 
 # =========== COPIA DE RESOURCES ==========================
 

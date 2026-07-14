@@ -1,15 +1,16 @@
 
 from .process import Process;
-from .distro import Distro;
+from .empacotador import _ids;
+
 class Pip():
     def install(self, package):
-        distro = Distro();
-        if distro.name() == "debian":
+        # A flag do pip varia por distro. Usamos o ID do os-release (confiável),
+        #    não mais o distro.name() antigo (baseado em platform.version()).
+        ids = _ids();
+        if "ubuntu" in ids:
+            p = Process("pip3 install " + package);
+        elif ("debian" in ids) or ("kali" in ids):
             p = Process("pip3 install " + package + " --break-system-packages");
-        elif distro.name() == "ubuntu":
-            p = Process("pip3 install " + package );
         else:
             p = Process("pip3 install " + package + " --root-user-action=ignore");
         p.run();
-
-

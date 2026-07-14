@@ -5,17 +5,17 @@ CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(CURRENTDIR)));
 sys.path.append(ROOT);
 
-from api.apt import Apt;
+from api.empacotador import Empacotador;
 from api.downloadinstall import DownloadInstall
 
 def main():    
-    apt = Apt(verbose=True);
-    apt.install("ffmpeg");
-    apt.install("qtmultimedia5-dev");
-    apt.install("libcurl4-openssl-dev");
-    apt.install("libjsoncpp-dev");
-    apt.install("libopencv-dev");
-    apt.install("libqt5multimedia5-plugins");
+    empacotador = Empacotador.detectar(verbose=True);
+    empacotador.install("ffmpeg");
+    empacotador.install("qtmultimedia5-dev");
+    empacotador.install("libcurl4-openssl-dev");
+    empacotador.install("libjsoncpp-dev");
+    empacotador.install("libopencv-dev");
+    empacotador.install("libqt5multimedia5-plugins");
 
     if not os.path.exists("/tmp/mvm"):
         os.makedirs("/tmp/mvm");

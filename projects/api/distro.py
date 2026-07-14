@@ -1,4 +1,4 @@
-import os, sys, subprocess, platform, netifaces, inspect;
+import os, sys, subprocess, platform, inspect;
 
 CURRENTDIR = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())));
 sys.path.append(CURRENTDIR);
@@ -52,8 +52,14 @@ class Distro():
                 pass
         return desktop_environment
     def interfaces(self):
+        import netifaces;  # import tardio: no bootstrap o netifaces ainda pode nao estar instalado
         return netifaces.interfaces()
-        
+
+    def is_qubes(self):
+        # Dentro de uma VM Qubes existe /run/qubes (agente qubes) e o qubesdb-read.
+        #    OBS: /etc/qubes-release NAO existe em AppVM (e so do dom0/template).
+        return os.path.isdir("/run/qubes") or os.path.exists("/usr/bin/qubesdb-read");
+
 def main():
     d = Distro();
     print(d.name());
