@@ -55,9 +55,9 @@ def resolver_responde(host, port=53, nome="example.com", timeout=2):
     except Exception:
         return False;
 
-def esperar_resolver(host, port, tentativas=8, intervalo=1):
-    # O dnscrypt leva alguns segundos pra subir (baixa a lista de resolvers),
-    #    entao tentamos por ~8s antes de desistir.
+def esperar_resolver(host, port, tentativas=30, intervalo=1):
+    # No 1o start o dnscrypt baixa E verifica (minisign) a lista de resolvers
+    #    antes de responder -- costuma passar de 8s. Damos ~30s antes de desistir.
     for _ in range(tentativas):
         if resolver_responde(host, port):
             return True;

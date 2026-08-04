@@ -52,6 +52,11 @@ def abortar(msg):
             os.unlink(f);
     sys.exit(1);
 
+# Sem minisign nao ha como verificar o binario -> aborta cedo (fail-closed),
+#    antes de baixar/instalar qualquer coisa nao confiavel.
+if shutil.which("minisign") == None:
+    abortar("minisign indisponivel (falha ao instalar); impossivel verificar o download.");
+
 # =========== DOWNLOAD (binario + assinatura) ==================
 print("[+] Baixando " + URL);
 if not baixar(URL, TAR):
@@ -75,6 +80,11 @@ Process("tar --strip-components 1 -C /tmp/linux-" + ARCH + "/ -xzf " + TAR).run(
 os.makedirs("/etc/dnscrypt-proxy", exist_ok=True);
 Process("cp -r /tmp/linux-" + ARCH + "/ /etc/dnscrypt-proxy/").run();
 
+# tar/cp nao expoem codigo de saida (via Process); confirmamos o binario final
+#    antes de habilitar/subir o servico -- senao rodariamos um binario ausente.
+if not os.path.exists("/etc/dnscrypt-proxy/linux-" + ARCH + "/dnscrypt-proxy"):
+    abortar("Binario ausente apos extracao/copia (tar/cp falhou?).");
+
 # Diretorios exigidos pelo toml (query_log, nx_log e cache dos resolvers);
 #    sem eles o dnscrypt-proxy nao sobe.
 os.makedirs("/var/log/dnscrypt-proxy", exist_ok=True);
@@ -88,13 +98,18 @@ if not os.path.exists("/var/kfm/dns/blocked-names.txt"):
 ctl = Systemctl( DNS_SERVICE );
 ctl.reload();
 ctl.enable();
-ctl.start();
+ctl.restart();   # restart (nao start): num reinstall/upgrade recarrega o binario/toml novo
 if ctl.status():
     print("Está rodando o serviço DNS Crypt");
 else:
     print("NÃO está rodando o serviço DNS Crypt");
 
-ctl = Systemctl("dnscrypt-proxy");
-if ctl.exists():
-    ctl.disable();
-    ctl.stop();
+# Desliga um dnscrypt-proxy da distro (se houver) para nao competir na :53.
+#    try/except em vez de exists(): a unit da distro pode viver em /usr/lib,
+#    que o Systemctl.exists() (so olha /etc/systemd/system) nao enxerga.
+try:
+    outro = Systemctl("dnscrypt-proxy.service");
+    outro.disable();
+    outro.stop();
+except Exception:
+    pass;
